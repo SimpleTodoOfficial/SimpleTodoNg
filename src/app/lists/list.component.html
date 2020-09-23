@@ -1,0 +1,62 @@
+﻿<div class="list-component">
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <span class="normal-link" routerLink="/workspaces">
+                    <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+                    <span *ngIf="!loading">&nbsp;</span>
+                    <span *ngIf="!loading">{{ workspace.name | shorten:shortenWsName }}</span>
+                </span>
+                <span *ngIf="loading">&nbsp;</span>
+                <span *ngIf="loading" class="spinner-border spinner-border-sm header-spinner"></span>
+            </li>
+        </ol>
+    </nav>
+    <div class="table-header">
+        <fa-icon [icon]="faClipboardList"></fa-icon>
+        <span>&nbsp;</span>
+        <span>Lists</span>&nbsp;
+        <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add" *ngIf="!loading">
+        </fa-icon>
+        <div class="spacer"></div>
+        <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
+        <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
+        </fa-icon>
+        <span>&nbsp;</span>
+        <div *ngIf="!loading" class="normal-link" routerLink="/workspaces/{{workspace.id}}">
+            <fa-icon [icon]="faUserCircle" class="fa-lg"></fa-icon>
+            <span>&nbsp;</span>
+            <span>{{ workspace.users.length }}</span>
+        </div>
+    </div>
+    <div class="lists-none" *ngIf="lists.length <= 0">
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="!loading">
+            No lists, yet.
+            <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+            <a routerLink="add" class="normal-link">
+                Create one, now.
+            </a>
+        </div>
+    </div>
+    <div cdkDropListGroup *ngIf="lists.length > 0">
+        <div cdkDropList [cdkDropListData]="listList" class="list-list" (cdkDropListDropped)="dropList($event)">
+            <div cdkDrag [cdkDragDisabled]="isUpdatingListList" class="list-box"
+                *ngFor="let list of listList; let i = index" routerLink="{{list.id}}/todos"
+                [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
+                <div class="draggable" cdkDragHandle>
+                    <fa-icon [icon]="faGripLines" class="fa-lg">
+                    </fa-icon>
+                </div>
+                <div class="list-item-description">
+                    {{ list.name | shorten:shortenLsName}}
+                </div>
+                <div class="spacer"></div>
+                <div class="list-item-actions">
+                    <fa-icon [icon]="faInfoCircle" class="normal-link fa-lg" routerLink="{{list.id}}">
+                    </fa-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

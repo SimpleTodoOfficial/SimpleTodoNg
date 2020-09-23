@@ -1,0 +1,86 @@
+<div class="toolbar" role="banner">
+  <div class="toolbar-nav">
+    <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <fa-icon [icon]="faHome" class="fa-lg"></fa-icon>
+      <span *ngIf="isMin2">&nbsp;</span>
+      <span *ngIf="isMin2">Home</span>
+    </a>
+  </div>
+  <div class="spacer"></div>
+  <div *ngIf="!user">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <fa-icon [icon]="faAddressCard" class="fa-lg"></fa-icon>
+        <span>&nbsp;</span>
+        <span *ngIf="isMin2">About</span>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="user">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">
+        <fa-icon [icon]="faAddressBook" class="fa-lg"></fa-icon>
+        <span *ngIf="isMin1">&nbsp;</span>
+        <span *ngIf="isMin1">Users</span>
+      </a>
+      <div class="space"></div>
+      <a class="nav-item nav-link" routerLink="/workspaces" routerLinkActive="active">
+        <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+        <span *ngIf="isMin1">&nbsp;</span>
+        <span *ngIf="isMin1">Workspaces</span>
+      </a>
+      <div class="space"></div>
+      <div class="nav-item nav-link" ngbDropdown>
+        <a ngbDropdownToggle>
+          <fa-icon [icon]="faUserCircle" class="fa-lg"></fa-icon>
+          <span *ngIf="isMin2">&nbsp;</span>
+          <span *ngIf="isMin2">Menu</span>
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <div ngbDropdownItem>
+            <a class="nav-item nav-link nav-link-dropdown" routerLink="/users/{{user.id}}">
+              <fa-icon [icon]="faUser" class="fa-lg"></fa-icon>
+              <span>&nbsp;</span>
+              <span>{{ user.username }}</span>
+            </a>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div ngbDropdownItem>
+            <a class="nav-item nav-link nav-link-dropdown" routerLink="/about">
+              <fa-icon [icon]="faAddressCard" class="fa-lg"></fa-icon>
+              <span>&nbsp;</span>
+              <span>About</span>
+            </a>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div ngbDropdownItem>
+            <a class="nav-item nav-link nav-link-dropdown" (click)="signout()">
+              <fa-icon [icon]="faSignOutAlt" class="fa-lg"></fa-icon>
+              <span>&nbsp;</span>
+              <span>Sign out</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content" role="main">
+
+  <div class="content-row">
+    <div class="content-item">
+      <alert></alert>
+    </div>
+    <div class="content-item">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div routerLink="/about" class="black-link">
+    SimpleTodo {{ version }}
+  </div>
+</footer>

@@ -1,0 +1,36 @@
+﻿<div class="list-component">
+    <div class="user-content">
+        <div class="users">
+            <div class="table-header">
+                <fa-icon [icon]="faUserCircle"></fa-icon>
+                <span>&nbsp;</span>
+                <span>Users</span>
+                <span>&nbsp;</span>
+                <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+                <div class="spacer"></div>
+                <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
+                <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
+                </fa-icon>
+            </div>
+            <div class="users-none" *ngIf="loading">
+                <div class="spinner-border spinner-border-sm"></div>
+            </div>
+            <div *ngIf="!loading && !error">
+                <div *ngFor="let user of users; let i = index">
+                    <div routerLink="{{user.id}}" class="list-item" [class.stripe-non]="i % 2 != 0"
+                        [class.stripe]="i % 2 == 0">
+                        <div class="list-item-description">{{ user.username | shorten:shortenUName }}</div>
+                        <div class="spacer"></div>
+                        <div class="list-item-actions">
+                            <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="{{user.id}}/edit">
+                            </fa-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!loading && error" class="users-none">
+                An error occurred.
+            </div>
+        </div>
+    </div>
+</div>

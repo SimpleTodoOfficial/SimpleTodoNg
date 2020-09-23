@@ -1,0 +1,90 @@
+﻿<div class="details-component">
+    <div class="workspace-content">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <span class="normal-link" routerLink="/workspaces">
+                        <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ workspace.name | shorten:shortenWsName }}</span>
+                    </span>
+                    <span>&nbsp;</span>
+                    <span class="spinner-border spinner-border-sm header-spinner" *ngIf="loading"></span>
+                </li>
+            </ol>
+        </nav>
+        <div class="workspace">
+            <div class="details">
+                <div class="details-flex">
+                    <div>
+                        <fa-icon [icon]="faDiceD6"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ workspace.name | shorten:shortenWsName }}</span>
+                        <span>&nbsp;</span>
+                        <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit"></fa-icon>
+                    </div>
+                    <div class="spacer"></div>
+                    <div *ngIf="!loading">
+                        <span *ngIf="deletingWorkspace" class="spinner-border spinner-border-sm"></span>
+                        <span *ngIf="!deletingWorkspace">
+                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg"
+                                (click)="deleteWorkspace(workspace.id)">
+                            </fa-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="workspace-details">
+                <div class="list-details">
+                    <div class="item-header">
+                        <fa-icon [icon]="faClipboardList"></fa-icon>
+                        <span>&nbsp;</span>
+                        <span>Number of Lists</span>
+                    </div>
+                    <div class="item-content">
+                        <span *ngIf="!loading">{{ workspace.lists ? workspace.lists.length : 0 }}</span>
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    </div>
+                </div>
+                <div class="list-details">
+                    <div class="item-header user-select-item">
+                        <fa-icon [icon]="faUserCircle"></fa-icon>
+                        <span>&nbsp;</span>
+                        <span>Users</span>
+                        <span>&nbsp;</span>
+                        <div class="user-dropdown" ngbDropdown *ngIf="!usersLoading && filteredUsers.length > 0">
+                            <a ngbDropdownToggle>
+                                <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
+                            </a>
+                            <div class="dropdown-menu" ngbDropdownMenu>
+                                <div class="user-select" ngbDropdownItem *ngFor="let user of filteredUsers"
+                                    (click)="addUser(user.id)">
+                                    <fa-icon [icon]="faUser"></fa-icon>
+                                    <span>&nbsp;</span>
+                                    <span>{{ user.username | shorten:shortenUsername }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="loading" class="spinner-border spinner-border-sm user-spinner"></div>
+                    <div *ngIf="!loading">
+                        <div *ngFor="let user of workspace.users; let i = index">
+                            <div class="list-item" routerLink="/users/{{user.id}}" [class.stripe-non]="i % 2 != 0"
+                                [class.stripe]="i % 2 == 0"
+                                [class.workspace-item-last]="i == workspace.users.length - 1">
+                                <div class="list-item-description">
+                                    {{ user.username }}</div>
+                                <div class="spacer"></div>
+                                <div>
+                                    <span *ngIf="deletingUser" class="spinner-border spinner-border-sm"></span>
+                                    <fa-icon *ngIf="!deletingUser" [icon]="faTrashAlt" class="delete-link fa-lg"
+                                        (click)="removeUser($event, user.id, user.username)"></fa-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,157 @@
+@import "./app/variables.scss";
+
+:host {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: $hostColor;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.space {
+  margin-left: 10px;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+}
+
+.header-spinner {
+  margin-top: 4px;
+}
+
+a,
+a:visited,
+a:hover {
+  text-decoration: none;
+}
+
+.list-item,
+.normal-link {
+  cursor: pointer;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.list-item:hover,
+.normal-link:hover {
+  color: $tertiaryColor;
+  text-decoration: none;
+}
+
+.black-link {
+  cursor: pointer;
+  color: $blackLinkColor;
+  text-decoration: none;
+}
+
+.black-link:hover {
+  color: $blackLinkHoverColor;
+  text-decoration: none;
+}
+
+.delete-link {
+  cursor: pointer;
+  color: $deleteLinkColor;
+  text-decoration: none;
+}
+
+.delete-link:hover {
+  color: #b41313;
+  text-decoration: none;
+}
+
+.list-item {
+  display: flex;
+}
+
+.header,
+.actions {
+  margin: 10px 10px 10px 10px;
+}
+
+.details {
+  margin: 15px 10px 15px 10px;
+}
+
+.details-flex {
+  display: flex;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+}
+
+.invalid-feedback {
+  color: #ffffff;
+  background: #c51c4c5e;
+  padding: 12px;
+  border-radius: 0;
+  position: relative;
+  display: inline-block;
+  box-shadow: 1px 1px 1px #b1b1b1;
+  margin: 2px 0px 10px 0px;
+}
+
+.invalid-feedback:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #c51c4c5e;
+  position: absolute;
+  top: -12px;
+}
+
+.list-details {
+  margin: 10px 0px 10px 0px;
+
+  .item-header {
+    background-color: #e9ecef;
+    padding: 10px 10px 10px 10px;
+  }
+
+  .item-content {
+    padding: 10px 10px 10px 10px;
+  }
+}
+
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";

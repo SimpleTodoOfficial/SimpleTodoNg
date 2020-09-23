@@ -1,0 +1,7 @@
+﻿<div *ngFor="let alert of alerts" class="alerts">
+    <ngb-alert class="{{getCssClass(alert)}}" [type]="alert.type" (close)="removeAlert(alert)">
+        <p class="alert-message" *ngIf="alert.message">
+            {{ alert.message }}
+        </p>
+    </ngb-alert>
+</div>

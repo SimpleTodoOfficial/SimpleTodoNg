@@ -1,0 +1,33 @@
+﻿<div class="signin">
+    <div class="header">
+        <h1>Sign in</h1>
+    </div>
+    <div class="signin-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" formControlName="username" class="form-control" placeholder="Enter username"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [attr.disabled]="loading || null" />
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" formControlName="password" class="form-control" placeholder="Enter password"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [attr.disabled]="loading || null" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+                <a routerLink="../resetpassword" class="btn btn-link btn-small">Forgot password?</a>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary btn-std-1">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    Sign in
+                </button>
+                <a *ngIf="signupEnabled" routerLink="../signup" class="btn btn-link">Sign up</a>
+            </div>
+        </form>
+    </div>
+</div>

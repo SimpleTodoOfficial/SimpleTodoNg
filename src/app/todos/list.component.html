@@ -1,0 +1,123 @@
+﻿<div class="todo-component">
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <span class="normal-link" routerLink="/workspaces">
+                    <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+                    <span>&nbsp;</span>
+                    <span *ngIf="workspace">{{ workspace.name | shorten:shortenWsName }}</span>
+                </span>
+                <span *ngIf="!workspace">&nbsp;</span>
+                <span *ngIf="!workspace" class="spinner-border spinner-border-sm header-spinner todo-updating"></span>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="normal-link" routerLink="/workspaces/{{wsId}}/lists">
+                    <fa-icon [icon]="faClipboardList" class="fa-lg"></fa-icon>
+                    <span *ngIf="list">&nbsp;</span>
+                    <span *ngIf="list">{{ list.name | shorten:shortenLsNameBreadcrumb }}</span>
+                </span>
+                <span *ngIf="!list">&nbsp;</span>
+                <span *ngIf="!list" class="spinner-border spinner-border-sm header-spinner todo-updating"></span>
+            </li>
+        </ol>
+    </nav>
+    <div class="table-header">
+        <fa-icon [icon]="faList"></fa-icon>
+        <span>&nbsp;</span>
+        <span>Todos</span>
+        <span>&nbsp;</span>
+        <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+        <div class="spacer"></div>
+        <div class="show-all-checkbox" *ngIf="todoHiddenList.length > 0">
+            <input class="todo-checkbox" type="checkbox" [checked]="showAllTodos"
+                (change)="showAllTodos = !showAllTodos" />
+            <a (click)="showAllTodos = !showAllTodos">Show all</a>
+        </div>
+        <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
+        <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
+        </fa-icon>
+        <span>&nbsp;</span>
+        <div *ngIf="!loading" class="normal-link" routerLink="/workspaces/{{workspace.id}}">
+            <fa-icon [icon]="faUserCircle" class="fa-lg"></fa-icon>
+            <span>&nbsp;</span>
+            <span>{{ workspace.users.length }}</span>
+        </div>
+    </div>
+    <div class="todos-none" *ngIf="todos.length <= 0">
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="!loading">
+            No todos, yet.
+            <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+            <a routerLink="add" class="normal-link">
+                Create one, now.
+            </a>
+        </div>
+    </div>
+    <div *ngIf="todoList.length <= 0 && todoHiddenList.length > 0 && !showAllTodos" class="hidden-todo-info">
+        There are hidden todos.
+        <a (click)="showAllTodos = !showAllTodos" class="normal-link">Show all</a>
+    </div>
+    <div cdkDropListGroup *ngIf="todoList.length > 0">
+        <div cdkDropList [cdkDropListData]="todoList" class="todo-list" (cdkDropListDropped)="dropList($event)">
+            <div class="todo-box" *ngFor="let todo of todoList; let i = index" cdkDrag
+                [cdkDragDisabled]="isUpdatingTodoList" [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
+                <div class="draggable" cdkDragHandle>
+                    <fa-icon [icon]="faGripLines" class="fa-lg">
+                    </fa-icon>
+                </div>
+                <div *ngIf="todo.isUpdating" class="spinner-border spinner-border-sm todo-updating"></div>
+                <div *ngIf="!todo.isUpdating">
+                    <input class="todo-checkbox" type="checkbox" [checked]="todo.done" (change)="toggleDone(todo.id)" />
+                </div>
+                <div *ngIf="todo.dueDate" routerLink="{{todo.id}}">
+                    <fa-icon [icon]="faClock"></fa-icon>
+                    <span>&nbsp;</span>
+                </div>
+                <div class="list-item-description" routerLink="{{todo.id}}">{{ todo.msg | shorten:shortenTodoMsg }}
+                </div>
+                <div class="spacer" routerLink="{{todo.id}}"></div>
+                <div class="list-item-actions">
+                    <fa-icon *ngIf="!todo.isDeleting" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
+                        routerLink="{{todo.id}}/edit">
+                    </fa-icon>
+                    <span *ngIf="todo.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!todo.isDeleting" class="list-item-actions-action">
+                        <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteTodo(todo.id)"></fa-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div cdkDropListGroup *ngIf="todoHiddenList.length > 0 && showAllTodos">
+        <div cdkDropList [cdkDropListData]="todoHiddenList" class="todo-list" (cdkDropListDropped)="dropHiddenList($event)">
+            <div class="todo-box" *ngFor="let todo of todoHiddenList; let i = index" cdkDrag
+                [cdkDragDisabled]="isUpdatingTodoList" [class.stripe-non-hidden]="i % 2 == 0"
+                [class.stripe-hidden]="i % 2 != 0">
+                <div class="draggable" cdkDragHandle>
+                    <fa-icon [icon]="faGripLines" class="fa-lg">
+                    </fa-icon>
+                </div>
+                <span *ngIf="todo.isUpdating" class="spinner-border spinner-border-sm todo-updating"></span>
+                <span *ngIf="!todo.isUpdating">
+                    <input class="todo-checkbox" type="checkbox" [checked]="todo.done" (change)="toggleDone(todo.id)" />
+                </span>
+                <div *ngIf="todo.dueDate" routerLink="{{todo.id}}">
+                    <fa-icon [icon]="faClock"></fa-icon>
+                    <span>&nbsp;</span>
+                </div>
+                <div class="list-item-description" routerLink="{{todo.id}}">{{ todo.msg }}</div>
+                <div class="spacer" routerLink="{{todo.id}}"></div>
+                <div class="list-item-actions">
+                    <fa-icon *ngIf="!todo.isDeleting" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
+                        routerLink="{{todo.id}}/edit">
+                    </fa-icon>
+                    <span *ngIf="todo.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!todo.isDeleting" class="list-item-actions-action">
+                        <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteTodo(todo.id)">
+                        </fa-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

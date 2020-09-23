@@ -1,0 +1,84 @@
+﻿<div class="details-component">
+    <div class="todo-content">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <div class="normal-link" routerLink="/workspaces/{{wsId}}/lists">
+                        <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ todo.workspaceName | shorten:shortenWsName }}</span>
+                    </div>
+                    <span *ngIf="loading">&nbsp;</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm header-spinner"></span>
+                </li>
+                <li class="breadcrumb-item">
+                    <div class="normal-link" routerLink="/workspaces/{{wsId}}/lists/{{lsId}}/todos">
+                        <fa-icon [icon]="faClipboardList" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ todo.listName | shorten:shortenLsNameBreadcrumb }}</span>
+                    </div>
+                    <span *ngIf="loading">&nbsp;</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm header-spinner"></span>
+                </li>
+            </ol>
+        </nav>
+        <div class="todo">
+            <div class="details">
+                <div class="details-flex">
+                    <div>
+                        <fa-icon [icon]="faItalic"></fa-icon>
+                        <span>&nbsp;</span>
+                        <span>Todo</span>
+                        <span>&nbsp;</span>
+                        <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit"></fa-icon>
+                    </div>
+                    <div class="spacer"></div>
+                    <div *ngIf="!loading">
+                        <span *ngIf="todo.isDeleting" class="spinner-border spinner-border-sm"></span>
+                        <span *ngIf="!todo.isDeleting">
+                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteTodo(todo.id)">
+                            </fa-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="list-details">
+                <div class="item-header">
+                    Message
+                </div>
+                <div *ngIf="!loading" class="item-content">
+                    {{ todo.msg }}
+                </div>
+                <div class="item-content" *ngIf="loading">
+                    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+                </div>
+                <div class="item-header">
+                    Status
+                </div>
+                <div *ngIf="!loading && !todo.done " class="item-content">
+                    <fa-icon [icon]="faSquare"></fa-icon>
+                    Not done
+                </div>
+                <div *ngIf="!loading && todo.done " class="item-content">
+                    <fa-icon [icon]="faCheckSquare"></fa-icon>
+                    Done
+                </div>
+                <div class="item-content" *ngIf="loading">
+                    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+                </div>
+                <div class="item-header">
+                    Due date
+                </div>
+                <div class="item-content" *ngIf="!loading && !todo.dueDate">
+                    -
+                </div>
+                <div *ngIf="!loading && todo.dueDate" class="item-content">
+                    {{ todo.dueDate | date:'EEEE, MMMM d, y, h:mm:ss a zzzz' }}
+                </div>
+                <div class="item-content" *ngIf="loading">
+                    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿<div class="details-component">
+    <div class="list-content">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <div class="normal-link" routerLink="/workspaces/{{wsId}}/lists">
+                        <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">
+                            {{ list.workspaceName | shorten:shortenWsName }}
+                        </span>
+                    </div>
+                    <span *ngIf="loading">&nbsp;</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm header-spinner"></span>
+                </li>
+                <li class="breadcrumb-item">
+                    <div class="normal-link" routerLink="/workspaces/{{wsId}}/lists/{{id}}/todos">
+                        <fa-icon [icon]="faClipboardList" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ list.name | shorten:shortenLsNameBreadcrumb }}</span>
+                    </div>
+                    <span *ngIf="loading">&nbsp;</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm header-spinner"></span>
+                </li>
+            </ol>
+        </nav>
+        <div class="list">
+            <div class="details">
+                <div class="details-flex">
+                    <div>
+                        <fa-icon [icon]="faListAlt"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ list.name | shorten:shortenLsName }}</span>
+                        <span>&nbsp;</span>
+                        <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit"></fa-icon>
+                    </div>
+                    <div class="spacer"></div>
+                    <div *ngIf="!loading">
+                        <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
+                        <span *ngIf="!isDeleting">
+                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteList(list.id)">
+                            </fa-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="list-details">
+                <div class="item-header">
+                    <fa-icon [icon]="faList"></fa-icon>
+                    <span>&nbsp;</span><span>Number of Todos</span>
+                </div>
+                <div class="item-content">
+                    <span *ngIf="!loading">{{ list.todos ? list.todos.length : 0 }}</span>
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                </div>
+                <div class="item-header">
+                    <fa-icon [icon]="faSquare"></fa-icon>
+                    <span>&nbsp;</span><span>Number of Todos to be done</span>
+                </div>
+                <div class="item-content">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!loading">{{ nrTodosToBeDone }}</span>
+                </div>
+                <div class="item-header">
+                    <fa-icon [icon]="faCheckSquare"></fa-icon>
+                    <span>&nbsp;</span><span>Number of Todos done</span>
+                </div>
+                <div class="item-content">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!loading">{{ nrTodosDone }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

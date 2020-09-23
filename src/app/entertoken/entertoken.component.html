@@ -1,0 +1,25 @@
+﻿<div class="entertoken">
+    <div class="header">
+        <h1>Enter Token To Reset Password</h1>
+    </div>
+    <div class="entertoken-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="token">Token</label>
+                <input type="text" formControlName="token" class="form-control" placeholder="Enter token"
+                    [ngClass]="{ 'is-invalid': submitted && f.token.errors }" [attr.disabled]="loading || null" />
+                <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
+                    <div *ngIf="f.token.errors.required">Token is required</div>
+                </div>
+                <a routerLink="../resetpassword" class="btn btn-link btn-small">Need a new token?</a>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary btn-std-1">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    Reset Password
+                </button>
+                <a routerLink="../signin" class="btn btn-link">Sign in</a>
+            </div>
+        </form>
+    </div>
+</div>

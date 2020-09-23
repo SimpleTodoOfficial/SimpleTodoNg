@@ -1,0 +1,44 @@
+@import "../variables.scss";
+
+.about-header {
+  display: flex;
+  margin: 15px 0px 0px 0px;
+  padding: 0px 15px 15px 15px;
+  border-bottom: solid 1px $tableHeaderColor;
+}
+
+.about-item-header {
+  display: flex;
+  margin: 15px 0px 10px 15px;
+  padding: 0px 15px 15px 15px;
+  border-bottom: solid 1px $tableHeaderColor;
+}
+
+.about-item {
+  margin: 15px 0px 10px 30px;
+  padding: 0px 15px 15px 15px;
+  border-bottom: solid 1px $listItemBorderColor;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: $listItemBackgroundColor;
+}
+
+.list-details-about {
+  margin: 0px 0px 10px 0px;
+}
+
+.about-item-last {
+  border-bottom: none;
+}
+
+.stripe-non {
+  background: $tableStripeNonColor;
+}
+
+.stripe {
+  background: $tableStripeColor;
+}

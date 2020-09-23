@@ -1,0 +1,43 @@
+﻿<div class="list-component">
+    <div class="workspaces">
+        <div class="table-header">
+            <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
+            <span>&nbsp;</span>
+            <span>Workspaces</span>
+            <span>&nbsp;</span>
+            <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+            <div class="spacer"></div>
+            <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
+            <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
+            </fa-icon>
+        </div>
+        <div *ngIf="workspaces.length <= 0" class="workspaces-none">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+            <div *ngIf="!loading && !error">
+                No workspaces, yet.
+                <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
+                <a routerLink="add" class="normal-link">
+                    Create one, now.
+                </a>
+            </div>
+            <div *ngIf="error">
+                An error occurred.
+            </div>
+        </div>
+        <div *ngIf="workspaces.length > 0">
+            <div *ngFor="let workspace of workspaces; let i = index">
+                <div class="list-item" routerLink="{{workspace.id}}/lists" [class.stripe-non]="i % 2 != 0"
+                    [class.stripe]="i % 2 == 0">
+                    <div class="list-item-description">
+                        {{ workspace.name | shorten:shortenWsName }}
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="list-item-actions">
+                        <fa-icon [icon]="faInfoCircle" class="normal-link fa-lg" routerLink="{{workspace.id}}">
+                        </fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

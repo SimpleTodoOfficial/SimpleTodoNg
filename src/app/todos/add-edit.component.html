@@ -1,0 +1,68 @@
+﻿<div class="add-edit-component">
+    <div class="header">
+        <h1 *ngIf="isAddMode">Add Todo</h1>
+        <h1 *ngIf="!isAddMode">Edit Todo</h1>
+    </div>
+    <div class="todo-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="name">Message</label>
+                    <input type="text" formControlName="msg" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.msg.errors }" [attr.disabled]="loading || null" />
+                    <div *ngIf="submitted && f.msg.errors" class="invalid-feedback">
+                        <div *ngIf="f.msg.errors.required">Message is required</div>
+                        <div *ngIf="f.msg.errors.maxlength">Message can be at most 1024 characters</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="done-check">Check to mark as done</label>
+                    <input type="checkbox" id="done-check" formControlName="done" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.done.errors }" [attr.disabled]="loading || null" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <button type="button" class="btn btn-outline-primary" (click)="dueDateCollapsed = !dueDateCollapsed"
+                        [attr.aria-expanded]="!dueDateCollapsed" aria-controls="collapseExample"
+                        [attr.disabled]="loading || null">
+                        Set a due date
+                    </button>
+                    <div id="collapse-due-date" [ngbCollapse]="dueDateCollapsed">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="due-date">
+                                    <label for="dueDate">Due date</label>
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                            formControlName="dueDate" ngbDatepicker #d="ngbDatepicker"
+                                            [attr.disabled]="loading || null" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                                type="button">
+                                                <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="due-time">
+                                    <label for="dueTime">Due time</label>
+                                    <ngb-timepicker formControlName="dueTime" [seconds]="true"></ngb-timepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary btn-std-1">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    Save
+                </button>
+                <a routerLink="/workspaces/{{wsId}}/lists/{{lsId}}/todos" class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

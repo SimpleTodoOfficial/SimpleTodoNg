@@ -1,0 +1,94 @@
+﻿<div class="details-component">
+    <div class="user-content">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <span class="normal-link" routerLink="/users">
+                        <fa-icon [icon]="faUserCircle" class="fa-lg"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ user.username | shorten:shortenUName }}</span>
+                    </span>
+                    <span>&nbsp;</span>
+                    <span class="spinner-border spinner-border-sm header-spinner" *ngIf="loading"></span>
+                </li>
+            </ol>
+        </nav>
+        <div class="user">
+            <div class="details">
+                <div class="details-flex">
+                    <div>
+                        <fa-icon [icon]="faUser"></fa-icon>
+                        <span *ngIf="!loading">&nbsp;</span>
+                        <span *ngIf="!loading">{{ user.username | shorten:shortenUNameDetails }}</span>
+                        <span>&nbsp;</span>
+                        <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit" *ngIf="canEditOrDelete">
+                        </fa-icon>
+                    </div>
+                    <div class="spacer"></div>
+                    <div *ngIf="!loading && canEditOrDelete">
+                        <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
+                        <span *ngIf="!isDeleting">
+                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteUser(user.id)">
+                            </fa-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="list-details">
+                <div class="item-header">
+                    Username
+                </div>
+                <div class="item-content">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!loading">{{ user.username }}</span>
+                </div>
+                <div *ngIf="!loading">
+                    <div class="item-header" *ngIf="user.email">
+                        Email
+                    </div>
+                    <div class="item-content" *ngIf="user.email">
+                        {{ user.email }}
+                    </div>
+                    <div class="item-header userrole-select-item" *ngIf="canEditOrDelete">
+                        Roles
+                        <span>&nbsp;</span>
+                        <div class="userrole-dropdown" ngbDropdown *ngIf="userRoles.length > 0 && isAdmin">
+                            <a ngbDropdownToggle>
+                                <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
+                            </a>
+                            <div class="dropdown-menu" ngbDropdownMenu>
+                                <div class="userrole-select" ngbDropdownItem *ngFor="let role of userRoles"
+                                    (click)="addRole(role)">
+                                    <fa-icon [icon]="faUserTag"></fa-icon>
+                                    <span>&nbsp;</span>
+                                    <span>{{ role }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="user.roles && canEditOrDelete">
+                        <div class="user-role details-flex" *ngFor="let role of user.roles; let i = index"
+                            [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0"
+                            [class.user-role-last]="i == user.roles.length - 1">
+                            <div>
+                                <fa-icon [icon]="faUserTag"></fa-icon>
+                                <span>&nbsp;</span>
+                                <span>{{ role }}</span>
+                            </div>
+                            <div class="spacer"></div>
+                            <div>
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                                <span *ngIf="isDeletingRole && isAdmin && !(role === 'USER')"
+                                    class="spinner-border spinner-border-sm"></span>
+                                <span *ngIf="!isDeletingRole && isAdmin && !(role === 'USER')">
+                                    <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="removeRole(role)">
+                                    </fa-icon>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
