@@ -37,7 +37,7 @@ export class UserService implements OnInit, OnDestroy {
     }
 
     signin(username, password) {
-        let url = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.sigin}`;
+        let url = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signin}`;
         this.logger.log('Signing in user, URL: ' + url);
         return this.http.post<User>(url, { username, password })
             .pipe(map(user => {

@@ -5,15 +5,19 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
-import { LoggerService, AlertService, UserService } from '../_services';
+import { LoggerService, AlertService, UserService, ConnectionService } from '../_services';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
     private ignoreRedirectionOnErrorPaths: string[] = [];
+    private checkConnectionUrl = `${environment.apiUrl}/${environment.connectionPath.main}/${environment.connectionPath.authorized}`;
+    private signinUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signin}`;
+    private signupUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signup}`;
 
     constructor(
         private userService: UserService,
         private alertService: AlertService,
+        private connectionService: ConnectionService,
         private router: Router,
         private logger: LoggerService
     ) {
@@ -23,6 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
+            // Attention: Expired tokens throw a 404, NOT a 401!
             if (err.status === 401 || err.status === 405) {
                 this.logger.log('You have been signed out because your session has expired. Please sign in again.');
                 this.userService.signout();
@@ -33,7 +38,14 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
                     this.logger.log('Something went wrong on non-API path');
                     this.alertService.error('Something went wrong.');
                 } else {
-                    this.logger.log('Ignoring alerting on api paths');
+                    if (!request.url.endsWith(this.checkConnectionUrl)
+                        && !request.url.endsWith(this.signinUrl)
+                        && !request.url.endsWith(this.signupUrl)) {
+                        this.logger.log('Asserting connection');
+                        this.connectionService.assertConnection();
+                    } else {
+                        this.logger.log('Ignoring alerting on API paths');
+                    }
                 }
             }
 

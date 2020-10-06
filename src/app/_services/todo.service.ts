@@ -13,7 +13,6 @@ import { Todo } from '../_models/todo.model';
 export class TodoService implements OnInit, OnDestroy {
 
     constructor(
-        private router: Router,
         private http: HttpClient,
         private logger: LoggerService
     ) {

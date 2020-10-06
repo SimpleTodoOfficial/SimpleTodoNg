@@ -1,7 +1,5 @@
 ﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 import { LoggerService } from './logger.service';
 import { environment } from '../environments/environment';
@@ -13,7 +11,6 @@ import { Workspace } from '../_models/workspace.model';
 export class WorkspaceService implements OnInit, OnDestroy {
 
     constructor(
-        private router: Router,
         private http: HttpClient,
         private logger: LoggerService
     ) {

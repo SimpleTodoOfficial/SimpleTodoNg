@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { faTh, faPlusCircle, faInfoCircle, faSync } from '@fortawesome/free-solid-svg-icons';
@@ -27,7 +26,6 @@ export class ListComponent implements OnInit, OnDestroy {
     public faSync = faSync;
 
     constructor(
-        private router: Router,
         private observer: BreakpointObserver,
         private alertService: AlertService,
         private workspaceService: WorkspaceService,
