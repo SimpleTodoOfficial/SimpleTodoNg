@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  public loaded: boolean ;
   public user: User;
   public isAdmin: boolean;
   public isMin1: boolean;
@@ -38,10 +39,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private userService: UserService
   ) {
+    this.loaded = false;
+
     this.ussSub = this.userService.user.subscribe(x => {
       this.user = x;
       if (this.user) {
         this.isAdmin = this.userService.isAdmin();
+        this.loaded = true;
       }
     },
       error => {

@@ -19,6 +19,10 @@ export const environment = {
             main: 'password',
             forgot: 'forgot',
             reset: 'reset'
+        },
+        activate: {
+            main: 'activate',
+            resend: 'resend'
         }
     },
     workspacesPath: 'workspaces',

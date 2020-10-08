@@ -6,6 +6,7 @@ export class User {
         public username: string,
         public password: string,
         public email: string,
+        public statusActivated: boolean,
         public roles: string[],
         public jsonData: string
     ) {

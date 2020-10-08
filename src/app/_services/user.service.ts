@@ -76,6 +76,25 @@ export class UserService implements OnInit, OnDestroy {
         return this.http.put(url, null);
     }
 
+    activate(token: string) {
+        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.activate.main}/${token}`;
+        this.logger.log('Processing activate user, URL: ' + url);
+
+        return this.http.put(url, null)
+            .pipe(map(x => {
+                this.signout();
+
+                return x;
+            }));
+    }
+
+    resendActivation() {
+        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.activate.main}/${environment.usersPath.activate.resend}`;
+        this.logger.log('Processing resend activation, URL: ' + url);
+
+        return this.http.put(url, null);
+    }
+
     getAll() {
         let url = `${environment.apiUrl}/${environment.usersPath.main}`;
         this.logger.log('Getting all users, URL: ' + url);

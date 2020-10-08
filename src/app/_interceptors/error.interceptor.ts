@@ -13,6 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
     private checkConnectionUrl = `${environment.apiUrl}/${environment.connectionPath.main}/${environment.connectionPath.authorized}`;
     private signinUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signin}`;
     private signupUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signup}`;
+    private passwordForgotUrl = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.password.main}/${environment.usersPath.password.forgot}`;
 
     constructor(
         private userService: UserService,
@@ -40,7 +41,8 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
                 } else {
                     if (!request.url.endsWith(this.checkConnectionUrl)
                         && !request.url.endsWith(this.signinUrl)
-                        && !request.url.endsWith(this.signupUrl)) {
+                        && !request.url.endsWith(this.signupUrl)
+                        && !request.url.endsWith(this.passwordForgotUrl)) {
                         this.logger.log('Asserting connection');
                         this.connectionService.assertConnection();
                     } else {

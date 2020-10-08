@@ -49,6 +49,15 @@
                     <div class="item-content" *ngIf="user.email">
                         {{ user.email }}
                     </div>
+                    <div class="item-header" *ngIf="user.statusActivated != null">
+                        Activated
+                    </div>
+                    <div class="item-content" *ngIf="user.statusActivated != null && user.statusActivated">
+                        Yes
+                    </div>
+                    <div class="item-content" *ngIf="user.statusActivated != null && !user.statusActivated">
+                        No
+                    </div>
                     <div class="item-header userrole-select-item" *ngIf="canEditOrDelete">
                         Roles
                         <span>&nbsp;</span>
