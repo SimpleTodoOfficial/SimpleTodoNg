@@ -1,8 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import { ModalConfirm } from '../_modals/confirmation.modal';
 import { LoggerService, UserService, AlertService } from '../_services';
 import { Subscription } from 'rxjs';
 
@@ -25,7 +27,8 @@ export class ActivateComponent implements OnInit, OnDestroy {
         private router: Router,
         private userService: UserService,
         private alertService: AlertService,
-        private logger: LoggerService
+        private logger: LoggerService,
+        private modalService: NgbModal
     ) {
         // Nothing to see here...
     }
@@ -94,26 +97,38 @@ export class ActivateComponent implements OnInit, OnDestroy {
 
     resendActivation() {
         this.loading = true;
-
         this.alertService.clear();
 
-        if (this.resendSub) {
-            this.resendSub.unsubscribe();
-        }
-        this.activateSub = this.userService.resendActivation()
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.logger.log('Successfully resent activation. Please check your emails.');
+        const activeModal = this.modalService.open(ModalConfirm);
+        activeModal.componentInstance.header = 'Confirm resending activation';
+        activeModal.componentInstance.text = 'Are you sure that you want to resend the email activation?';
+        activeModal.componentInstance.text2 = 'An email with a new token will be sent to your saved email address.';
+        activeModal.componentInstance.textDanger = '';
+        activeModal.result.then(() => {
+            this.logger.log('Resending activation');
 
-                    this.alertService.success('Successfully resent activation. Please check your emails.', { autoClose: true });
-                    this.loading = false;
-                },
-                error => {
-                    this.logger.error(error);
-                    this.alertService.error('Something went wrong. Could not resend.');
-                    this.loading = false;
-                });
+            if (this.resendSub) {
+                this.resendSub.unsubscribe();
+            }
+            this.activateSub = this.userService.resendActivation()
+                .pipe(first())
+                .subscribe(
+                    data => {
+                        this.logger.log('Successfully resent activation. Please check your emails.');
+
+                        this.alertService.success('Successfully resent activation. Please check your emails.', { autoClose: true });
+                        this.loading = false;
+                    },
+                    error => {
+                        this.logger.error(error);
+                        this.alertService.error('Something went wrong. Could not resend.');
+                        this.loading = false;
+                    });
+        },
+            () => {
+                this.logger.log('Canceling resending actication.');
+                this.loading = false;
+            });
     }
 
 }

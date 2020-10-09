@@ -200,6 +200,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.isDeletingRole = true;
 
         const activeModal = this.modalService.open(ModalConfirm);
+        activeModal.componentInstance.header = 'Confirm user role removal';
+        activeModal.componentInstance.text = 'Are you sure that you want to remove the user role "' + role + '" from this user?';
+        activeModal.componentInstance.text2 = '';
+        activeModal.componentInstance.textDanger = '';
         activeModal.result.then(() => {
             this.logger.log('Removing user role.');
 
@@ -227,10 +231,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 this.logger.log('Canceling user role removal.');
                 this.isDeletingRole = false;
             });
-        activeModal.componentInstance.header = 'Confirm user role removal';
-        activeModal.componentInstance.text = 'Are you sure that you want to remove the user role "' + role + '" from this user?';
-        activeModal.componentInstance.text2 = '';
-        activeModal.componentInstance.textDanger = '';
     }
 
 }

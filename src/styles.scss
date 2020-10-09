@@ -44,6 +44,13 @@ p {
 
 a {
   cursor: pointer;
+  text-decoration: none;
+}
+
+a:active,
+a:focus {
+  outline: 0;
+  border: none;
 }
 
 .header-spinner {

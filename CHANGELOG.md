@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.0.4
+
+- Frontend rewording
+- Confirmation before resending email address activation token
+
 ## v1.0.3
 
 - Email message rewording

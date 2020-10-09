@@ -17,7 +17,6 @@ import { User } from '../_models/user.model';
 export class DetailsComponent implements OnInit, OnDestroy {
     public loading = false;
     public deletingWorkspace = false;
-    public deletingUser = false;
     public usersLoading = false;
     public workspace = null;
     public shortenUsername: number = 12;
@@ -29,6 +28,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private wssSub: Subscription;
     private ussSub: Subscription;
     private obSub: Subscription;
+    private userIdToBeDeleted: String;
 
     public faTh = faTh;
     public faDiceD6 = faDiceD6;
@@ -213,7 +213,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.logger.log('Removing user from workspace');
         event.stopPropagation();
 
-        this.deletingUser = true;
+        this.userIdToBeDeleted = userId;
 
         const activeModal = this.modalService.open(ModalConfirm);
         activeModal.componentInstance.header = 'Confirm user removal from workspace';
@@ -237,19 +237,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
                             this.router.navigate(['/workspaces']);
                         } else {
                             this.updatedFilteredUsers(this.allUsers);
-                            this.deletingUser = false;
+                            this.userIdToBeDeleted = '';
                         }
                         this.alertService.info('Removed user from workspace.', { autoClose: true });
                     },
                     error => {
                         this.logger.error(error);
                         this.alertService.error('The user could not be removed from the workspace.');
-                        this.deletingUser = false;
+                        this.userIdToBeDeleted = '';
                     });
         },
             () => {
                 this.logger.log('Canceling workspace deletion.');
-                this.deletingUser = false;
+                this.userIdToBeDeleted = '';
             });
     }
 

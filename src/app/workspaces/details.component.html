@@ -76,8 +76,8 @@
                                     {{ user.username }}</div>
                                 <div class="spacer"></div>
                                 <div>
-                                    <span *ngIf="deletingUser" class="spinner-border spinner-border-sm"></span>
-                                    <fa-icon *ngIf="!deletingUser" [icon]="faTrashAlt" class="delete-link fa-lg"
+                                    <span *ngIf="userIdToBeDeleted == user.id" class="spinner-border spinner-border-sm"></span>
+                                    <fa-icon *ngIf="userIdToBeDeleted != user.id" [icon]="faTrashAlt" class="delete-link fa-lg"
                                         (click)="removeUser($event, user.id, user.username)"></fa-icon>
                                 </div>
                             </div>

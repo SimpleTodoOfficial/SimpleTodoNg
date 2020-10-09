@@ -8,7 +8,7 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label for="name">Message</label>
-                    <input type="text" formControlName="msg" class="form-control"
+                    <input type="text" formControlName="msg" class="form-control" placeholder="Enter message"
                         [ngClass]="{ 'is-invalid': submitted && f.msg.errors }" [attr.disabled]="loading || null" />
                     <div *ngIf="submitted && f.msg.errors" class="invalid-feedback">
                         <div *ngIf="f.msg.errors.required">Message is required</div>
