@@ -10,6 +10,7 @@ import { LoggerService } from '../_services';
 })
 export class DetailsComponent implements OnInit, OnDestroy {
     public version = environment.version;
+    public issueTrackerLink = environment.issueTracker;
 
     public faAddressCard = faAddressCard;
     public faCodeBranch = faCodeBranch;

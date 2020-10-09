@@ -15,11 +15,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public loaded: boolean ;
+  public loaded: boolean;
   public user: User;
   public isAdmin: boolean;
-  public isMin1: boolean;
-  public isMin2: boolean;
+  public isMin: boolean;
   public version = environment.version;
   private ussSub: Subscription;
   private obSub: Subscription;
@@ -54,13 +53,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.alertService.error('User could not be loaded.');
       });
 
-    this.obSub = this.observer.observe(['(min-width: 360px)', '(min-width: 460px)']).subscribe(result => {
+    this.obSub = this.observer.observe(['(min-width: 480px)']).subscribe(result => {
       if (result.matches) {
-        this.isMin1 = result.breakpoints['(min-width: 360px)'];
-        this.isMin2 = result.breakpoints['(min-width: 460px)'];
+        this.isMin = result.breakpoints['(min-width: 480px)'];
       } else {
-        this.isMin1 = false;
-        this.isMin2 = false;
+        this.isMin = false;
       }
     });
   }

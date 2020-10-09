@@ -2,8 +2,8 @@
   <div class="toolbar-nav">
     <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
       <fa-icon [icon]="faHome" class="fa-lg"></fa-icon>
-      <span *ngIf="isMin2">&nbsp;</span>
-      <span *ngIf="isMin2">Home</span>
+      <span>&nbsp;</span>
+      <span>SimpleTodo</span>
     </a>
   </div>
   <div class="spacer"></div>
@@ -13,7 +13,7 @@
         [routerLinkActiveOptions]="{exact: true}">
         <fa-icon [icon]="faAddressCard" class="fa-lg"></fa-icon>
         <span>&nbsp;</span>
-        <span *ngIf="isMin2">About</span>
+        <span *ngIf="isMin">About</span>
       </a>
     </div>
   </div>
@@ -21,21 +21,21 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">
         <fa-icon [icon]="faAddressBook" class="fa-lg"></fa-icon>
-        <span *ngIf="isMin1">&nbsp;</span>
-        <span *ngIf="isMin1">Users</span>
+        <span *ngIf="isMin">&nbsp;</span>
+        <span *ngIf="isMin">Users</span>
       </a>
       <div class="space"></div>
       <a class="nav-item nav-link" routerLink="/workspaces" routerLinkActive="active">
         <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
-        <span *ngIf="isMin1">&nbsp;</span>
-        <span *ngIf="isMin1">Workspaces</span>
+        <span *ngIf="isMin">&nbsp;</span>
+        <span *ngIf="isMin">Workspaces</span>
       </a>
       <div class="space"></div>
       <div class="nav-item nav-link" ngbDropdown>
         <a ngbDropdownToggle>
           <fa-icon [icon]="faUserCircle" class="fa-lg"></fa-icon>
-          <span *ngIf="isMin2">&nbsp;</span>
-          <span *ngIf="isMin2">Menu</span>
+          <span *ngIf="isMin">&nbsp;</span>
+          <span *ngIf="isMin">Menu</span>
         </a>
         <div class="dropdown-menu" ngbDropdownMenu>
           <div ngbDropdownItem>
