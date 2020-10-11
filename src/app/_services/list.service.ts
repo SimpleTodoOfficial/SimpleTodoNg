@@ -26,38 +26,48 @@ export class ListService implements OnInit, OnDestroy {
     }
 
     getAll(wsId: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath}/${wsId}/${environment.listsPath}`;
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}`;
         this.logger.log('Getting all lists, URL: ' + url);
 
         return this.http.get<List[]>(url);
     }
 
     getById(wsId: string, id: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath}/${wsId}/${environment.listsPath}/${id}`;
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${id}`;
         this.logger.log('Getting list, URL: ' + url);
 
         return this.http.get<List>(url);
     }
 
     create(wsId: string, list: List) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath}/${wsId}/${environment.listsPath}`;
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}`;
         this.logger.log('Creating list, URL: ' + url);
 
         return this.http.post(url, list);
     }
 
     update(wsId: string, id: string, params) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath}/${wsId}/${environment.listsPath}/${id}`;
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${id}`;
         this.logger.log('Updating list, URL: ' + url);
 
         return this.http.put(url, params);
     }
 
     delete(wsId: string, id: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath}/${wsId}/${environment.listsPath}/${id}`;
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${id}`;
         this.logger.log('Deleting list, URL: ' + url);
 
         return this.http.delete(url);
+    }
+
+    move(wsId: string, id: string, newWsId: string) {
+        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${id}/${environment.listsPath.move}`;
+        this.logger.log('Moving list, URL: ' + url);
+
+        let params = {
+            'workspaceId': newWsId
+        };
+        return this.http.put(url, params);
     }
 
 }

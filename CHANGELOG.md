@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.1.0
+
+- Implemented moving lists to other workspaces
+- Implemented moving todos to other lists
+
 ## v1.0.5
 
 - Renamed activation to verification in both API and wording

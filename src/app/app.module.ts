@@ -10,12 +10,16 @@ import { AlertComponent } from './alert';
 import { AppRoutingModule } from './app-routing.module';
 import { TokenInterceptor, ErrorInterceptor } from './_interceptors';
 import { ModalConfirm } from './_modals/confirmation.modal';
+import { ModalMoveList } from './_modals/move-list.modal';
+import { ModalMoveTodo } from './_modals/move-todo.modal';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertComponent,
-    ModalConfirm
+    ModalConfirm,
+    ModalMoveList,
+    ModalMoveTodo
   ],
   imports: [
     HttpClientModule,

@@ -1,0 +1,27 @@
+@import "../variables.scss";
+
+.workspaces-none {
+  margin: 10px 10px 10px 10px;
+  text-align: center;
+}
+
+.stripe-non {
+  background: $tableStripeNonColor;
+}
+
+.stripe {
+  background: $tableStripeColor;
+}
+
+.modal-text,
+.list-item {
+    padding: 5px 5px 5px 5px;
+}
+
+.list-item-description {
+  word-wrap: anywhere;
+}
+
+.modal-body {
+    padding: 0;
+}

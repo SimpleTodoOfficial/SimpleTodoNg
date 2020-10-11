@@ -2,8 +2,11 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
-import { faCheckSquare, faSquare, faTh, faClipboardList, faList, faPlusCircle, faEdit, faItalic, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { faCheckSquare, faSquare, faTh, faClipboardList, faList, faPlusCircle, faEdit, faItalic, faTrashAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
 
+import { ModalConfirm } from '../_modals/confirmation.modal';
+import { ModalMoveTodo } from '../_modals/move-todo.modal';
 import { LoggerService, TodoService, AlertService } from '../_services';
 import { Subscription } from 'rxjs';
 
@@ -13,6 +16,8 @@ import { Subscription } from 'rxjs';
 })
 export class DetailsComponent implements OnInit, OnDestroy {
     public loading = false;
+    public isDeleting = false;
+    public isMoving = false;
     public todo = null;
     public shortenWsName: number = 15;
     public shortenLsNameBreadcrumb: number = 15;
@@ -34,6 +39,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faTrashAlt = faTrashAlt;
     public faSquare = faSquare;
     public faCheckSquare = faCheckSquare;
+    public faRandom = faRandom;
 
     constructor(
         private observer: BreakpointObserver,
@@ -41,7 +47,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private todoService: TodoService,
         private alertService: AlertService,
-        private logger: LoggerService
+        private logger: LoggerService,
+        private modalService: NgbModal
     ) {
         this.observerScreenSize();
     }
@@ -142,7 +149,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     deleteTodo(id: string) {
-        this.todo.isDeleting = true;
+        this.logger.log('Deleting todo');
+
+        this.isDeleting = true;
+
         if (this.tdsSub) {
             this.tdsSub.unsubscribe();
         }
@@ -155,8 +165,49 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 error => {
                     this.logger.error(error);
                     this.alertService.error('Todo could not be deleted.');
-                    this.loading = false;
+                    this.isDeleting = false;
                 });
+    }
+
+    moveTodo(id: string) {
+        this.logger.log('Moving todo');
+
+        this.isMoving = true;
+
+        const activeModalMove = this.modalService.open(ModalMoveTodo);
+        activeModalMove.componentInstance.wsId = this.wsId;
+        activeModalMove.componentInstance.excludeLsId = this.lsId;
+        activeModalMove.componentInstance.text = 'Please select a list to move the todo to:';
+        activeModalMove.result.then(ls => {
+            this.logger.log('Selected list: "' + ls.name + '" (' + ls.id + ')');
+
+            const activeModal = this.modalService.open(ModalConfirm);
+            activeModal.componentInstance.header = 'Confirm moving todo';
+            activeModal.componentInstance.text = 'Are you sure that you want to move the todo to the list "' + ls.name + '"?';
+            activeModal.componentInstance.text2 = '';
+            activeModal.componentInstance.textDanger = '';
+            activeModal.result.then(() => {
+                this.logger.log('Moving todo');
+
+                if (this.tdsSub) {
+                    this.tdsSub.unsubscribe();
+                }
+                this.tdsSub = this.todoService.move(this.wsId, this.lsId, id, ls.id)
+                    .pipe(first())
+                    .subscribe(() => {
+                        this.router.navigate(['/workspaces', this.wsId, 'lists', ls.id, 'todos']);
+                        this.alertService.success('Todo successfully moved.', { autoClose: true });
+                    });
+            },
+                () => {
+                    this.logger.log('Canceling moving todo.');
+                    this.isMoving = false;
+                });
+        },
+            () => {
+                this.logger.log('Canceling moving todo.');
+                this.isMoving = false;
+            });
     }
 
 }

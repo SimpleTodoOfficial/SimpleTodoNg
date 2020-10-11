@@ -26,7 +26,15 @@ export const environment = {
             resend: 'resend'
         }
     },
-    workspacesPath: 'workspaces',
-    listsPath: 'lists',
-    todosPath: 'todos'
+    workspacesPath: {
+        main: 'workspaces'
+    },
+    listsPath: {
+        main: 'lists',
+        move: 'move'
+    },
+    todosPath: {
+        main: 'todos',
+        move: 'move'
+    }
 };

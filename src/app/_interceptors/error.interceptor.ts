@@ -30,10 +30,10 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
         return next.handle(request).pipe(catchError(err => {
             // Attention: Expired tokens throw a 404, NOT a 401!
             if (err.status === 401 || err.status === 405) {
-                this.logger.log('You have been signed out because your session has expired. Please sign in again.');
-                this.userService.signout();
+                this.logger.log('Resource not accessible');
+                // this.userService.signout();
                 this.router.navigate(['/']);
-                this.alertService.warn('You have been signed out because your session has expired. Please sign in again.');
+                this.alertService.warn('The request ressource is not accessible.');
             } else {
                 if (!request.url.startsWith(`${environment.apiUrl}`)) {
                     this.logger.log('Something went wrong on non-API path');

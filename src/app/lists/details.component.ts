@@ -3,9 +3,10 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faCheckSquare, faSquare, faTh, faClipboardList, faTrashAlt, faPlusCircle, faEdit, faList, faListAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare, faSquare, faTh, faClipboardList, faTrashAlt, faPlusCircle, faEdit, faList, faListAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
+import { ModalMoveList } from '../_modals/move-list.modal';
 import { LoggerService, ListService, AlertService } from '../_services';
 import { Subscription } from 'rxjs';
 
@@ -16,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class DetailsComponent implements OnInit, OnDestroy {
     public loading = false;
     public isDeleting = false;
+    public isMoving = false;
     public list = null;
     public wsId: string;
     public id: string;
@@ -38,6 +40,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faListAlt = faListAlt;
     public faSquare = faSquare;
     public faCheckSquare = faCheckSquare;
+    public faRandom = faRandom;
 
     constructor(
         private observer: BreakpointObserver,
@@ -105,35 +108,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     observerScreenSize(): void {
         this.obSub = this.observer.observe([
-            '(min-width: 300px)',
-            '(min-width: 400px)',
-            '(min-width: 500px)',
-            '(min-width: 600px)',
-            '(min-width: 700px)',
-            '(min-width: 800px)'
+            '(min-width: 340px)',
+            '(min-width: 410px)',
+            '(min-width: 510px)',
+            '(min-width: 610px)',
+            '(min-width: 710px)',
+            '(min-width: 810px)'
         ]).subscribe(result => {
             if (result.matches) {
-                if (result.breakpoints['(min-width: 800px)']) {
+                if (result.breakpoints['(min-width: 810px)']) {
                     this.shortenLsName = 95;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 700px)']) {
+                } else if (result.breakpoints['(min-width: 710px)']) {
                     this.shortenLsName = 70;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 600px)']) {
+                } else if (result.breakpoints['(min-width: 610px)']) {
                     this.shortenLsName = 65;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 500px)']) {
+                } else if (result.breakpoints['(min-width: 510px)']) {
                     this.shortenLsName = 55;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 400px)']) {
+                } else if (result.breakpoints['(min-width: 410px)']) {
                     this.shortenLsName = 40;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 300px)']) {
+                } else if (result.breakpoints['(min-width: 340px)']) {
                     this.shortenLsName = 30;
                     this.shortenLsNameBreadcrumb = 15;
                     this.shortenWsName = 10;
@@ -175,6 +178,46 @@ export class DetailsComponent implements OnInit, OnDestroy {
             () => {
                 this.logger.log('Canceling list deletion.');
                 this.isDeleting = false;
+            });
+    }
+
+    moveList(id: string) {
+        this.logger.log('Moving list');
+
+        this.isMoving = true;
+
+        const activeModalMove = this.modalService.open(ModalMoveList);
+        activeModalMove.componentInstance.excludeWsId = this.wsId;
+        activeModalMove.componentInstance.text = 'Please select a workspace to move the list "' + this.list.name + '" to:';
+        activeModalMove.result.then(ws => {
+            this.logger.log('Selected workspace: "' + ws.name + '" (' + ws.id + ')');
+
+            const activeModal = this.modalService.open(ModalConfirm);
+            activeModal.componentInstance.header = 'Confirm moving list';
+            activeModal.componentInstance.text = 'Are you sure that you want to move the list "' + this.list.name + '" to the workspace "' + ws.name + '"?';
+            activeModal.componentInstance.text2 = '';
+            activeModal.componentInstance.textDanger = 'All users of the current workspace will not be able to access the list any longer. All users of the new workspace will be granted access to the list.';
+            activeModal.result.then(() => {
+                this.logger.log('Moving list');
+
+                if (this.lssSub) {
+                    this.lssSub.unsubscribe();
+                }
+                this.lssSub = this.listService.move(this.wsId, id, ws.id)
+                    .pipe(first())
+                    .subscribe(() => {
+                        this.router.navigate(['/workspaces', ws.id, 'lists']);
+                        this.alertService.success('List successfully moved.', { autoClose: true });
+                    });
+            },
+                () => {
+                    this.logger.log('Canceling moving list.');
+                    this.isMoving = false;
+                });
+        },
+            () => {
+                this.logger.log('Canceling moving list.');
+                this.isMoving = false;
             });
     }
 
