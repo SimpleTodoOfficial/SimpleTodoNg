@@ -80,11 +80,11 @@
 </div>
 
 <footer>
-  <div class="account-not-activated" *ngIf="loaded && user && !user.statusActivated">
-    Your account is not activated, yet. Please check your emails and visit <a routerLink="/users/{{user.id}}/activate"
-      class="error-link">Account activation</a>.
+  <div class="account-not-verified" *ngIf="loaded && user && !user.statusVerified">
+    Your email address is not verified, yet. Please check your emails and visit <a routerLink="/users/{{user.id}}/verify"
+      class="error-link">Account verification</a>.
   </div>
-  <div class="break" *ngIf="loaded && user && !user.statusActivated"></div>
+  <div class="break" *ngIf="loaded && user && !user.statusVerified"></div>
   <div routerLink="/about" class="black-link">
     SimpleTodo {{ version }}
   </div>

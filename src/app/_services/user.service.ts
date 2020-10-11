@@ -76,9 +76,9 @@ export class UserService implements OnInit, OnDestroy {
         return this.http.put(url, null);
     }
 
-    activate(token: string) {
-        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.activate.main}/${token}`;
-        this.logger.log('Processing activate user, URL: ' + url);
+    verify(token: string) {
+        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.verify.main}/${token}`;
+        this.logger.log('Processing verify user, URL: ' + url);
 
         return this.http.put(url, null)
             .pipe(map(x => {
@@ -88,9 +88,9 @@ export class UserService implements OnInit, OnDestroy {
             }));
     }
 
-    resendActivation() {
-        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.activate.main}/${environment.usersPath.activate.resend}`;
-        this.logger.log('Processing resend activation, URL: ' + url);
+    resendVerification() {
+        let url = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.verify.main}/${environment.usersPath.verify.resend}`;
+        this.logger.log('Processing resend verification, URL: ' + url);
 
         return this.http.put(url, null);
     }

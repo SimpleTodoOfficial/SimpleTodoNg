@@ -9,16 +9,16 @@ import { LoggerService, UserService, AlertService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
-    templateUrl: 'activate.component.html',
+    templateUrl: 'verify.component.html',
     styleUrls: ['./users.component.scss']
 })
-export class ActivateComponent implements OnInit, OnDestroy {
+export class VerifyComponent implements OnInit, OnDestroy {
     public form: FormGroup;
     public loading = false;
     public submitted = false;
     public id: string;
     private rtSub: Subscription;
-    private activateSub: Subscription;
+    private verifySub: Subscription;
     private resendSub: Subscription;
 
     constructor(
@@ -38,13 +38,13 @@ export class ActivateComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.logger.log('Destroying ActivateComponent (User)');
+        this.logger.log('Destroying VerifyComponent');
 
         if (this.rtSub) {
             this.rtSub.unsubscribe();
         }
-        if (this.activateSub) {
-            this.activateSub.unsubscribe();
+        if (this.verifySub) {
+            this.verifySub.unsubscribe();
         }
         if (this.resendSub) {
             this.resendSub.unsubscribe();
@@ -52,7 +52,7 @@ export class ActivateComponent implements OnInit, OnDestroy {
     }
 
     init() {
-        this.logger.log('Initializing ActivateComponent (User)');
+        this.logger.log('Initializing VerifyComponent');
 
         this.form = this.formBuilder.group({
             token: ['', Validators.required]
@@ -76,47 +76,47 @@ export class ActivateComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.activateSub) {
-            this.activateSub.unsubscribe();
+        if (this.verifySub) {
+            this.verifySub.unsubscribe();
         }
-        this.activateSub = this.userService.activate(this.f.token.value)
+        this.verifySub = this.userService.verify(this.f.token.value)
             .pipe(first())
             .subscribe(
                 data => {
-                    this.logger.log('Successfully activated user. Please sign in again.');
+                    this.logger.log('Successfully verified user. Please sign in again.');
 
                     this.router.navigate(['/']);
-                    this.alertService.success('Successfully activated user. Please sign in again.', { autoClose: true });
+                    this.alertService.success('Successfully verified user. Please sign in again.', { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('User could not be activated. Please double-check your token.');
+                    this.alertService.error('User could not be verified. Please double-check your token.');
                     this.loading = false;
                 });
     }
 
-    resendActivation() {
+    resendVerification() {
         this.loading = true;
         this.alertService.clear();
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm resending activation';
-        activeModal.componentInstance.text = 'Are you sure that you want to resend the email activation?';
-        activeModal.componentInstance.text2 = 'An email with a new token will be sent to your saved email address.';
+        activeModal.componentInstance.header = 'Confirm resending verification';
+        activeModal.componentInstance.text = 'Are you sure that you want to resend the email verification?';
+        activeModal.componentInstance.text2 = 'An email with a new token will be sent to your email address.';
         activeModal.componentInstance.textDanger = '';
         activeModal.result.then(() => {
-            this.logger.log('Resending activation');
+            this.logger.log('Resending verification');
 
             if (this.resendSub) {
                 this.resendSub.unsubscribe();
             }
-            this.activateSub = this.userService.resendActivation()
+            this.verifySub = this.userService.resendVerification()
                 .pipe(first())
                 .subscribe(
                     data => {
-                        this.logger.log('Successfully resent activation. Please check your emails.');
+                        this.logger.log('Successfully resent verification. Please check your emails.');
 
-                        this.alertService.success('Successfully resent activation. Please check your emails.', { autoClose: true });
+                        this.alertService.success('Successfully resent verification. Please check your emails.', { autoClose: true });
                         this.loading = false;
                     },
                     error => {
@@ -126,7 +126,7 @@ export class ActivateComponent implements OnInit, OnDestroy {
                     });
         },
             () => {
-                this.logger.log('Canceling resending actication.');
+                this.logger.log('Canceling resending verification.');
                 this.loading = false;
             });
     }

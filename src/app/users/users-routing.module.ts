@@ -5,7 +5,7 @@ import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
 import { DetailsComponent } from './details.component';
-import { ActivateComponent } from './activate.component';
+import { VerifyComponent } from './verify.component';
 
 const routes: Routes = [
     {
@@ -24,7 +24,7 @@ const routes: Routes = [
                 path: ':id', component: DetailsComponent
             },
             {
-                path: ':id/activate', component: ActivateComponent
+                path: ':id/verify', component: VerifyComponent
             }
         ]
     }

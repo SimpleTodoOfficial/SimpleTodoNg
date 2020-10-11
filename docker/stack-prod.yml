@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   db:
-    image: calltopower/simpletodo-db:1.0.4
+    image: calltopower/simpletodo-db:1.0.5
     restart: always
     ports:
       - 3306:3306
@@ -16,7 +16,7 @@ services:
       - ./data/db:/bitnami/mariadb
 
   flyway:
-    image: calltopower/simpletodo-flyway:1.0.4
+    image: calltopower/simpletodo-flyway:1.0.5
     command: migrate
     volumes:
       - ./flyway/config:/flyway/conf
@@ -24,7 +24,7 @@ services:
       - db
 
   simpletodo-server:
-    image: calltopower/simpletodo-server:1.0.4
+    image: calltopower/simpletodo-server:1.0.5
     restart: always
     ports:
       - 9090:9090
@@ -45,7 +45,7 @@ services:
       - SIMPLETODO_SIGNUP=DISABLED
       - SIMPLETODO_URL_PASSWORD_RESET=https://<yourUrl>/account/entertoken
       - SIMPLETODO_URL_PASSWORD_RESET_SUCCESS=https://<yourUrl>/account/signin
-      - SIMPLETODO_URL_USER_ACTIVATION=https://<yourUrl>/users/%s/activate
+      - SIMPLETODO_URL_USER_VERIFICATION=https://<yourUrl>/users/%s/verify
       - SPRING_MAIL_HOST=<smtp.yourEmailProvider>
       - SPRING_MAIL_PORT=587
       - SPRING_MAIL_USERNAME=<username>
@@ -54,7 +54,7 @@ services:
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
 
   simpletodo-ng:
-    image: calltopower/simpletodo-ng:1.0.4
+    image: calltopower/simpletodo-ng:1.0.5
     restart: always
     ports:
       - 80:80
@@ -64,6 +64,6 @@ services:
       - ./data/certificates:/etc/certificates
     environment:
       - API_URL=https://<apiUrl>/api
-      - VERSION=1.0.4
+      - VERSION=1.0.5
       - SIGNUP=DISABLED
       - ISSUE_TRACKER_URL=https://github.com/CallToPower/SimpleTodoNg/issues

@@ -49,14 +49,14 @@
                     <div class="item-content" *ngIf="user.email">
                         {{ user.email }}
                     </div>
-                    <div class="item-header" *ngIf="user.statusActivated != null">
-                        Activated
+                    <div class="item-header" *ngIf="user.statusVerified != null">
+                        Verification
                     </div>
-                    <div class="item-content" *ngIf="user.statusActivated != null && user.statusActivated">
-                        Yes
+                    <div class="item-content" *ngIf="user.statusVerified != null && user.statusVerified">
+                        Verified
                     </div>
-                    <div class="item-content" *ngIf="user.statusActivated != null && !user.statusActivated">
-                        No
+                    <div class="item-content" *ngIf="user.statusVerified != null && !user.statusVerified">
+                        Not verified
                     </div>
                     <div class="item-header userrole-select-item" *ngIf="canEditOrDelete">
                         Roles

@@ -21,8 +21,8 @@ export const environment = {
             forgot: 'forgot',
             reset: 'reset'
         },
-        activate: {
-            main: 'activate',
+        verify: {
+            main: 'verify',
             resend: 'resend'
         }
     },

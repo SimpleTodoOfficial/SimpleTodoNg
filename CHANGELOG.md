@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.0.5
+
+- Renamed activation to verification in both API and wording
+
 ## v1.0.4
 
 - Frontend rewording

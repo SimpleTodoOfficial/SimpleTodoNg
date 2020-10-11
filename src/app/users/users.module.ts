@@ -10,7 +10,7 @@ import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
 import { DetailsComponent } from './details.component';
-import { ActivateComponent } from './activate.component';
+import { VerifyComponent } from './verify.component';
 
 @NgModule({
     imports: [
@@ -26,7 +26,7 @@ import { ActivateComponent } from './activate.component';
         ListComponent,
         AddEditComponent,
         DetailsComponent,
-        ActivateComponent
+        VerifyComponent
     ]
 })
 export class UsersModule {

@@ -1,4 +1,4 @@
-﻿<div class="activate-component">
+﻿<div class="verify-component">
     <div class="header">
         <h1>Enter Token to Verify Email Address</h1>
     </div>
@@ -15,9 +15,9 @@
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Activate User
+                    Verify Email Address
                 </button>
-                <a (click)="resendActivation()" class="btn btn-link">Resend Activation</a>
+                <a (click)="resendVerification()" class="btn btn-link">Resend Verification Email</a>
             </div>
         </form>
     </div>
