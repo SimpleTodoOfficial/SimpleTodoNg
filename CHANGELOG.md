@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.2.0
+
+- Dependency version updates
+- Email styling (HTML emails with Thymeleaf)
+
 ## v1.1.0
 
 - Implemented moving lists to other workspaces
