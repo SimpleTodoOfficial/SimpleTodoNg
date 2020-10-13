@@ -51,6 +51,7 @@ export class UserService implements OnInit, OnDestroy {
     signout() {
         this.logger.log('Signing out user');
         localStorage.removeItem('user');
+        localStorage.removeItem('language');
         this.userSubject.next(null);
         this.router.navigate(['/account/signin']);
     }

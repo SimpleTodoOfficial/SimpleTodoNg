@@ -1,28 +1,27 @@
 ﻿<div class="add-edit-component">
     <div class="header">
-        <h1 *ngIf="isAddMode">Add Workspace</h1>
-        <h1 *ngIf="!isAddMode">Edit Workspace</h1>
+        <h1 *ngIf="isAddMode">{{ i18nService.translate('workspaces.addedit.component.add', 'Add Workspace') }}</h1>
+        <h1 *ngIf="!isAddMode">{{ i18nService.translate('workspaces.addedit.component.edit', 'Edit Workspace') }}</h1>
     </div>
     <div class="workspace-content">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="name">Name</label>
-                    <input type="text" formControlName="name" class="form-control" placeholder="Enter name"
+                    <label for="name">{{ i18nService.translate('workspaces.addedit.component.name', 'Name') }}</label>
+                    <input type="text" formControlName="name" class="form-control" placeholder="{{ i18nService.translate('workspaces.addedit.component.placeholder.name', 'Enter name') }}"
                         [ngClass]="{ 'is-invalid': submitted && f.name.errors }" [attr.disabled]="loading || null" />
                     <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                        <div *ngIf="f.name.errors.required">Name is required</div>
-                        <div *ngIf="f.name.errors.maxlength">Name can be at most 100 characters</div>
+                        <div *ngIf="f.name.errors.required">{{ i18nService.translate('workspaces.addedit.component.validation.required.name', 'Name is required') }}</div>
+                        <div *ngIf="f.name.errors.maxlength">{{ i18nService.translate('workspaces.addedit.component.validation.max.name', 'Name can be at most 100 characters') }}</div>
                     </div>
                 </div>
-                <!-- TODO: User selection -->
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Save
+                    {{ i18nService.translate('workspaces.addedit.component.action.save', 'Save') }}
                 </button>
-                <a routerLink="/workspaces/{{id}}" class="btn btn-link">Cancel</a>
+                <a routerLink="/workspaces/{{id}}" class="btn btn-link">{{ i18nService.translate('workspaces.addedit.component.action.cancel', 'Cancel') }}</a>
             </div>
         </form>
     </div>

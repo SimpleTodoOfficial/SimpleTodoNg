@@ -8,7 +8,7 @@
         <div class="item-header">
             <fa-icon [icon]="faCodeBranch"></fa-icon>
             <span>&nbsp;</span>
-            <span>Version</span>
+            <span>{{ i18nService.translate('about.component.version', 'Version') }}</span>
         </div>
         <div class="item-content">
             {{ version }}
@@ -16,7 +16,7 @@
         <div class="item-header">
             <fa-icon [icon]="faUserEdit"></fa-icon>
             <span>&nbsp;</span>
-            <span>Developer</span>
+            <span>{{ i18nService.translate('about.component.developer', 'Developer') }}</span>
         </div>
         <div class="item-content">
             Denis Meyer
@@ -24,10 +24,10 @@
         <div class="item-header">
             <fa-icon [icon]="faBug"></fa-icon>
             <span>&nbsp;</span>
-            <span>Problem reporting</span>
+            <span>{{ i18nService.translate('about.component.problem_reporting', 'Problem reporting') }}</span>
         </div>
         <div class="item-content about-item-last">
-            <a href="{{ issueTrackerLink }}" target="_blank" class="normal-link">Bug and issue tracker</a>
+            <a href="{{ issueTrackerLink }}" target="_blank" class="normal-link">{{ i18nService.translate('about.component.issue_tracker', 'Bug and issue tracker') }}</a>
         </div>
     </div>
 </div>

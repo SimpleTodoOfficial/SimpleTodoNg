@@ -39,7 +39,7 @@
                     <div class="item-header">
                         <fa-icon [icon]="faClipboardList"></fa-icon>
                         <span>&nbsp;</span>
-                        <span>Number of Lists</span>
+                        <span>{{ i18nService.translate('workspaces.details.component.nr_of_lists', 'Number of Lists') }}</span>
                     </div>
                     <div class="item-content">
                         <span *ngIf="!loading">{{ workspace.lists ? workspace.lists.length : 0 }}</span>
@@ -50,7 +50,7 @@
                     <div class="item-header user-select-item">
                         <fa-icon [icon]="faUserCircle"></fa-icon>
                         <span>&nbsp;</span>
-                        <span>Users</span>
+                        <span>{{ i18nService.translate('workspaces.details.component.users', 'Users') }}</span>
                         <span>&nbsp;</span>
                         <div class="user-dropdown" ngbDropdown *ngIf="!usersLoading && filteredUsers.length > 0">
                             <a ngbDropdownToggle>

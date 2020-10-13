@@ -2,7 +2,7 @@
 import { faAddressCard, faCodeBranch, faUserEdit, faBug } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from '../environments/environment';
-import { LoggerService } from '../_services';
+import { LoggerService, I18nService } from '../_services';
 
 @Component({
     templateUrl: 'details.component.html',
@@ -18,6 +18,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faBug = faBug;
 
     constructor(
+        public i18nService: I18nService,
         private logger: LoggerService
     ) {
     }

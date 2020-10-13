@@ -1,9 +1,9 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,6 +20,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private usSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,

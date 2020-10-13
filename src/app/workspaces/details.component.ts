@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { faTh, faDiceD6, faTrashAlt, faUserCircle, faPlusCircle, faUser, faEdit, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
-import { LoggerService, AlertService, WorkspaceService, UserService } from '../_services';
+import { LoggerService, AlertService, WorkspaceService, UserService, I18nService } from '../_services';
 import { User } from '../_models/user.model';
 
 @Component({
@@ -23,12 +23,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public shortenWsName: number = 15;
     public filteredUsers: User[] = [];
     public id: string;
+    public userIdToBeDeleted: String;
     private allUsers: User[] = [];
     private rtSub: Subscription;
     private wssSub: Subscription;
     private ussSub: Subscription;
     private obSub: Subscription;
-    private userIdToBeDeleted: String;
 
     public faTh = faTh;
     public faDiceD6 = faDiceD6;
@@ -40,6 +40,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faClipboardList = faClipboardList;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private router: Router,
         private route: ActivatedRoute,
@@ -105,13 +106,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
                         error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
-                            this.alertService.error('Users could not be loaded.');
+                            this.alertService.error(this.i18nService.translate('workspaces.details.component.error.users_load', 'Users could not be loaded.'));
                         });
             },
                 error => {
                     this.logger.error(error);
                     this.router.navigate(['/']);
-                    this.alertService.error('Workspace could not be loaded.');
+                    this.alertService.error(this.i18nService.translate('workspaces.details.component.error.workspace_load', 'Workspace could not be loaded.'));
                 });
     }
 
@@ -156,9 +157,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.deletingWorkspace = true;
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm workspace deletion';
-        activeModal.componentInstance.text = 'Are you sure that you want to delete the workspace "' + this.workspace.name + '"?';
-        activeModal.componentInstance.text2 = 'All lists and todos associated to this workspace will be permanently deleted.';
+        activeModal.componentInstance.header = this.i18nService.translate('workspaces.details.component.modal.delete.header', 'Confirm workspace deletion');
+        activeModal.componentInstance.text = this.i18nService.translate('workspaces.details.component.modal.delete.text', 'Are you sure that you want to delete the workspace "%wsName%"?', {'wsName': this.workspace.name});
+        activeModal.componentInstance.text2 = this.i18nService.translate('workspaces.details.component.modal.delete.text2', 'All lists and todos associated to this workspace will be permanently deleted.');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('workspaces.details.component.modal.delete.textDanger', 'This operation can not be made undone.');
         activeModal.result.then(() => {
             this.logger.log('Deleting workspace.');
 
@@ -171,11 +173,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .subscribe(() => {
                     this.logger.log('Workspace deleted');
                     this.router.navigate(['/workspaces']);
-                    this.alertService.info('Workspace "' + wsName + '" deleted.', { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.workspace_delete', 'Workspace "%wsName%" deleted.', {'wsName': this.workspace.name}), { autoClose: true });
                 },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error('Workspace "' + wsName + '" could not be deleted.');
+                        this.alertService.error(this.i18nService.translate('workspaces.details.component.error.workspace_delete', 'Workspace "%wsName%" could not be deleted.', {'wsName': this.workspace.name}));
                         this.deletingWorkspace = false;
                     });
         },
@@ -200,12 +202,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     this.logger.log('Added user to workspace');
                     this.workspace = data;
                     this.updatedFilteredUsers(this.allUsers);
-                    this.alertService.info('Added user to workspace.', { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_add', 'Added user to workspace.'), { autoClose: true });
                 },
                 error => {
-                    this.logger.log('The user could not be added to the workspace');
+                    this.logger.error('The user could not be added to the workspace');
                     this.logger.error(error);
-                    this.alertService.error('The user could not be added to the workspace.');
+                    this.alertService.error(this.i18nService.translate('workspaces.details.component.error.user_add', 'The user could not be added to the workspace.'));
                 });
     }
 
@@ -216,10 +218,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.userIdToBeDeleted = userId;
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm user removal from workspace';
-        activeModal.componentInstance.text = 'Are you sure that you want to remove the user "' + userName + '" from the workspace "' + this.workspace.name + '"?';
-        activeModal.componentInstance.text2 = 'The user will not have any access to lists or todos in this workspace any more.';
-        activeModal.componentInstance.textDanger = '';
+        activeModal.componentInstance.header = this.i18nService.translate('workspaces.details.component.modal.remove_user.header', 'Confirm user removal from workspace');
+        activeModal.componentInstance.text = this.i18nService.translate('workspaces.details.component.modal.remove_user.text', 'Are you sure that you want to remove the user "%userName%" from the workspace "%wsName%"?', {'userName': userName, 'wsName': this.workspace.name});
+        activeModal.componentInstance.text2 = this.i18nService.translate('workspaces.details.component.modal.remove_user.text2', 'The user will not have any access to lists or todos in this workspace any more.');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('workspaces.details.component.modal.remove_user.textDanger', '');
         activeModal.result.then(() => {
             this.logger.log('Removing user from workspace.');
 
@@ -239,11 +241,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
                             this.updatedFilteredUsers(this.allUsers);
                             this.userIdToBeDeleted = '';
                         }
-                        this.alertService.info('Removed user from workspace.', { autoClose: true });
+                        this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_remove', 'Removed user from workspace.'), { autoClose: true });
                     },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error('The user could not be removed from the workspace.');
+                        this.alertService.error(this.i18nService.translate('workspaces.details.component.error.user_remove', 'The user could not be removed from the workspace.'));
                         this.userIdToBeDeleted = '';
                     });
         },
