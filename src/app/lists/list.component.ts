@@ -5,7 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { first } from 'rxjs/operators';
 import { faGripLines, faSync, faTh, faClipboardList, faPlusCircle, faInfoCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { LoggerService, ListService, WorkspaceService, AlertService } from '../_services';
+import { LoggerService, ListService, WorkspaceService, AlertService, I18nService } from '../_services';
 import { Workspace, List } from '../_models';
 import { Subscription } from 'rxjs';
 
@@ -38,6 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public faGripLines = faGripLines;
 
     constructor(
+        public i18nService: I18nService,
         private router: Router,
         private observer: BreakpointObserver,
         private route: ActivatedRoute,

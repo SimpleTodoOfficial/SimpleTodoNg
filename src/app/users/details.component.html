@@ -70,7 +70,7 @@
                                     (click)="addRole(role)">
                                     <fa-icon [icon]="faUserTag"></fa-icon>
                                     <span>&nbsp;</span>
-                                    <span>{{ role }}</span>
+                                    <span>{{ i18nService.translate('app.roles.' + role, role) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div>
                                 <fa-icon [icon]="faUserTag"></fa-icon>
                                 <span>&nbsp;</span>
-                                <span>{{ role }}</span>
+                                <span>{{ i18nService.translate('app.roles.' + role, role) }}</span>
                             </div>
                             <div class="spacer"></div>
                             <div>

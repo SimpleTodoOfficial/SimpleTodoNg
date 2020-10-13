@@ -207,7 +207,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
         const activeModal = this.modalService.open(ModalConfirm);
         activeModal.componentInstance.header = this.i18nService.translate('users.details.component.modal.remove_role.header', 'Confirm user role removal');
-        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.remove_role.text', 'Are you sure that you want to remove the user role "%rolename%" from this user?', {'rolename': role});
+        let rolename = this.i18nService.translate('app.roles.' + role, role);
+        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.remove_role.text', 'Are you sure that you want to remove the user role "%rolename%" from this user?', {'rolename': rolename});
         activeModal.componentInstance.text2 = this.i18nService.translate('users.details.component.modal.remove_role.text2', '');
         activeModal.componentInstance.textDanger = this.i18nService.translate('users.details.component.modal.remove_role.textDanger', '');
         activeModal.result.then(() => {

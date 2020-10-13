@@ -12,8 +12,8 @@ import { LoggerService, AlertService, WorkspaceService } from '../_services';
     styleUrls: ['./move-list.modal.scss']
 })
 export class ModalMoveList implements OnInit, OnDestroy {
-    public header: string = 'Select a workspace';
-    public text: string = 'Please select a workspace to move the list to:';
+    public header: string = '';
+    public text: string = '';
 
     public loading = false;
     public workspaces = [];

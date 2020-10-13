@@ -12,8 +12,8 @@ import { LoggerService, AlertService, ListService } from '../_services';
     styleUrls: ['./move-todo.modal.scss']
 })
 export class ModalMoveTodo implements OnInit, OnDestroy {
-    public header: string = 'Select a list';
-    public text: string = 'Please select a list to move the todo to:';
+    public header: string = '';
+    public text: string = '';
 
     public loading = false;
     public lists = [];

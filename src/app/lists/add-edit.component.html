@@ -1,18 +1,18 @@
 ﻿<div class="add-edit-component">
     <div class="header">
-        <h1 *ngIf="isAddMode">Add List</h1>
-        <h1 *ngIf="!isAddMode">Edit List</h1>
+        <h1 *ngIf="isAddMode">{{ i18nService.translate('lists.addedit.component.add', 'Add List') }}</h1>
+        <h1 *ngIf="!isAddMode">{{ i18nService.translate('lists.addedit.component.edit', 'Edit List') }}</h1>
     </div>
     <div class="list-content">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="name">Name</label>
-                    <input type="text" formControlName="name" class="form-control" placeholder="Enter name"
+                    <label for="name">{{ i18nService.translate('lists.addedit.component.name', 'Name') }}</label>
+                    <input type="text" formControlName="name" class="form-control" placeholder="{{ i18nService.translate('lists.addedit.component.placeholder.name', 'Enter name') }}"
                         [ngClass]="{ 'is-invalid': submitted && f.name.errors }" [attr.disabled]="loading || null" />
                     <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                        <div *ngIf="f.name.errors.required">Name is required</div>
-                        <div *ngIf="f.name.errors.maxlength">Name can be at most 100 characters</div>
+                        <div *ngIf="f.name.errors.required">{{ i18nService.translate('lists.addedit.component.validation.required.name', 'Name is required') }}</div>
+                        <div *ngIf="f.name.errors.maxlength">{{ i18nService.translate('lists.addedit.component.validation.max.name', 'Name can be at most 100 characters') }}</div>
                     </div>
                 </div>
                 <!-- TODO: User selection -->
@@ -20,9 +20,9 @@
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Save
+                    {{ i18nService.translate('lists.addedit.component.action.save', 'Save') }}
                 </button>
-                <a routerLink="/workspaces/{{wsId}}/lists/{{id}}" class="btn btn-link">Cancel</a>
+                <a routerLink="/workspaces/{{wsId}}/lists/{{id}}" class="btn btn-link">{{ i18nService.translate('lists.addedit.component.action.cancel', 'Cancel') }}</a>
             </div>
         </form>
     </div>
