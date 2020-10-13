@@ -55,9 +55,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.alertService.error(this.i18nService.translate('app.component.error.user.load', 'User could not be loaded.'));
       });
 
-    this.obSub = this.observer.observe(['(min-width: 480px)']).subscribe(result => {
+    this.obSub = this.observer.observe(['(min-width: 500px)']).subscribe(result => {
       if (result.matches) {
-        this.isMin = result.breakpoints['(min-width: 480px)'];
+        this.isMin = result.breakpoints['(min-width: 500px)'];
       } else {
         this.isMin = false;
       }

@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.3.0
+
+- i18n (german and english)
+
 ## v1.2.0
 
 - Dependency version updates

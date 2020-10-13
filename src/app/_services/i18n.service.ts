@@ -11,8 +11,8 @@ import { i18n_en_US } from '../_i18n/en-US';
 })
 export class I18nService {
     private languages = [
-        i18n_en_US,
-        i18n_de_DE
+        i18n_de_DE,
+        i18n_en_US
     ];
     private currentLanguage;
     private currentTranslations;
