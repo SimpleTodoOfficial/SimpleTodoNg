@@ -28,7 +28,7 @@ export class I18nService {
         this.currentLanguage = JSON.parse(localStorage.getItem('language'));
         if (!this.currentLanguage) {
             this.logger.log('Could not load language from localStorage');
-            this.currentLanguage = 'en-US';
+            this.currentLanguage = 'de-DE';
         }
         this.switchLanguage(this.currentLanguage);
     }
