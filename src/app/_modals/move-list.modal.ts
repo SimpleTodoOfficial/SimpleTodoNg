@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { Workspace } from '../_models';
-import { LoggerService, AlertService, WorkspaceService } from '../_services';
+import { LoggerService, AlertService, WorkspaceService, I18nService } from '../_services';
 
 @Component({
     selector: 'ngbd-modal-move-list',
@@ -22,6 +22,7 @@ export class ModalMoveList implements OnInit, OnDestroy {
     private wssSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         public modal: NgbActiveModal,
         private alertService: AlertService,
         private workspaceService: WorkspaceService,
@@ -63,7 +64,7 @@ export class ModalMoveList implements OnInit, OnDestroy {
             },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Workspaces could not be loaded.');
+                    this.alertService.error(this.i18nService.translate('move-list.modal.workspaces_load', 'Workspaces could not be loaded.'));
                     this.loading = false;
                     this.modal.dismiss('error');
                 });

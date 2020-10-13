@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { List } from '../_models';
-import { LoggerService, AlertService, ListService } from '../_services';
+import { LoggerService, AlertService, ListService, I18nService } from '../_services';
 
 @Component({
     selector: 'ngbd-modal-move-todo',
@@ -23,6 +23,7 @@ export class ModalMoveTodo implements OnInit, OnDestroy {
     private lssSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         public modal: NgbActiveModal,
         private alertService: AlertService,
         private listService: ListService,
@@ -64,7 +65,7 @@ export class ModalMoveTodo implements OnInit, OnDestroy {
             },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Lists could not be loaded.');
+                    this.alertService.error(this.i18nService.translate('move-todo.modal.lists_load', 'Lists could not be loaded.'));
                     this.loading = false;
                     this.modal.dismiss('error');
                 });

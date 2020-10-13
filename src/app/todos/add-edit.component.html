@@ -1,24 +1,24 @@
 ﻿<div class="add-edit-component">
     <div class="header">
-        <h1 *ngIf="isAddMode">Add Todo</h1>
-        <h1 *ngIf="!isAddMode">Edit Todo</h1>
+        <h1 *ngIf="isAddMode">{{ i18nService.translate('todos.addedit.component.add', 'Add Todo') }}</h1>
+        <h1 *ngIf="!isAddMode">{{ i18nService.translate('todos.addedit.component.edit', 'Edit Todo') }}</h1>
     </div>
     <div class="todo-content">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="name">Message</label>
-                    <input type="text" formControlName="msg" class="form-control" placeholder="Enter message"
+                    <label for="message">{{ i18nService.translate('todos.addedit.component.message', 'Message') }}</label>
+                    <input type="text" formControlName="msg" class="form-control" placeholder="{{ i18nService.translate('todos.addedit.component.placeholder.message', 'Enter message') }}"
                         [ngClass]="{ 'is-invalid': submitted && f.msg.errors }" [attr.disabled]="loading || null" />
                     <div *ngIf="submitted && f.msg.errors" class="invalid-feedback">
-                        <div *ngIf="f.msg.errors.required">Message is required</div>
-                        <div *ngIf="f.msg.errors.maxlength">Message can be at most 1024 characters</div>
+                        <div *ngIf="f.message.errors.required">{{ i18nService.translate('todos.addedit.component.validation.required.message', 'Message is required') }}</div>
+                        <div *ngIf="f.message.errors.maxlength">{{ i18nService.translate('todos.addedit.component.validation.max.message', 'Message can be at most 1024 characters') }}</div>
                     </div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="done-check">Check to mark as done</label>
+                    <label for="done-check">{{ i18nService.translate('todos.addedit.component.mark_done', 'Check to mark as done') }}</label>
                     <input type="checkbox" id="done-check" formControlName="done" class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && f.done.errors }" [attr.disabled]="loading || null" />
                 </div>
@@ -28,13 +28,13 @@
                     <button type="button" class="btn btn-outline-primary" (click)="dueDateCollapsed = !dueDateCollapsed"
                         [attr.aria-expanded]="!dueDateCollapsed" aria-controls="collapseExample"
                         [attr.disabled]="loading || null">
-                        Set a due date
+                        {{ i18nService.translate('todos.addedit.component.set_due_date', 'Set a due date') }}
                     </button>
                     <div id="collapse-due-date" [ngbCollapse]="dueDateCollapsed">
                         <div class="card">
                             <div class="card-body">
                                 <div class="due-date">
-                                    <label for="dueDate">Due date</label>
+                                    <label for="dueDate">{{ i18nService.translate('todos.addedit.component.due_date', 'Due date') }}</label>
                                     <div class="input-group">
                                         <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
                                             formControlName="dueDate" ngbDatepicker #d="ngbDatepicker"
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                                 <div class="due-time">
-                                    <label for="dueTime">Due time</label>
+                                    <label for="dueTime">{{ i18nService.translate('todos.addedit.component.due_time', 'Due time') }}</label>
                                     <ngb-timepicker formControlName="dueTime" [seconds]="true"></ngb-timepicker>
                                 </div>
                             </div>
@@ -59,9 +59,9 @@
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Save
+                    {{ i18nService.translate('todos.addedit.component.action.save', 'Save') }}
                 </button>
-                <a routerLink="/workspaces/{{wsId}}/lists/{{lsId}}/todos" class="btn btn-link">Cancel</a>
+                <a routerLink="/workspaces/{{wsId}}/lists/{{lsId}}/todos" class="btn btn-link">{{ i18nService.translate('todos.addedit.component.action.cancel', 'Cancel') }}</a>
             </div>
         </form>
     </div>

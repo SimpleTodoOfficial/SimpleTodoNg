@@ -5,7 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
-import { LoggerService, AlertService, UserService, ConnectionService } from '../_services';
+import { LoggerService, AlertService, I18nService, ConnectionService } from '../_services';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
@@ -16,7 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
     private passwordForgotUrl = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.password.main}/${environment.usersPath.password.forgot}`;
 
     constructor(
-        private userService: UserService,
+        private i18nService: I18nService,
         private alertService: AlertService,
         private connectionService: ConnectionService,
         private router: Router,
@@ -33,11 +33,11 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
                 this.logger.log('Resource not accessible');
                 // this.userService.signout();
                 this.router.navigate(['/']);
-                this.alertService.warn('The request ressource is not accessible.');
+                this.alertService.warn(this.i18nService.translate('app.error.not_accessible', 'The request ressource is not accessible.'));
             } else {
                 if (!request.url.startsWith(`${environment.apiUrl}`)) {
                     this.logger.log('Something went wrong on non-API path');
-                    this.alertService.error('Something went wrong.');
+                    this.alertService.error(this.i18nService.translate('app.error.something_went_wrong', 'Something went wrong.'));
                 } else {
                     if (!request.url.endsWith(this.checkConnectionUrl)
                         && !request.url.endsWith(this.signinUrl)

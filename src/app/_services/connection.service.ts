@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs';
 
 import { environment } from '../environments/environment';
 import { LoggerService } from './logger.service';
-import { WorkspaceService } from './workspace.service';
 import { AlertService } from './alert.service';
 import { UserService } from './user.service';
+import { I18nService } from './i18n.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +18,9 @@ export class ConnectionService implements OnInit, OnDestroy {
     private lastErrorTimestamp = 0;
 
     constructor(
-        private router: Router,
         private http: HttpClient,
         private logger: LoggerService,
-        private workspaceService: WorkspaceService,
+        private i18nService: I18nService,
         private userService: UserService,
         private alertService: AlertService
     ) {
@@ -58,7 +57,7 @@ export class ConnectionService implements OnInit, OnDestroy {
                     if ((currentTimestamp - this.lastErrorTimestamp) >= 3000) {
                         this.logger.log('Connection not OK');
                         this.userService.signout();
-                        this.alertService.warn('You have been signed out because your session has expired. Please sign in again.');
+                        this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'));
                     }
                     this.lastErrorTimestamp = currentTimestamp;
                 });

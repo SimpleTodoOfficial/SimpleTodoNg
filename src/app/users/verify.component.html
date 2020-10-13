@@ -1,23 +1,23 @@
 ﻿<div class="verify-component">
     <div class="header">
-        <h1>Enter Token to Verify Email Address</h1>
+        <h1>{{ i18nService.translate('users.verify.component.enter_token', 'Enter Token to Verify Email Address') }}</h1>
     </div>
     <div class="user-content-form">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="token">Token</label>
-                <input type="text" formControlName="token" class="form-control" placeholder="Enter token"
+                <label for="token">{{ i18nService.translate('users.verify.component.token', 'Token') }}</label>
+                <input type="text" formControlName="token" class="form-control" placeholder="{{ i18nService.translate('users.verify.component.placeholder.token', 'Enter token') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.token.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
-                    <div *ngIf="f.token.errors.required">Token is required</div>
+                    <div *ngIf="f.token.errors.required">{{ i18nService.translate('users.verify.component.validation.required.token', 'Token is required') }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Verify Email Address
+                    {{ i18nService.translate('users.verify.component.action.verify', 'Verify Email Address') }}
                 </button>
-                <a (click)="resendVerification()" class="btn btn-link">Resend Verification Email</a>
+                <a (click)="resendVerification()" class="btn btn-link">{{ i18nService.translate('users.verify.component.action.resend', 'Resend Verification Email') }}</a>
             </div>
         </form>
     </div>

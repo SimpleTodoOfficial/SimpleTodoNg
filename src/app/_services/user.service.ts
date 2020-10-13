@@ -147,7 +147,7 @@ export class UserService implements OnInit, OnDestroy {
 
     isAdmin() {
         if (this.isLoggedIn()) {
-            return this.userValue.roles.includes("ADMIN");
+            return this.userValue.roles.includes('ADMIN');
         }
     }
 

@@ -69,7 +69,7 @@ export class ListComponent implements OnInit, OnDestroy {
             },
             error => {
                 this.logger.error(error);
-                this.alertService.error('Users could not be loaded.');
+                this.alertService.error(this.i18nService.translate('users.list.component.error.users_load', 'Users could not be loaded.'));
                 this.loading = false;
                 this.refreshing = false;
                 this.error = true;

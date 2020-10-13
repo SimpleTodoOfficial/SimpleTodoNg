@@ -7,7 +7,7 @@ import { faCheckSquare, faSquare, faTh, faClipboardList, faList, faPlusCircle, f
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { ModalMoveTodo } from '../_modals/move-todo.modal';
-import { LoggerService, TodoService, AlertService } from '../_services';
+import { LoggerService, TodoService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -42,6 +42,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faRandom = faRandom;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private router: Router,
         private route: ActivatedRoute,
@@ -106,7 +107,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                         error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
-                            this.alertService.error('Todo could not be loaded.');
+                            this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_load', 'Todo could not be loaded.'));
                         });
             });
         });
@@ -160,11 +161,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
             .subscribe(
                 () => {
                     this.router.navigate(['/workspaces', this.wsId, 'lists', this.lsId, 'todos']);
-                    // this.alertService.success('Todo successfully deleted.', { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Todo could not be deleted.');
+                    this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_delete', 'Todo could not be deleted.'));
                     this.isDeleting = false;
                 });
     }
@@ -177,15 +177,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
         const activeModalMove = this.modalService.open(ModalMoveTodo);
         activeModalMove.componentInstance.wsId = this.wsId;
         activeModalMove.componentInstance.excludeLsId = this.lsId;
-        activeModalMove.componentInstance.text = 'Please select a list to move the todo to:';
+        activeModalMove.componentInstance.header = this.i18nService.translate('todos.details.component.modal.move_select.header', 'Select a list');
+        activeModalMove.componentInstance.text = this.i18nService.translate('todos.details.component.modal.move_select.text', 'Please select a list to move the todo to:');
         activeModalMove.result.then(ls => {
             this.logger.log('Selected list: "' + ls.name + '" (' + ls.id + ')');
 
             const activeModal = this.modalService.open(ModalConfirm);
-            activeModal.componentInstance.header = 'Confirm moving todo';
-            activeModal.componentInstance.text = 'Are you sure that you want to move the todo to the list "' + ls.name + '"?';
-            activeModal.componentInstance.text2 = '';
-            activeModal.componentInstance.textDanger = '';
+            activeModal.componentInstance.header = this.i18nService.translate('todos.details.component.modal.move.header', 'Confirm moving todo');
+            activeModal.componentInstance.text = this.i18nService.translate('todos.details.component.modal.move.text', 'Are you sure that you want to move the todo to the list "%lsName%"?', { 'lsName': ls.name });
+            activeModal.componentInstance.text2 = this.i18nService.translate('todos.details.component.modal.move.text2', '');
+            activeModal.componentInstance.textDanger = this.i18nService.translate('todos.details.component.modal.move.textDanger', '');
             activeModal.result.then(() => {
                 this.logger.log('Moving todo');
 
@@ -196,8 +197,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     .pipe(first())
                     .subscribe(() => {
                         this.router.navigate(['/workspaces', this.wsId, 'lists', ls.id, 'todos']);
-                        this.alertService.success('Todo successfully moved.', { autoClose: true });
-                    });
+                        this.alertService.success(this.i18nService.translate('todos.details.component.success.todo_move', 'Todo successfully moved.'), { autoClose: true });
+                    },
+                        error => {
+                            this.logger.error(error);
+                            this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_move', 'Todo could not be moved.'));
+                            this.isMoving = false;
+                        });
             },
                 () => {
                     this.logger.log('Canceling moving todo.');

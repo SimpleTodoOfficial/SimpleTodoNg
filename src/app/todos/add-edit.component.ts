@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { LoggerService, TodoService, AlertService, DateTimeService } from '../_services';
+import { LoggerService, TodoService, AlertService, DateTimeService, I18nService } from '../_services';
 import { Todo } from '../_models';
 import { Subscription } from 'rxjs';
 
@@ -32,6 +32,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     public faCalendarAlt = faCalendarAlt;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -105,7 +106,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                             error => {
                                 this.logger.error(error);
                                 this.router.navigate(['/']);
-                                this.alertService.error('Todo could not be loaded.');
+                                this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_load', 'Todo could not be loaded.'));
                             });
                 } else {
                     this.loading = false;
@@ -176,7 +177,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Todo could not be created.');
+                    this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_create', 'Todo could not be created.'));
                     this.loading = false;
                 });
     }
@@ -199,7 +200,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Todo could not be updated.');
+                    this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_update', 'Todo could not be updated.'));
                     this.loading = false;
                 });
     }

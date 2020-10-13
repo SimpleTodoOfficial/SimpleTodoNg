@@ -115,13 +115,13 @@ export class ListComponent implements OnInit, OnDestroy {
                             error => {
                                 this.logger.error(error);
                                 this.router.navigate(['/']);
-                                this.alertService.error('Workspace could not be loaded.');
+                                this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_load', 'Workspace could not be loaded.'));
                             });
                 },
                     error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
-                        this.alertService.error('List could not be loaded.');
+                        this.alertService.error(this.i18nService.translate('lists.list.component.error.list_load', 'List could not be loaded.'));
                     });
         });
     }
@@ -205,7 +205,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Could not save list order.');
+                    this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_update', 'List order could not be saved.'));
                     this.loading = false;
                     this.isUpdatingListList = false;
                 });

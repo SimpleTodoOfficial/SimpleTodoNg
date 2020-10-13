@@ -80,7 +80,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                     error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
-                        this.alertService.error('User could not be loaded.');
+                        this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_load', 'User could not be loaded.'));
                     });
         } else {
             this.loading = false;
@@ -122,12 +122,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('User successfully added.');
                     this.router.navigate(['.', { relativeTo: this.route }]);
-                    this.alertService.success('User successfully added.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_add', 'User successfully added.'), { autoClose: true });
                     this.loading = false;
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('User could not be added.');
+                    this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_add', 'User could not be added.'));
                     this.loading = false;
                 });
     }
@@ -142,12 +142,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('User successfuly updated');
                     this.router.navigate(['..', { relativeTo: this.route }]);
-                    this.alertService.success('User successfuly updated.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_update', 'User successfuly updated.'), { autoClose: true });
                     this.loading = false;
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('User could not be updated.');
+                    this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_update', 'User could not be updated.'));
                     this.loading = false;
                 });
     }
