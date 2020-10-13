@@ -1,42 +1,42 @@
 ﻿<div class="signup">
     <div class="header">
-        <h1>Sign up</h1>
+        <h1>{{ i18nService.translate('signup.component.sign_up', 'Sign up') }}</h1>
     </div>
     <div class="signup-content">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" placeholder="Enter username"
+                <label for="username">{{ i18nService.translate('signup.component.username', 'Username') }}</label>
+                <input type="text" formControlName="username" class="form-control" placeholder="{{ i18nService.translate('signup.component.placeholder.enter_username', 'Enter username') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
-                    <div *ngIf="f.username.errors.minlength">Username must be at least 3 characters</div>
+                    <div *ngIf="f.username.errors.required">{{ i18nService.translate('signup.component.validation.required.username', 'Username is required') }}</div>
+                    <div *ngIf="f.username.errors.minlength">{{ i18nService.translate('signup.component.validation.min.username', 'Username must be at least 3 characters') }}</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control" placeholder="Enter email"
+                <label for="email">{{ i18nService.translate('signup.component.email', 'Email address') }}</label>
+                <input type="text" formControlName="email" class="form-control" placeholder="{{ i18nService.translate('signup.component.placeholder.enter_email', 'Enter email address') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.username.errors.minlength">Invalid email</div>
+                    <div *ngIf="f.email.errors.required">{{ i18nService.translate('signup.component.validation.required.email', 'Email address is required') }}</div>
+                    <div *ngIf="f.username.errors.minlength">{{ i18nService.translate('signup.component.validation.min.email', 'Invalid email address') }}</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" placeholder="Enter password"
+                <label for="password">{{ i18nService.translate('signup.component.password', 'Password') }}</label>
+                <input type="password" formControlName="password" class="form-control" placeholder="{{ i18nService.translate('signup.component.placeholder.enter_password', 'Enter password') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    <div *ngIf="f.password.errors.required">{{ i18nService.translate('signup.component.validation.required.password', 'Password is required') }}</div>
+                    <div *ngIf="f.password.errors.minlength">{{ i18nService.translate('signup.component.validation.min.password', 'Password must be at least 6 characters') }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Sign up
+                    {{ i18nService.translate('signup.component.action.sign_up', 'Sign up') }}
                 </button>
-                <a routerLink="/" class="btn btn-link">Cancel</a>
+                <a routerLink="/" class="btn btn-link">{{ i18nService.translate('signup.component.action.cancel', 'Cancel') }}</a>
             </div>
         </form>
     </div>

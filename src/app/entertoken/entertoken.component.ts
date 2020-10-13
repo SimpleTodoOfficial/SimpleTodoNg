@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,6 +17,7 @@ export class EnterTokenComponent implements OnInit, OnDestroy {
     private forgotSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
@@ -64,11 +65,11 @@ export class EnterTokenComponent implements OnInit, OnDestroy {
                     this.logger.log('Successfully reset password. Please check your emails.');
 
                     this.router.navigate(['/account/signin']);
-                    this.alertService.success('Successfully reset password. Please check your emails.', { autoClose: false });
+                    this.alertService.success(this.i18nService.translate('entertoken.component.resetpassword_success', 'Successfully reset password. Please check your emails.'), { autoClose: false });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Password could not be reset. Please double-check your token.');
+                    this.alertService.error(this.i18nService.translate('entertoken.component.resetpassword_fail', 'Password could not be reset. Please check your token.'));
                     this.loading = false;
                 });
     }

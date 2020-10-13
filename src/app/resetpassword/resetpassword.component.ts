@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { ForgotPassword } from '../_models/forgotPassword.model';
 import { Subscription } from 'rxjs';
 
@@ -18,6 +18,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     private forgotSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
@@ -67,11 +68,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
                     this.logger.log('Successfully requested password reset. Please check your emails.');
 
                     this.router.navigate(['/account/entertoken']);
-                    this.alertService.success('Successfully requested password reset. Please check your emails.', { autoClose: false });
+                    this.alertService.success(this.i18nService.translate('resetpassword.component.resetpassword_success', 'Successfully requested password reset. Please check your emails.'), { autoClose: false });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Password could not be reset. Did you enter the correct username and the corresponding email address?');
+                    this.alertService.error(this.i18nService.translate('resetpassword.component.resetpassword_fail', 'Password could not be reset. Did you enter the correct username and the corresponding email address?'));
                     this.loading = false;
                 });
     }

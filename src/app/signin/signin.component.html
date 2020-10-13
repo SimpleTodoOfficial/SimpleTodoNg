@@ -1,32 +1,32 @@
 ﻿<div class="signin">
     <div class="header">
-        <h1>Sign in</h1>
+        <h1>{{ i18nService.translate('signin.component.sign_in', 'Sign in') }}</h1>
     </div>
     <div class="signin-content">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" placeholder="Enter username"
+                <label for="username">{{ i18nService.translate('signin.component.username', 'Username') }}</label>
+                <input type="text" formControlName="username" class="form-control" placeholder="{{ i18nService.translate('signin.component.placeholder.enter_username', 'Enter username') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                    <div *ngIf="f.username.errors.required">{{ i18nService.translate('signin.component.validation.required.username', 'Username is required') }}</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" placeholder="Enter password"
+                <label for="password">{{ i18nService.translate('signin.component.password', 'Password') }}</label>
+                <input type="password" formControlName="password" class="form-control" placeholder="{{ i18nService.translate('signin.component.placeholder.enter_password', 'Enter password') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [attr.disabled]="loading || null" />
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.required">{{ i18nService.translate('signin.component.validation.required.password', 'Password is required') }}</div>
                 </div>
-                <a routerLink="../resetpassword" class="btn btn-link btn-small">Forgot password?</a>
+                <a routerLink="../resetpassword" class="btn btn-link btn-small">{{ i18nService.translate('signin.component.forgot_password', 'Forgot password?') }}</a>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-                    Sign in
+                    {{ i18nService.translate('signin.component.action.sign_in', 'Sign in') }}
                 </button>
-                <a *ngIf="signupEnabled" routerLink="../signup" class="btn btn-link">Sign up</a>
+                <a *ngIf="signupEnabled" routerLink="../signup" class="btn btn-link">{{ i18nService.translate('signin.component.action.sign_up', 'Sign up') }}</a>
             </div>
         </form>
     </div>

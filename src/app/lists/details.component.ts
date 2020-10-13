@@ -7,7 +7,7 @@ import { faCheckSquare, faSquare, faTh, faClipboardList, faTrashAlt, faPlusCircl
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { ModalMoveList } from '../_modals/move-list.modal';
-import { LoggerService, ListService, AlertService } from '../_services';
+import { LoggerService, ListService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -43,6 +43,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faRandom = faRandom;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private router: Router,
         private route: ActivatedRoute,
@@ -101,7 +102,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
-                        this.alertService.error('List could not be loaded.');
+                        this.alertService.error(this.i18nService.translate('lists.details.component.error.list_load', 'List could not be loaded.'));
                     });
         });
     }
@@ -159,9 +160,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.isDeleting = true;
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm list deletion';
-        activeModal.componentInstance.text = 'Are you sure that you want to delete the list "' + this.list.name + '"?';
-        activeModal.componentInstance.text2 = 'All todos associated to this list will be permanently deleted.';
+        activeModal.componentInstance.header = this.i18nService.translate('lists.details.component.modal.delete.header', 'Confirm list deletion');
+        activeModal.componentInstance.text = this.i18nService.translate('lists.details.component.modal.delete.text', 'Are you sure that you want to delete the list "%lsName%"?', { 'lsName': this.list.name });
+        activeModal.componentInstance.text2 = this.i18nService.translate('lists.details.component.modal.delete.text2', 'All todos associated to this list will be permanently deleted.');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('lists.details.component.modal.delete.textDanger', 'This operation can not be made undone.');
         activeModal.result.then(() => {
             this.logger.log('Deleting list');
 
@@ -172,8 +174,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .pipe(first())
                 .subscribe(() => {
                     this.router.navigate(['/workspaces', this.wsId, 'lists']);
-                    this.alertService.success('List successfully deleted.', { autoClose: true });
-                });
+                    this.alertService.info(this.i18nService.translate('lists.details.component.success.list_delete', 'List "%lsName%" deleted.', { 'lsName': this.list.name }), { autoClose: true });
+                },
+                    error => {
+                        this.logger.error(error);
+                        this.alertService.error(this.i18nService.translate('lists.details.component.error.list_delete', 'List "%lsName%" could not be deleted.', { 'lsName': this.list.name }));
+                        this.isDeleting = false;
+                    });
         },
             () => {
                 this.logger.log('Canceling list deletion.');
@@ -188,15 +195,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
         const activeModalMove = this.modalService.open(ModalMoveList);
         activeModalMove.componentInstance.excludeWsId = this.wsId;
-        activeModalMove.componentInstance.text = 'Please select a workspace to move the list "' + this.list.name + '" to:';
+        activeModalMove.componentInstance.header = this.i18nService.translate('lists.details.component.modal.move_select.header', 'Select a workspace');
+        activeModalMove.componentInstance.text = this.i18nService.translate('lists.details.component.modal.move_select.text', 'Please select a workspace to move the list "%lsName%" to:', { 'lsName': this.list.name });
         activeModalMove.result.then(ws => {
             this.logger.log('Selected workspace: "' + ws.name + '" (' + ws.id + ')');
 
             const activeModal = this.modalService.open(ModalConfirm);
-            activeModal.componentInstance.header = 'Confirm moving list';
-            activeModal.componentInstance.text = 'Are you sure that you want to move the list "' + this.list.name + '" to the workspace "' + ws.name + '"?';
-            activeModal.componentInstance.text2 = '';
-            activeModal.componentInstance.textDanger = 'All users of the current workspace will not be able to access the list any longer. All users of the new workspace will be granted access to the list.';
+            activeModal.componentInstance.header = this.i18nService.translate('lists.details.component.modal.move.header', 'Confirm list movement');
+            activeModal.componentInstance.text = this.i18nService.translate('lists.details.component.modal.move.text', 'Are you sure that you want to move the list "%lsName%" to the workspace "%wsName%"?', { 'lsName': this.list.name, 'wsName': ws.name });
+            activeModal.componentInstance.text2 = this.i18nService.translate('lists.details.component.modal.move.text2', '');
+            activeModal.componentInstance.textDanger = this.i18nService.translate('lists.details.component.modal.move.textDanger', 'All users of the current workspace will not be able to access the list any longer. All users of the new workspace will be granted access to the list.');
+
             activeModal.result.then(() => {
                 this.logger.log('Moving list');
 
@@ -207,7 +216,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     .pipe(first())
                     .subscribe(() => {
                         this.router.navigate(['/workspaces', ws.id, 'lists']);
-                        this.alertService.success('List successfully moved.', { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('lists.details.component.success.list_move', 'List successfully moved.'), { autoClose: true });
+                    },
+                    error => {
+                        this.logger.error(error);
+                        this.alertService.error(this.i18nService.translate('lists.details.component.error.list_move', 'The list could not be moved.'));
+                        this.isMoving = false;
                     });
             },
                 () => {

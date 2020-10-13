@@ -5,7 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { first } from 'rxjs/operators';
 import { faClock, faGripLines, faSync, faTh, faClipboardList, faList, faPlusCircle, faEdit, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { LoggerService, TodoService, AlertService, ListService, WorkspaceService } from '../_services';
+import { LoggerService, TodoService, AlertService, ListService, WorkspaceService, I18nService } from '../_services';
 import { Workspace, List, Todo } from '../_models';
 import { Subscription } from 'rxjs';
 
@@ -48,6 +48,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public faGripLines = faGripLines;
 
     constructor(
+        public i18nService: I18nService,
         private router: Router,
         private observer: BreakpointObserver,
         private route: ActivatedRoute,
@@ -145,19 +146,19 @@ export class ListComponent implements OnInit, OnDestroy {
                                         error => {
                                             this.logger.error(error);
                                             this.router.navigate(['/']);
-                                            this.alertService.error('List could not be loaded.');
+                                            this.alertService.error(this.i18nService.translate('todos.list.component.error.list_load', 'List could not be loaded.'));
                                         });
                             },
                                 error => {
                                     this.logger.error(error);
                                     this.router.navigate(['/']);
-                                    this.alertService.error('Workspace could not be loaded.');
+                                    this.alertService.error(this.i18nService.translate('todos.list.component.error.workspace_load', 'Workspace could not be loaded.'));
                                 });
                     },
                         error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
-                            this.alertService.error('Todo could not be loaded.');
+                            this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_load', 'Todo could not be loaded.'));
                         });
             });
         });
@@ -324,7 +325,7 @@ export class ListComponent implements OnInit, OnDestroy {
                     },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error('Todo could not be deleted.');
+                        this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_delete', 'Todo could not be deleted.'));
                         this.loading = false;
                     });
         }
@@ -351,7 +352,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Todo could not be updated.');
+                    this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_update', 'Todo could not be updated.'));
                     this.loading = false;
                     this.calculateLists();
                     this.updateList();
@@ -377,7 +378,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Could not save todo order.');
+                    this.alertService.error(this.i18nService.translate('todos.list.component.error.list_update', 'Todo order could not be saved.'));
                     this.loading = false;
                     this.isUpdatingTodoList = false;
                 });

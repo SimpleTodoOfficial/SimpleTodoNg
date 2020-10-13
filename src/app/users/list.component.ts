@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { faSync, faUserCircle, faPlusCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 
@@ -24,6 +24,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public faSync = faSync;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private userService: UserService,
         private alertService: AlertService,
@@ -68,7 +69,7 @@ export class ListComponent implements OnInit, OnDestroy {
             },
             error => {
                 this.logger.error(error);
-                this.alertService.error('Users could not be loaded.');
+                this.alertService.error(this.i18nService.translate('users.list.component.error.users_load', 'Users could not be loaded.'));
                 this.loading = false;
                 this.refreshing = false;
                 this.error = true;

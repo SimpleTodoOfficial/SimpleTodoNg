@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
-import { faAddressCard, faHome, faAddressBook, faTh, faSignOutAlt, faUserCircle, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faHome, faAddressBook, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from './environments/environment';
-import { LoggerService, AlertService, UserService } from './_services';
+import { LoggerService, AlertService, UserService, I18nService } from './_services';
 import { User } from './_models';
 import { Subscription } from 'rxjs';
 
@@ -30,8 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public faUserCircle = faUserCircle;
   public faSignOutAlt = faSignOutAlt;
   public faUser = faUser;
+  public faFlag = faFlag;
 
   constructor(
+    public i18nService: I18nService,
     private router: Router,
     private observer: BreakpointObserver,
     private logger: LoggerService,
@@ -50,12 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
       error => {
         this.logger.error(error);
         this.router.navigate(['/']);
-        this.alertService.error('User could not be loaded.');
+        this.alertService.error(this.i18nService.translate('app.component.error.user.load', 'User could not be loaded.'));
       });
 
-    this.obSub = this.observer.observe(['(min-width: 480px)']).subscribe(result => {
+    this.obSub = this.observer.observe(['(min-width: 500px)']).subscribe(result => {
       if (result.matches) {
-        this.isMin = result.breakpoints['(min-width: 480px)'];
+        this.isMin = result.breakpoints['(min-width: 500px)'];
       } else {
         this.isMin = false;
       }
@@ -80,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
   signout() {
     this.isAdmin = false;
     this.userService.signout();
-    this.alertService.info('Signed out successfully', { autoClose: true });
+    this.alertService.info(this.i18nService.translate('app.component.info.sign_out', 'Signed out successfully'), { autoClose: true });
   }
 
 }

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { LoggerService, WorkspaceService, AlertService } from '../_services';
+import { LoggerService, WorkspaceService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,6 +20,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private wssSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -67,7 +68,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                     error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
-                        this.alertService.error('Workspace could not be loaded.');
+                        this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_load', 'Workspace could not be loaded.'));
                     });
         } else {
             this.loading = false;
@@ -109,11 +110,11 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('Workspace successfully created');
                     this.router.navigate(['/workspaces', data['id'], 'lists']);
-                    this.alertService.success('Workspace successfully created.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_created', 'Workspace successfully created.'), { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Workspace could not be created.');
+                    this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_created', 'Workspace could not be created.'));
                     this.loading = false;
                 });
     }
@@ -132,11 +133,11 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('Workspace successfully updated');
                     this.router.navigate(['/workspaces', data['id']]);
-                    this.alertService.success('Workspace successfully updated', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_updated', 'Workspace successfully updated.'), { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Workspace could not be updated');
+                    this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_updated', 'Workspace could not be updated.'));
                     this.loading = false;
                 });
     }

@@ -36,7 +36,7 @@
             </div>
             <div class="list-details">
                 <div class="item-header">
-                    Username
+                    {{ i18nService.translate('users.details.component.username', 'Username') }}
                 </div>
                 <div class="item-content">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -44,22 +44,22 @@
                 </div>
                 <div *ngIf="!loading">
                     <div class="item-header" *ngIf="user.email">
-                        Email
+                        {{ i18nService.translate('users.details.component.email', 'Email address') }}
                     </div>
                     <div class="item-content" *ngIf="user.email">
                         {{ user.email }}
                     </div>
                     <div class="item-header" *ngIf="user.statusVerified != null">
-                        Verification
+                        {{ i18nService.translate('users.details.component.verification', 'Status') }}
                     </div>
                     <div class="item-content" *ngIf="user.statusVerified != null && user.statusVerified">
-                        Verified
+                        {{ i18nService.translate('users.details.component.verified', 'Verified') }}
                     </div>
                     <div class="item-content" *ngIf="user.statusVerified != null && !user.statusVerified">
-                        Not verified
+                        {{ i18nService.translate('users.details.component.not_verified', 'Not verified') }}
                     </div>
                     <div class="item-header userrole-select-item" *ngIf="canEditOrDelete">
-                        Roles
+                        {{ i18nService.translate('users.details.component.roles', 'Roles') }}
                         <span>&nbsp;</span>
                         <div class="userrole-dropdown" ngbDropdown *ngIf="userRoles.length > 0 && isAdmin">
                             <a ngbDropdownToggle>
@@ -70,7 +70,7 @@
                                     (click)="addRole(role)">
                                     <fa-icon [icon]="faUserTag"></fa-icon>
                                     <span>&nbsp;</span>
-                                    <span>{{ role }}</span>
+                                    <span>{{ i18nService.translate('app.roles.' + role, role) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div>
                                 <fa-icon [icon]="faUserTag"></fa-icon>
                                 <span>&nbsp;</span>
-                                <span>{{ role }}</span>
+                                <span>{{ i18nService.translate('app.roles.' + role, role) }}</span>
                             </div>
                             <div class="spacer"></div>
                             <div>

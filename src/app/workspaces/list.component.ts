@@ -3,7 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { faTh, faPlusCircle, faInfoCircle, faSync } from '@fortawesome/free-solid-svg-icons';
 
-import { LoggerService, WorkspaceService, AlertService } from '../_services';
+import { LoggerService, WorkspaceService, AlertService, I18nService } from '../_services';
 import { Workspace } from '../_models';
 import { Subscription } from 'rxjs';
 
@@ -26,6 +26,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public faSync = faSync;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private alertService: AlertService,
         private workspaceService: WorkspaceService,
@@ -72,7 +73,7 @@ export class ListComponent implements OnInit, OnDestroy {
             },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Workspaces could not be loaded.');
+                    this.alertService.error(this.i18nService.translate('workspaces.list.component.error.workspaces_load', 'Workspaces could not be loaded.'));
                     this.loading = false;
                     this.refreshing = false;
                     this.error = true;

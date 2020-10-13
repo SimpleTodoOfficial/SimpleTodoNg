@@ -3,7 +3,7 @@
         <div class="table-header">
             <fa-icon [icon]="faTh" class="fa-lg"></fa-icon>
             <span>&nbsp;</span>
-            <span>Workspaces</span>
+            <span>{{ i18nService.translate('workspaces.list.component.workspaces', 'Workspaces') }}</span>
             <span>&nbsp;</span>
             <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
             <div class="spacer"></div>
@@ -14,14 +14,14 @@
         <div *ngIf="workspaces.length <= 0" class="workspaces-none">
             <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
             <div *ngIf="!loading && !error">
-                No workspaces, yet.
+                {{ i18nService.translate('workspaces.list.component.workspaces_none', 'No workspaces, yet.') }}
                 <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
                 <a routerLink="add" class="normal-link">
-                    Create one, now.
+                    {{ i18nService.translate('workspaces.list.component.action.workspaces_create', 'Create one, now.') }}
                 </a>
             </div>
             <div *ngIf="error">
-                An error occurred.
+                {{ i18nService.translate('workspaces.list.component.error.workspaces_load', 'Workspaces could not be loaded.') }}
             </div>
         </div>
         <div *ngIf="workspaces.length > 0">

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,6 +20,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     private sgSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -72,11 +73,11 @@ export class SigninComponent implements OnInit, OnDestroy {
                     this.logger.log('Signed in successfully');
 
                     this.router.navigate([this.returnUrl]);
-                    this.alertService.success('Signed in successfully.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('signin.component.sign_in_success', 'Signed in successfully.'), { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('User could not be signed in.');
+                    this.alertService.error(this.i18nService.translate('signin.component.sign_in_fail', 'User could not be signed in.'));
                     this.loading = false;
                 });
     }

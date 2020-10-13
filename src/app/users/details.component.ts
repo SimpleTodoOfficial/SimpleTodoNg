@@ -7,7 +7,7 @@ import { faTrashAlt, faUserCircle, faUser, faPlusCircle, faEdit, faUserTag } fro
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { UserRole } from '../_models';
-import { LoggerService, AlertService, UserService } from '../_services';
+import { LoggerService, AlertService, UserService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -37,6 +37,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faUserTag = faUserTag;
 
     constructor(
+        public i18nService: I18nService,
         private observer: BreakpointObserver,
         private router: Router,
         private route: ActivatedRoute,
@@ -91,7 +92,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 error => {
                     this.logger.error(error);
                     this.router.navigate(['/users']);
-                    this.alertService.error('User could not be loaded.');
+                    this.alertService.error(this.i18nService.translate('users.details.component.error.user_load', 'User could not be loaded.'));
                 });
     }
 
@@ -148,9 +149,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.isDeleting = true;
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm user deletion';
-        activeModal.componentInstance.text = 'Are you sure that you want to delete the user "' + this.user.username + '"?';
-        activeModal.componentInstance.text2 = 'Everything associated to this user will be permanently deleted.';
+        activeModal.componentInstance.header = this.i18nService.translate('users.details.component.modal.delete.header', 'Confirm user deletion');
+        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.delete.text', 'Are you sure that you want to delete the user "%username%"?', {'username': this.user.username});
+        activeModal.componentInstance.text2 = this.i18nService.translate('users.details.component.modal.delete.text2', '');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('users.details.component.modal.delete.textDanger', 'Everything associated to this user will be permanently deleted.');
         activeModal.result.then(() => {
             this.logger.log('Deleting user');
 
@@ -162,9 +164,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .subscribe(x => {
                     if (x != null) {
                         this.router.navigate(['/users']);
-                        this.alertService.success('User successfully deleted.', { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('users.details.component.success.user_delete', 'User successfully deleted.'), { autoClose: true });
                     }
-                });
+                },
+                    error => {
+                        this.logger.error(error);
+                        this.alertService.error(this.i18nService.translate('users.details.component.error.user_delete', 'User could not be deleted.'));
+                    });
         },
             () => {
                 this.logger.log('Canceling user deletion.');
@@ -186,11 +192,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('Adding role to user');
                     this.refreshStatus();
-                    this.alertService.info('Added role to user.', { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('users.details.component.success.role_add', 'Added role to user.'), { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Could not add role to user.');
+                    this.alertService.error(this.i18nService.translate('users.details.component.error.role_add', 'Could not add role to user.'));
                 });
     }
 
@@ -200,10 +206,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.isDeletingRole = true;
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm user role removal';
-        activeModal.componentInstance.text = 'Are you sure that you want to remove the user role "' + role + '" from this user?';
-        activeModal.componentInstance.text2 = '';
-        activeModal.componentInstance.textDanger = '';
+        activeModal.componentInstance.header = this.i18nService.translate('users.details.component.modal.remove_role.header', 'Confirm user role removal');
+        let rolename = this.i18nService.translate('app.roles.' + role, role);
+        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.remove_role.text', 'Are you sure that you want to remove the user role "%rolename%" from this user?', {'rolename': rolename});
+        activeModal.componentInstance.text2 = this.i18nService.translate('users.details.component.modal.remove_role.text2', '');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('users.details.component.modal.remove_role.textDanger', '');
         activeModal.result.then(() => {
             this.logger.log('Removing user role.');
 
@@ -218,12 +225,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     data => {
                         this.logger.log('Removed role from user');
                         this.refreshStatus();
-                        this.alertService.info('Removed role from user.', { autoClose: true });
+                        this.alertService.info(this.i18nService.translate('users.details.component.success.role_remove', 'Removed role from user.'), { autoClose: true });
                         this.isDeletingRole = false;
                     },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error('Could not remove role from user.');
+                        this.alertService.error(this.i18nService.translate('users.details.component.error.role_remove', 'Could not remove role from user.'));
                         this.isDeletingRole = false;
                     });
         },

@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="workspaces.length <= 0" class="workspaces-none">
         <div *ngIf="!loading">
-            No other workspaces, yet.
+            {{ i18nService.translate('move-list.modal.workspaces_none', 'No other workspaces, yet.') }}
         </div>
     </div>
     <div *ngIf="workspaces.length > 0">
@@ -27,5 +27,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">{{ i18nService.translate('move-list.modal.action.cancel', 'Cancel') }}</button>
 </div>

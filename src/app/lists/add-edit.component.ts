@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { LoggerService, ListService, AlertService } from '../_services';
+import { LoggerService, ListService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +22,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private lssSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
@@ -82,7 +83,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                         error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
-                            this.alertService.error('List could not be loaded.');
+                            this.alertService.error(this.i18nService.translate('lists.addedit.component.error.list_load', 'List could not be loaded.'));
                         });
             } else {
                 this.loading = false;
@@ -124,12 +125,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('List created successfully.');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', data['id'], 'todos']);
-                    this.alertService.success('List created successfully.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_created', 'List successfully created.'), { autoClose: true });
                     this.loading = false;
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('List could not be created.');
+                    this.alertService.error(this.i18nService.translate('lists.addedit.component.error.lists_created', 'List could not be created.'));
                     this.loading = false;
                 });
     }
@@ -137,7 +138,6 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private updateList() {
         this.logger.log('Updating list');
 
-        let listName = this.form.value.name;
         if (this.lssSub) {
             this.lssSub.unsubscribe();
         }
@@ -147,12 +147,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('List updated successfully.');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', data['id']]);
-                    this.alertService.success('List "' + listName + '" updated successfully.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_updated', 'List successfully updated.'), { autoClose: true });
                     this.loading = false;
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('List "' + listName + '" could not be updated.');
+                    this.alertService.error(this.i18nService.translate('lists.addedit.component.error.list_updated', 'List could not be updated.'));
                     this.loading = false;
                 });
     }

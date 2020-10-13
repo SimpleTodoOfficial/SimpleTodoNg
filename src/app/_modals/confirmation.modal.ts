@@ -7,10 +7,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./confirmation.modal.scss']
 })
 export class ModalConfirm {
-    public header: string = 'Confirm deletion';
-    public text: string = 'Please confirm the deletion';
-    public text2: string = 'All information associated to this type will be permanently deleted.';
-    public textDanger: string = 'This operation can not be undone.';
+    public header: string = '';
+    public text: string = '';
+    public text2: string = '';
+    public textDanger: string = '';
 
     constructor(public modal: NgbActiveModal) {
         // Nothing to see here...

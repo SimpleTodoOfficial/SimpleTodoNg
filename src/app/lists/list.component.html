@@ -15,7 +15,7 @@
     <div class="table-header">
         <fa-icon [icon]="faClipboardList"></fa-icon>
         <span>&nbsp;</span>
-        <span>Lists</span>&nbsp;
+        <span>{{ i18nService.translate('lists.list.component.lists', 'Lists') }}</span>&nbsp;
         <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add" *ngIf="!loading">
         </fa-icon>
         <div class="spacer"></div>
@@ -32,10 +32,10 @@
     <div class="lists-none" *ngIf="lists.length <= 0">
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
         <div *ngIf="!loading">
-            No lists, yet.
+            {{ i18nService.translate('lists.list.component.lists_none', 'No lists, yet.') }}
             <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
             <a routerLink="add" class="normal-link">
-                Create one, now.
+                {{ i18nService.translate('lists.list.component.action.lists_create', 'Create one, now.') }}
             </a>
         </div>
     </div>

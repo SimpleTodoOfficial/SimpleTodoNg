@@ -5,7 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { first } from 'rxjs/operators';
 import { faGripLines, faSync, faTh, faClipboardList, faPlusCircle, faInfoCircle, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { LoggerService, ListService, WorkspaceService, AlertService } from '../_services';
+import { LoggerService, ListService, WorkspaceService, AlertService, I18nService } from '../_services';
 import { Workspace, List } from '../_models';
 import { Subscription } from 'rxjs';
 
@@ -38,6 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public faGripLines = faGripLines;
 
     constructor(
+        public i18nService: I18nService,
         private router: Router,
         private observer: BreakpointObserver,
         private route: ActivatedRoute,
@@ -114,13 +115,13 @@ export class ListComponent implements OnInit, OnDestroy {
                             error => {
                                 this.logger.error(error);
                                 this.router.navigate(['/']);
-                                this.alertService.error('Workspace could not be loaded.');
+                                this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_load', 'Workspace could not be loaded.'));
                             });
                 },
                     error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
-                        this.alertService.error('List could not be loaded.');
+                        this.alertService.error(this.i18nService.translate('lists.list.component.error.list_load', 'List could not be loaded.'));
                     });
         });
     }
@@ -204,7 +205,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('Could not save list order.');
+                    this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_update', 'List order could not be saved.'));
                     this.loading = false;
                     this.isUpdatingListList = false;
                 });

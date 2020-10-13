@@ -28,7 +28,7 @@
                     <div>
                         <fa-icon [icon]="faItalic"></fa-icon>
                         <span>&nbsp;</span>
-                        <span>Todo</span>
+                        <span>{{ i18nService.translate('todos.details.component.todo', 'Todo') }}</span>
                         <span>&nbsp;</span>
                         <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit"></fa-icon>
                     </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="list-details">
                 <div class="item-header">
-                    Message
+                    {{ i18nService.translate('todos.details.component.message', 'Message') }}
                 </div>
                 <div *ngIf="!loading" class="item-content">
                     {{ todo.msg }}
@@ -61,27 +61,27 @@
                     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
                 </div>
                 <div class="item-header">
-                    Status
+                    {{ i18nService.translate('todos.details.component.status', 'Status') }}
                 </div>
                 <div *ngIf="!loading && !todo.done " class="item-content">
                     <fa-icon [icon]="faSquare"></fa-icon>
-                    Not done
+                    {{ i18nService.translate('todos.details.component.not_done', 'Not done') }}
                 </div>
                 <div *ngIf="!loading && todo.done " class="item-content">
                     <fa-icon [icon]="faCheckSquare"></fa-icon>
-                    Done
+                    {{ i18nService.translate('todos.details.component.done', 'Done') }}
                 </div>
                 <div class="item-content" *ngIf="loading">
                     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
                 </div>
                 <div class="item-header">
-                    Due date
+                    {{ i18nService.translate('todos.details.component.due_date', 'Due date') }}
                 </div>
                 <div class="item-content" *ngIf="!loading && !todo.dueDate">
                     -
                 </div>
                 <div *ngIf="!loading && todo.dueDate" class="item-content">
-                    {{ todo.dueDate | date:'EEEE, MMMM d, y, h:mm:ss a zzzz' }}
+                    {{ todo.dueDate | date:i18nService.translate('todos.details.component.date_format', 'EEEE, MMMM d, y, h:mm:ss a zzzz') }}
                 </div>
                 <div class="item-content" *ngIf="loading">
                     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>

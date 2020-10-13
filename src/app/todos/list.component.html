@@ -24,14 +24,14 @@
     <div class="table-header">
         <fa-icon [icon]="faList"></fa-icon>
         <span>&nbsp;</span>
-        <span>Todos</span>
+        <span>{{ i18nService.translate('todos.list.component.todos', 'Todos') }}</span>
         <span>&nbsp;</span>
         <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
         <div class="spacer"></div>
         <div class="show-all-checkbox" *ngIf="todoHiddenList.length > 0">
             <input class="todo-checkbox" type="checkbox" [checked]="showAllTodos"
                 (change)="showAllTodos = !showAllTodos" />
-            <a (click)="showAllTodos = !showAllTodos">Show all</a>
+            <a (click)="showAllTodos = !showAllTodos">{{ i18nService.translate('todos.list.component.action.show_all', 'Show all') }}</a>
         </div>
         <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
         <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
@@ -46,16 +46,16 @@
     <div class="todos-none" *ngIf="todos.length <= 0">
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
         <div *ngIf="!loading">
-            No todos, yet.
+            {{ i18nService.translate('todos.list.component.todos_none', 'No todos, yet.') }}
             <fa-icon [icon]="faPlusCircle" class="normal-link fa-lg" routerLink="add"></fa-icon>
             <a routerLink="add" class="normal-link">
-                Create one, now.
+                {{ i18nService.translate('todos.list.component.action.todos_create', 'Create one, now.') }}
             </a>
         </div>
     </div>
     <div *ngIf="todoList.length <= 0 && todoHiddenList.length > 0 && !showAllTodos" class="hidden-todo-info">
-        There are hidden todos.
-        <a (click)="showAllTodos = !showAllTodos" class="normal-link">Show all</a>
+        {{ i18nService.translate('todos.list.component.todos_hidden', 'There are hidden todos.') }}
+        <a (click)="showAllTodos = !showAllTodos" class="normal-link">{{ i18nService.translate('todos.list.component.action.show_all', 'Show all') }}</a>
     </div>
     <div cdkDropListGroup *ngIf="todoList.length > 0">
         <div cdkDropList [cdkDropListData]="todoList" class="todo-list" (cdkDropListDropped)="dropList($event)">

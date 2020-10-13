@@ -12,7 +12,7 @@
     </div>
     <div *ngIf="lists.length <= 0" class="lists-none">
         <div *ngIf="!loading">
-            No other lists, yet.
+            {{ i18nService.translate('move-todo.modal.lists_none', 'No other lists in this workspace, yet.') }}
         </div>
     </div>
     <div *ngIf="lists.length > 0">
@@ -27,5 +27,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">{{ i18nService.translate('move-todo.modal.action.cancel', 'Cancel') }}</button>
 </div>

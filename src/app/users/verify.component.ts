@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
-import { LoggerService, UserService, AlertService } from '../_services';
+import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +22,7 @@ export class VerifyComponent implements OnInit, OnDestroy {
     private resendSub: Subscription;
 
     constructor(
+        public i18nService: I18nService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -86,11 +87,11 @@ export class VerifyComponent implements OnInit, OnDestroy {
                     this.logger.log('Successfully verified user. Please sign in again.');
 
                     this.router.navigate(['/']);
-                    this.alertService.success('Successfully verified user. Please sign in again.', { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('users.verify.component.success.verify', 'Successfully verified user. Please sign in again.'), { autoClose: true });
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error('User could not be verified. Please double-check your token.');
+                    this.alertService.error(this.i18nService.translate('users.verify.component.error.verify', 'User could not be verified. Please double-check your token.'));
                     this.loading = false;
                 });
     }
@@ -100,10 +101,11 @@ export class VerifyComponent implements OnInit, OnDestroy {
         this.alertService.clear();
 
         const activeModal = this.modalService.open(ModalConfirm);
-        activeModal.componentInstance.header = 'Confirm resending verification';
-        activeModal.componentInstance.text = 'Are you sure that you want to resend the email verification?';
-        activeModal.componentInstance.text2 = 'An email with a new token will be sent to your email address.';
-        activeModal.componentInstance.textDanger = '';
+        activeModal.componentInstance.header = this.i18nService.translate('users.verify.component.modal.remove_role.header', 'Confirm resending verification');
+        activeModal.componentInstance.text = this.i18nService.translate('users.verify.component.modal.remove_role.text', 'Are you sure that you want to resend the email verification?');
+        activeModal.componentInstance.text2 = this.i18nService.translate('users.verify.component.modal.remove_role.text2', 'An email with a new token will be sent to your email address.');
+        activeModal.componentInstance.textDanger = this.i18nService.translate('users.verify.component.modal.remove_role.textDanger', '');
+
         activeModal.result.then(() => {
             this.logger.log('Resending verification');
 
@@ -116,12 +118,12 @@ export class VerifyComponent implements OnInit, OnDestroy {
                     data => {
                         this.logger.log('Successfully resent verification. Please check your emails.');
 
-                        this.alertService.success('Successfully resent verification. Please check your emails.', { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('users.verify.component.success.resend', 'Successfully resent verification. Please check your emails.'), { autoClose: true });
                         this.loading = false;
                     },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error('Something went wrong. Could not resend.');
+                        this.alertService.error(this.i18nService.translate('users.verify.component.error.resend', 'Verification could not be resend.'));
                         this.loading = false;
                     });
         },

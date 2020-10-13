@@ -55,7 +55,7 @@
             <div class="list-details">
                 <div class="item-header">
                     <fa-icon [icon]="faList"></fa-icon>
-                    <span>&nbsp;</span><span>Number of Todos</span>
+                    <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.number_todos', 'Number of Todos') }}</span>
                 </div>
                 <div class="item-content">
                     <span *ngIf="!loading">{{ list.todos ? list.todos.length : 0 }}</span>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="item-header">
                     <fa-icon [icon]="faSquare"></fa-icon>
-                    <span>&nbsp;</span><span>Number of Todos to be done</span>
+                    <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.number_todos_to_be_done', 'Number of Todos to be done') }}</span>
                 </div>
                 <div class="item-content">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="item-header">
                     <fa-icon [icon]="faCheckSquare"></fa-icon>
-                    <span>&nbsp;</span><span>Number of Todos done</span>
+                    <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.number_todos_done', 'Number of Todos done') }}</span>
                 </div>
                 <div class="item-content">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
