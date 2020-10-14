@@ -2,9 +2,9 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { LoggerService, WorkspaceService, AlertService, I18nService } from '../_services';
-import { Subscription } from 'rxjs';
 
 @Component({
     templateUrl: 'add-edit.component.html',

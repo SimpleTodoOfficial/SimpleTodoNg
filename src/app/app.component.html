@@ -89,13 +89,15 @@
     SimpleTodo {{ version }}
   </div>
 
-  <div class="nav-item nav-link" ngbDropdown>
+  <div *ngIf="languagesLoading">&nbsp;</div>
+  <div *ngIf="languagesLoading" class="spinner-border spinner-border-sm"></div>
+  <div class="nav-item nav-link" ngbDropdown *ngIf="!languagesLoading && languagesLoaded">
     <a ngbDropdownToggle>
       <fa-icon [icon]="faFlag"></fa-icon>
     </a>
     <div class="dropdown-menu" ngbDropdownMenu>
       <div ngbDropdownItem *ngFor="let lang of i18nService.getLanguageInfo()">
-        <a class="nav-item nav-link nav-link-dropdown" (click)="i18nService.switchLanguage(lang.id)">
+        <a class="nav-item nav-link nav-link-dropdown" (click)="setLanguage(lang.id)">
           <span>&nbsp;</span>
           <span>{{ lang.name }}</span>
         </a>

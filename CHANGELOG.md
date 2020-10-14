@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.3.1
+
+- Moved the i18n files to the backend
+- Optimized i18n load size
+
 ## v1.3.0
 
 - i18n (german and english)

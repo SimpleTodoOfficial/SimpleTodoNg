@@ -7,3 +7,4 @@ export * from './datetime.service';
 export * from './logger.service';
 export * from './connection.service';
 export * from './i18n.service';
+export * from './language.service';

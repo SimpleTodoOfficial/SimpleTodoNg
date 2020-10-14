@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { first } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { faAddressCard, faHome, faAddressBook, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from './environments/environment';
-import { LoggerService, AlertService, UserService, I18nService } from './_services';
+import { LoggerService, AlertService, UserService, I18nService, LanguageService } from './_services';
 import { User } from './_models';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +17,16 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   public loaded: boolean;
+  public languagesLoading: boolean;
+  public languagesLoaded: boolean;
   public user: User;
   public isAdmin: boolean;
   public isMin: boolean;
   public version = environment.version;
   private ussSub: Subscription;
   private obSub: Subscription;
+  private langsSub: Subscription;
+  private langSub: Subscription;
 
   public faAddressCard = faAddressCard;
   public faHome = faHome;
@@ -34,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     public i18nService: I18nService,
+    public languageService: LanguageService,
     private router: Router,
     private observer: BreakpointObserver,
     private logger: LoggerService,
@@ -41,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {
     this.loaded = false;
+    this.languagesLoaded = false;
 
     this.ussSub = this.userService.user.subscribe(x => {
       this.user = x;
@@ -66,17 +73,77 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.logger.log('Initializing AppComponent');
+
+    // To prevent cyclic dependencies, we have to set up langauge and i18n services here
+    this.prepareLanguages();
   }
 
   ngOnDestroy() {
     this.logger.log('Destroying AppComponent');
 
+    if (this.langsSub) {
+      this.langsSub.unsubscribe();
+    }
+    if (this.langSub) {
+      this.langSub.unsubscribe();
+    }
     if (this.ussSub) {
       this.ussSub.unsubscribe();
     }
     if (this.obSub) {
       this.obSub.unsubscribe();
     }
+  }
+
+  prepareLanguages() {
+    this.languagesLoading = true;
+
+    if (this.langsSub) {
+      this.langsSub.unsubscribe();
+    }
+    this.langsSub = this.languageService.getLanguages()
+      .pipe(first())
+      .subscribe(languages => {
+        let langs = [];
+        for (let key in languages) {
+          langs.push({
+            id: key,
+            name: languages[key]
+          });
+        }
+        this.logger.log('Available languages:');
+        this.logger.log(langs);
+
+        let loadLanguage = this.i18nService.setLanguages(langs);
+
+        this.logger.log('Loading language "' + loadLanguage + '"');
+        this.setLanguage(loadLanguage);
+      },
+        error => {
+          this.logger.error(error);
+          this.languagesLoaded = false;
+        });
+  }
+
+  setLanguage(language: string) {
+    this.logger.log('Setting language to \"' + language + '\"');
+
+    if (this.langSub) {
+      this.langSub.unsubscribe();
+    }
+    this.langSub = this.languageService.getLanguage(language)
+      .pipe(first())
+      .subscribe(language => {
+        this.logger.log('Successfully loaded language');
+        this.i18nService.setCurrentTranslations(language);
+        this.languagesLoaded = true;
+        this.languagesLoading = false;
+      },
+        error => {
+          this.logger.error(error);
+          this.languagesLoaded = false;
+        });
+    localStorage.setItem('language', JSON.stringify(language));
   }
 
   signout() {
