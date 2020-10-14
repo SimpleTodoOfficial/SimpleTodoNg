@@ -122,6 +122,8 @@ export class AppComponent implements OnInit, OnDestroy {
         error => {
           this.logger.error(error);
           this.languagesLoaded = false;
+          this.languagesLoading = false;
+          this.alertService.error(this.i18nService.translate('app.component.error.language_load', 'Language information could not be loaded.'));
         });
   }
 
@@ -142,6 +144,8 @@ export class AppComponent implements OnInit, OnDestroy {
         error => {
           this.logger.error(error);
           this.languagesLoaded = false;
+          this.languagesLoading = false;
+          this.alertService.error(this.i18nService.translate('app.component.error.language_load', 'Language translations could not be loaded.'));
         });
     localStorage.setItem('language', JSON.stringify(language));
   }

@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.3.3
+
+- Backend language and translation delivery cleanup
+- Frontend error handling improvements
+
 ## v1.3.2
 
 - Language fallback optimizations

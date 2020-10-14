@@ -64,7 +64,10 @@ export class I18nService {
     }
 
     translate(key: string, strDefault: string = '', map = {}) {
-        let translation = this.currentTranslations[key];
+        let translation = null;
+        if (this.currentTranslations) {
+            translation = this.currentTranslations[key];
+        }
         if (!translation) {
             translation = strDefault;
         }

@@ -9,11 +9,15 @@ import { LoggerService, AlertService, I18nService, ConnectionService } from '../
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
-    private ignoreRedirectionOnErrorPaths: string[] = [];
-    private checkConnectionUrl = `${environment.apiUrl}/${environment.connectionPath.main}/${environment.connectionPath.authorized}`;
-    private signinUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signin}`;
-    private signupUrl = `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signup}`;
-    private passwordForgotUrl = `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.password.main}/${environment.usersPath.password.forgot}`;
+    private checkUrlsEndsWithArr = [
+        `${environment.apiUrl}/${environment.connectionPath.main}/${environment.connectionPath.authorized}`,
+        `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signin}`,
+        `${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signup}`,
+        `${environment.apiUrl}/${environment.usersPath.main}/${environment.usersPath.password.main}/${environment.usersPath.password.forgot}`
+    ];
+    private checkUrlsContainsArr = [
+        `${environment.apiUrl}/${environment.i18nPath.main}/${environment.i18nPath.languages}`
+    ];
 
     constructor(
         private i18nService: I18nService,
@@ -22,8 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
         private router: Router,
         private logger: LoggerService
     ) {
-        this.ignoreRedirectionOnErrorPaths.push(`${environment.apiUrl}/${environment.authPath.main}/${environment.authPath.signup}`);
-        this.ignoreRedirectionOnErrorPaths.push(`${environment.apiUrl}/${environment.usersPath.main}/add`);
+        // Nothing to see here...
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -39,10 +42,21 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
                     this.logger.log('Something went wrong on non-API path');
                     this.alertService.error(this.i18nService.translate('app.error.something_went_wrong', 'Something went wrong.'));
                 } else {
-                    if (!request.url.endsWith(this.checkConnectionUrl)
-                        && !request.url.endsWith(this.signinUrl)
-                        && !request.url.endsWith(this.signupUrl)
-                        && !request.url.endsWith(this.passwordForgotUrl)) {
+                    let endsWithCheck = false;
+                    for (let i in this.checkUrlsEndsWithArr) {
+                        if (request.url.endsWith(this.checkUrlsEndsWithArr[i])) {
+                            endsWithCheck = true;
+                            break;
+                        }
+                    }
+                    let containsCheck = false;
+                    for (let i in this.checkUrlsContainsArr) {
+                        if (request.url.indexOf(this.checkUrlsContainsArr[i]) != -1) {
+                            containsCheck = true;
+                            break;
+                        }
+                    }
+                    if (!endsWithCheck && !containsCheck) {
                         this.logger.log('Asserting connection');
                         this.connectionService.assertConnection();
                     } else {
