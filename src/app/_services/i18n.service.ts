@@ -9,6 +9,7 @@ export class I18nService {
     private languages;
     private currentLanguage;
     private currentTranslations = { id: '' };
+    private preferredFallbackLanguageId = 'de-DE';
 
     constructor(
         private logger: LoggerService
@@ -30,7 +31,28 @@ export class I18nService {
         this.currentLanguage = JSON.parse(localStorage.getItem('language'));
         if (!this.currentLanguage) {
             this.logger.log('Could not load language from localStorage');
-            this.currentLanguage = 'de-DE';
+            if (this.languages.length <= 0) {
+                this.logger.log('No languages found.');
+
+                return;
+            }
+
+            // look for a de-DE language specification
+            this.logger.log('Looking for preferred fallback language id "' + this.preferredFallbackLanguageId + '"');
+            let deDELangFound = false;
+            for (let l in this.languages) {
+                if (this.languages[l].id === this.preferredFallbackLanguageId) {
+                    deDELangFound = true;
+                    break;
+                }
+            }
+            if (deDELangFound) {
+                this.logger.log('Preferred language fallback id "' + this.preferredFallbackLanguageId + '" found');
+                this.currentLanguage = this.preferredFallbackLanguageId;
+            } else {
+                this.logger.log('Preferred language fallback id "' + this.preferredFallbackLanguageId + '" not found, falling back');
+                this.currentLanguage = this.languages[0].id;
+            }
         }
         this.logger.log('Set language to "' + this.currentLanguage + '"');
 

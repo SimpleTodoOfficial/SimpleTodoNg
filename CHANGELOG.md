@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.3.2
+
+- Language fallback optimizations
+- Translation fix
+
 ## v1.3.1
 
 - Moved the i18n files to the backend
