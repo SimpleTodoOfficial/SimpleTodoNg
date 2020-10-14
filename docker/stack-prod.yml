@@ -54,7 +54,7 @@ services:
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
 
   simpletodo-ng:
-    image: calltopower/simpletodo-ng:2
+    image: calltopower/simpletodo-ng:1.3.2
     restart: always
     ports:
       - 80:80
