@@ -40,15 +40,15 @@ An angular client for simple Todo tracking with the SimpleTodoServer.
 
 ## Installation
 
-This software is provided via docker.
+This software is provided via docker. More information in the producation and development documentation.
 
 Available docker images:
 
-calltopower/simpletodo-flyway:1.3.3
-calltopower/simpletodo-db:1.3.3
-calltopower/simpletodo-server:1.3.3
-calltopower/simpletodo-ng:1.3.3
+- calltopower/simpletodo-flyway:1.3.3
+- calltopower/simpletodo-db:1.3.3
+- calltopower/simpletodo-server:1.3.3
+- calltopower/simpletodo-ng:1.3.3
 
-## Production and development documenation
+## Production and development documentation
 
 See README-DEV.md.
