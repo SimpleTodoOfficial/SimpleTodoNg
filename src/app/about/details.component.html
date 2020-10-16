@@ -26,8 +26,31 @@
             <span>&nbsp;</span>
             <span>{{ i18nService.translate('about.component.problem_reporting', 'Problem reporting') }}</span>
         </div>
+        <div class="item-content">
+            <a href="{{ issueTrackerLink }}" target="_blank"
+                class="normal-link">{{ i18nService.translate('about.component.issue_tracker', 'Bug and issue tracker') }}</a>
+        </div>
+        <div class="item-header">
+            <fa-icon [icon]="faUserLock"></fa-icon>
+            <span>&nbsp;</span>
+            <span>{{ i18nService.translate('about.component.privacy_security.header', 'Privacy and Security') }}</span>
+        </div>
         <div class="item-content about-item-last">
-            <a href="{{ issueTrackerLink }}" target="_blank" class="normal-link">{{ i18nService.translate('about.component.issue_tracker', 'Bug and issue tracker') }}</a>
+            <ul>
+                <li>{{ i18nService.translate('about.component.privacy_security.text1', 'The connection is secured via SSL') }}
+                </li>
+                <li>{{ i18nService.translate('about.component.privacy_security.text2', 'No passwords are being saved, only encrypted hash values') }}
+                </li>
+                <li>{{ i18nService.translate('about.component.privacy_security.text3', 'No (hidden) trackers are monitoring you') }}
+                </li>
+                <li>{{ i18nService.translate('about.component.privacy_security.text4', 'Only necessary data to identify you are being stored (username, email address)') }}
+                </li>
+                <li>{{ i18nService.translate('about.component.privacy_security.text5', 'Your email address is only used to initially welcome you and to verify you via email') }}
+                </li>
+                <li>{{ i18nService.translate('about.component.privacy_security.text6', 'No information is being sold to third-parties') }}
+                <li>{{ i18nService.translate('about.component.privacy_security.text7', 'When you log in, only these objects are held in the current browser: An authentication token and the selected language') }}
+                </li>
+            </ul>
         </div>
     </div>
 </div>

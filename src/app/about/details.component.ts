@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
-import { faAddressCard, faCodeBranch, faUserEdit, faBug } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faCodeBranch, faUserEdit, faBug, faUserLock } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from '../environments/environment';
 import { LoggerService, I18nService } from '../_services';
@@ -16,6 +16,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faCodeBranch = faCodeBranch;
     public faUserEdit = faUserEdit;
     public faBug = faBug;
+    public faUserLock = faUserLock;
 
     constructor(
         public i18nService: I18nService,

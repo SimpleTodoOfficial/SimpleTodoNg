@@ -5,6 +5,7 @@
 - Translation fixes
 - Displaying random emoji in 90% of page transitions if enabled
 - New frontend environment variable EMOJI
+- Added privacy and security information to about
 
 ## v1.4.0
 
