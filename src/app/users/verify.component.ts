@@ -87,7 +87,7 @@ export class VerifyComponent implements OnInit, OnDestroy {
                     this.logger.log('Successfully verified user. Please sign in again.');
 
                     this.router.navigate(['/']);
-                    this.alertService.success(this.i18nService.translate('users.verify.component.success.verify', 'Successfully verified user. Please sign in again.'), { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('users.verify.component.success.verify', 'Successfully verified user. Please sign in again.'), { persistent: true });
                 },
                 error => {
                     this.logger.error(error);
