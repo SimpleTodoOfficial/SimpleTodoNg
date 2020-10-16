@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { faAddressCard, faHome, faAddressBook, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from './environments/environment';
-import { LoggerService, AlertService, UserService, I18nService, LanguageService } from './_services';
+import { LoggerService, AlertService, UserService, I18nService, LanguageService, EmojiService } from './_services';
 import { User } from './_models';
 
 @Component({
@@ -23,11 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAdmin: boolean;
   public isMin: boolean;
   public version = environment.version;
+  public emojiEnabled = environment.emoji;
   public showCurtain: boolean;
+  public showEmoji: boolean;
   private ussSub: Subscription;
   private obSub: Subscription;
   private langsSub: Subscription;
   private langSub: Subscription;
+  private rtSub: Subscription;
 
   public faAddressCard = faAddressCard;
   public faHome = faHome;
@@ -39,8 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public faFlag = faFlag;
 
   constructor(
+    public emojiService: EmojiService,
     public i18nService: I18nService,
-    public languageService: LanguageService,
+    private languageService: LanguageService,
     private router: Router,
     private observer: BreakpointObserver,
     private logger: LoggerService,
@@ -51,6 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.languagesLoaded = false;
     this.showCurtain = true;
 
+    if (this.rtSub) {
+      this.rtSub.unsubscribe();
+    }
+    this.rtSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.refreshRandomEmoji();
+      }
+    });
     if (this.ussSub) {
       this.ussSub.unsubscribe();
     }
@@ -100,6 +112,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if (this.obSub) {
       this.obSub.unsubscribe();
+    }
+  }
+
+  refreshRandomEmoji() {
+    if (this.emojiEnabled) {
+      this.showEmoji = Math.random() > 0.1;
+      if (this.showEmoji) {
+        this.emojiService.refreshRandomEmoji();
+      }
+    } else {
+      this.showEmoji = false;
     }
   }
 

@@ -3,6 +3,7 @@ export const environment = {
     apiUrl: (window['env'] && window['env']['apiUrl']) ? window['env']['apiUrl'] : 'http://localhost/api',
     version: (window['env'] && window['env']['version']) ? window['env']['version'] : ' unregistered',
     signup: (window['env'] && window['env']['signup']) ? window['env']['signup'] != 'DISABLED' : true,
+    emoji: (window['env'] && window['env']['emoji']) ? window['env']['emoji'] != 'DISABLED' : false,
     issueTracker: (window['env'] && window['env']['issueTracker']) ? window['env']['issueTracker'] : 'https://github.com/CallToPower/SimpleTodoNg/issues',
     connectionPath: {
         main: 'connection',

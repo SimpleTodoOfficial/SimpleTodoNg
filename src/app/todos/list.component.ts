@@ -240,26 +240,26 @@ export class ListComponent implements OnInit, OnDestroy {
     observerScreenSize(): void {
         this.obSub = this.observer.observe([
             '(min-width: 300px)',
-            '(min-width: 400px)',
-            '(min-width: 500px)',
+            '(min-width: 410px)',
+            '(min-width: 525px)',
             '(min-width: 600px)',
             '(min-width: 700px)',
             '(min-width: 800px)'
         ]).subscribe(result => {
             if (result.matches) {
                 if (result.breakpoints['(min-width: 800px)']) {
-                    this.shortenLsNameBreadcrumb = 80;
-                    this.shortenWsName = 15;
+                    this.shortenLsNameBreadcrumb = 70;
+                    this.shortenWsName = 20;
                 } else if (result.breakpoints['(min-width: 700px)']) {
-                    this.shortenLsNameBreadcrumb = 55;
+                    this.shortenLsNameBreadcrumb = 48;
                     this.shortenWsName = 15;
                 } else if (result.breakpoints['(min-width: 600px)']) {
-                    this.shortenLsNameBreadcrumb = 55;
+                    this.shortenLsNameBreadcrumb = 48;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 500px)']) {
+                } else if (result.breakpoints['(min-width: 525px)']) {
                     this.shortenLsNameBreadcrumb = 42;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 400px)']) {
+                } else if (result.breakpoints['(min-width: 410px)']) {
                     this.shortenLsNameBreadcrumb = 26;
                     this.shortenWsName = 15;
                 } else if (result.breakpoints['(min-width: 300px)']) {

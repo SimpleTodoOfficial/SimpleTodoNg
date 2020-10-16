@@ -35,7 +35,7 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
             if (err.status === 401 || err.status === 405) {
                 this.logger.log('Resource not accessible');
                 this.router.navigate(['/']);
-                this.alertService.warn(this.i18nService.translate('app.error.not_accessible', 'The request ressource is not accessible.'));
+                this.alertService.warn(this.i18nService.translate('app.error.not_accessible', 'The request resource is not accessible.'));
             } else {
                 if (!request.url.startsWith(`${environment.apiUrl}`)) {
                     this.logger.log('Something went wrong on non-API path');

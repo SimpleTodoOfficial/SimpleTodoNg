@@ -1,12 +1,17 @@
 <div class="toolbar" role="banner">
   <div class="toolbar-nav">
-    <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <fa-icon [icon]="faHome" class="fa-lg"></fa-icon>
+    <a class="nav-item nav-link nav-link-emoji" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <fa-icon [icon]="faHome" class="fa-lg" *ngIf="!showEmoji"></fa-icon>
+      <span class="randomEmoji" *ngIf="showEmoji">
+        {{ emojiService.getCurrentEmoji() }}
+      </span>
       <span>&nbsp;</span>
       <span>{{ i18nService.translate('app.name', 'SimpleTodo') }}</span>
     </a>
   </div>
+
   <div class="spacer"></div>
+
   <div *ngIf="!showCurtain && !user">
     <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active"
@@ -17,6 +22,7 @@
       </a>
     </div>
   </div>
+
   <div *ngIf="!showCurtain && user">
     <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">
@@ -65,10 +71,14 @@
       </div>
     </div>
   </div>
+
 </div>
 
 <div *ngIf="showCurtain" class="content-welcome">
   <div *ngIf="showCurtain" class="spinner-border spinner-border-sm"></div>
+  <div *ngIf="emojiEnabled" (click)="refreshRandomEmoji()" class="randomEmoji">
+    <span>&nbsp;</span>{{ emojiService.getCurrentEmoji() }}
+  </div>
 </div>
 
 <div *ngIf="!showCurtain && !user" class="content-welcome">
@@ -78,9 +88,9 @@
         {{ i18nService.translate('app.component.welcome.header', 'Welcome to SimpleTodo!') }}
       </h2>
       <div>
-        {{ i18nService.translate('app.component.welcome.text', 'SimpleTodo is a collaborative list and todo management tool.') }}
+        {{ i18nService.translate('app.component.welcome.text', 'SimpleTodo is a list and todo management tool for collaborative work.') }}
         <br />
-        {{ i18nService.translate('app.component.welcome.text2', 'Create a workspace, invite other users to join it and start working together.') }}
+        {{ i18nService.translate('app.component.welcome.text2', 'Create a workspace, invite other users to join and start planning together.') }}
       </div>
     </div>
   </div>

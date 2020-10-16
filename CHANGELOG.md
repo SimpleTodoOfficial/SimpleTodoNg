@@ -1,5 +1,11 @@
 # SimpleTodoServer - Changelog
 
+## v1.4.1
+
+- Translation fixes
+- Displaying random emoji in 90% of page transitions if enabled
+- New frontend environment variable EMOJI
+
 ## v1.4.0
 
 - Frontend notification handling improvements
