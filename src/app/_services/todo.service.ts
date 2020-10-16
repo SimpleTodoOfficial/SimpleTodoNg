@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { LoggerService } from './logger.service';
@@ -8,21 +8,13 @@ import { Todo } from '../_models/todo.model';
 @Injectable({
     providedIn: 'root'
 })
-export class TodoService implements OnInit, OnDestroy {
+export class TodoService {
 
     constructor(
         private http: HttpClient,
         private logger: LoggerService
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing TodoService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying TodoService');
     }
 
     getAll(wsId: string, lsId: string) {

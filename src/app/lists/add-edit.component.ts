@@ -98,6 +98,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
     onSubmit() {
         this.loading = true;
         this.submitted = true;
+
         this.alertService.clear();
 
         if (this.form.invalid) {

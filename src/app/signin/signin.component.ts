@@ -73,6 +73,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                     this.logger.log('Signed in successfully');
 
                     this.router.navigate([this.returnUrl]);
+                    this.alertService.clearAll();
                     this.alertService.success(this.i18nService.translate('signin.component.sign_in_success', 'Signed in successfully.'), { autoClose: true });
                 },
                 error => {

@@ -34,7 +34,6 @@ export class ErrorInterceptor implements HttpInterceptor, OnInit, OnDestroy {
             // Attention: Expired tokens throw a 404, NOT a 401!
             if (err.status === 401 || err.status === 405) {
                 this.logger.log('Resource not accessible');
-                // this.userService.signout();
                 this.router.navigate(['/']);
                 this.alertService.warn(this.i18nService.translate('app.error.not_accessible', 'The request ressource is not accessible.'));
             } else {

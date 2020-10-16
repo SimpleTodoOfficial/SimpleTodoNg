@@ -1,5 +1,12 @@
 # SimpleTodoServer - Changelog
 
+## v1.4.0
+
+- Frontend notification handling improvements
+- Welcome text
+- Loading curtain
+- Translation fix
+
 ## v1.3.3
 
 - Backend language and translation delivery cleanup

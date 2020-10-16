@@ -1,20 +1,12 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LoggerService implements OnInit, OnDestroy {
+export class LoggerService {
 
   constructor() {
     // Nothing to see here...
-  }
-
-  ngOnInit() {
-      this.log('Initializing LoggerService');
-  }
-
-  ngOnDestroy() {
-      this.log('Destroying LoggerService');
   }
 
   log(msg: any) {

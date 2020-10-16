@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isAdmin: boolean;
   public isMin: boolean;
   public version = environment.version;
+  public showCurtain: boolean;
   private ussSub: Subscription;
   private obSub: Subscription;
   private langsSub: Subscription;
@@ -48,7 +49,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.loaded = false;
     this.languagesLoaded = false;
+    this.showCurtain = true;
 
+    if (this.ussSub) {
+      this.ussSub.unsubscribe();
+    }
     this.ussSub = this.userService.user.subscribe(x => {
       this.user = x;
       if (this.user) {
@@ -62,6 +67,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.alertService.error(this.i18nService.translate('app.component.error.user.load', 'User could not be loaded.'));
       });
 
+    if (this.obSub) {
+      this.obSub.unsubscribe();
+    }
     this.obSub = this.observer.observe(['(min-width: 500px)']).subscribe(result => {
       if (result.matches) {
         this.isMin = result.breakpoints['(min-width: 500px)'];
@@ -123,6 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.logger.error(error);
           this.languagesLoaded = false;
           this.languagesLoading = false;
+          this.showCurtain = false;
           this.alertService.error(this.i18nService.translate('app.component.error.language_load', 'Language information could not be loaded.'));
         });
   }
@@ -140,11 +149,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.i18nService.setCurrentTranslations(language);
         this.languagesLoaded = true;
         this.languagesLoading = false;
+        this.showCurtain = false;
       },
         error => {
           this.logger.error(error);
           this.languagesLoaded = false;
           this.languagesLoading = false;
+          this.showCurtain = false;
           this.alertService.error(this.i18nService.translate('app.component.error.language_load', 'Language translations could not be loaded.'));
         });
     localStorage.setItem('language', JSON.stringify(language));

@@ -53,6 +53,15 @@
   width: 100%;
 }
 
+.content-welcome {
+  margin: 8px 8px 8px 8px;
+
+  .content-row {
+    border: none;
+  }
+}
+
+.content-welcome,
 .content {
   height: 100%;
   padding: 0;

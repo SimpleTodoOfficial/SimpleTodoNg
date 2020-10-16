@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { LoggerService } from './logger.service';
@@ -8,21 +8,13 @@ import { List } from '../_models/list.model';
 @Injectable({
     providedIn: 'root'
 })
-export class ListService implements OnInit, OnDestroy {
+export class ListService {
 
     constructor(
         private logger: LoggerService,
         private http: HttpClient
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing ListService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying ListService');
     }
 
     getAll(wsId: string) {

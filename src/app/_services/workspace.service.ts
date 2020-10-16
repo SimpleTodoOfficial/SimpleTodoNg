@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { LoggerService } from './logger.service';
@@ -8,21 +8,13 @@ import { Workspace } from '../_models/workspace.model';
 @Injectable({
     providedIn: 'root'
 })
-export class WorkspaceService implements OnInit, OnDestroy {
+export class WorkspaceService {
 
     constructor(
         private http: HttpClient,
         private logger: LoggerService
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing WorkspaceService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying WorkspaceService');
     }
 
     getAll() {

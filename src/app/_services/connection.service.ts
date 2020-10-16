@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { first } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { I18nService } from './i18n.service';
 @Injectable({
     providedIn: 'root'
 })
-export class ConnectionService implements OnInit, OnDestroy {
+export class ConnectionService {
     private sub: Subscription;
     private lastErrorTimestamp = 0;
 
@@ -25,18 +25,6 @@ export class ConnectionService implements OnInit, OnDestroy {
         private alertService: AlertService
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing ConnectionService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying ConnectionService');
-
-        if (this.sub) {
-            this.sub.unsubscribe();
-        }
     }
 
     assertConnection() {
@@ -57,7 +45,7 @@ export class ConnectionService implements OnInit, OnDestroy {
                     if ((currentTimestamp - this.lastErrorTimestamp) >= 3000) {
                         this.logger.log('Connection not OK');
                         this.userService.signout();
-                        this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'));
+                        this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'), { persistent: true });
                     }
                     this.lastErrorTimestamp = currentTimestamp;
                 });

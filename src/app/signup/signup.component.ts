@@ -60,10 +60,8 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.submitted = true;
 
-        // reset alerts on submit
         this.alertService.clear();
 
-        // stop here if form is invalid
         if (this.form.invalid) {
             this.loading = false;
             return;

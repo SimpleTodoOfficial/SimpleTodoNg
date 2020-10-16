@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoggerService } from './logger.service';
@@ -7,20 +7,12 @@ import { DateTime, Time } from '../_models';
 @Injectable({
     providedIn: 'root'
 })
-export class DateTimeService implements OnInit, OnDestroy {
+export class DateTimeService {
 
     constructor(
         private logger: LoggerService
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing DateTimeService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying DateTimeService');
     }
 
     get0FilledNumberAsStr(val: number): string {

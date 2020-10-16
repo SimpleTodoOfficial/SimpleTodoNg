@@ -40,7 +40,11 @@ export class AlertComponent implements OnInit, OnDestroy {
         this.alSub = this.alertService.onAlert(this.id)
             .subscribe(alert => {
                 if (!alert.message) {
-                    this.alerts.forEach(x => this.removeAlert(x));
+                    this.alerts.forEach(x => {
+                        if (alert.clearAll || !x.persistent) {
+                            this.removeAlert(x);
+                        }
+                    });
                     return;
                 }
 

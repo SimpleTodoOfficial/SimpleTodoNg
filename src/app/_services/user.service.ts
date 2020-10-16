@@ -1,4 +1,4 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -7,29 +7,25 @@ import { map } from 'rxjs/operators';
 import { LoggerService } from './logger.service';
 import { environment } from '../environments/environment';
 import { User, ForgotPassword } from '../_models';
+import { AlertService } from './alert.service';
+import { I18nService } from './i18n.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class UserService implements OnInit, OnDestroy {
+export class UserService {
     private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
 
     constructor(
         private router: Router,
         private http: HttpClient,
-        private logger: LoggerService
+        private logger: LoggerService,
+        private i18nService: I18nService,
+        private alertService: AlertService
     ) {
         this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
         this.user = this.userSubject.asObservable();
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing UserService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying UserService');
     }
 
     public get userValue(): User {
@@ -52,6 +48,7 @@ export class UserService implements OnInit, OnDestroy {
         this.logger.log('Signing out user');
         localStorage.removeItem('user');
         localStorage.removeItem('language');
+        localStorage.clear();
         this.userSubject.next(null);
         this.router.navigate(['/account/signin']);
     }
@@ -117,9 +114,18 @@ export class UserService implements OnInit, OnDestroy {
             .pipe(map(x => {
                 if (id == this.userValue.id) {
                     this.signout();
+                    this.alertService.warn(this.i18nService.translate('user.service.signed_out', 'You have been signed out because your account has been updated. Please sign in again.'), { persistent: true });
+
+                    return {
+                        signedOut: true,
+                        user: x
+                    };
                 }
 
-                return x;
+                return {
+                    signedOut: false,
+                    user: x
+                };
             }));
     }
 

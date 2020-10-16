@@ -1,29 +1,19 @@
-﻿import { Injectable, OnInit, OnDestroy } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { LoggerService } from './logger.service';
 import { Alert, AlertType } from '../_models';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AlertService implements OnInit, OnDestroy {
+export class AlertService {
     private subject = new Subject<Alert>();
     private defaultId = 'default-alert';
 
     constructor(
-        private logger: LoggerService
     ) {
         // Nothing to see here...
-    }
-
-    ngOnInit() {
-        this.logger.log('Initializing AlertService');
-    }
-
-    ngOnDestroy() {
-        this.logger.log('Destroying AlertService');
     }
 
     onAlert(id = this.defaultId): Observable<Alert> {
@@ -60,7 +50,11 @@ export class AlertService implements OnInit, OnDestroy {
     }
 
     clear(id = this.defaultId) {
-        this.subject.next(new Alert({ id }));
+        this.subject.next(new Alert({ id: id, clearAll: false }));
+    }
+
+    clearAll(id = this.defaultId) {
+        this.subject.next(new Alert({ id: id, clearAll: true }));
     }
 
 }

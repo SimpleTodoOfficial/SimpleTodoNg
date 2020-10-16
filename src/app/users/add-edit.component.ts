@@ -140,9 +140,11 @@ export class AddEditComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.logger.log('User successfuly updated');
-                    this.router.navigate(['..', { relativeTo: this.route }]);
-                    this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_update', 'User successfuly updated.'), { autoClose: true });
+                    this.logger.log('User successfully updated');
+                    if (!data.signedOut) {
+                        this.router.navigate(['..', { relativeTo: this.route }]);
+                    }
+                    this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_update', 'User successfully updated.'), { autoClose: true });
                     this.loading = false;
                 },
                 error => {

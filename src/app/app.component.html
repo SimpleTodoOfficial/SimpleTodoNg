@@ -7,7 +7,7 @@
     </a>
   </div>
   <div class="spacer"></div>
-  <div *ngIf="!user">
+  <div *ngIf="!showCurtain && !user">
     <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
@@ -17,7 +17,7 @@
       </a>
     </div>
   </div>
-  <div *ngIf="user">
+  <div *ngIf="!showCurtain && user">
     <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">
         <fa-icon [icon]="faAddressBook" class="fa-lg"></fa-icon>
@@ -67,8 +67,26 @@
   </div>
 </div>
 
-<div class="content" role="main">
+<div *ngIf="showCurtain" class="content-welcome">
+  <div *ngIf="showCurtain" class="spinner-border spinner-border-sm"></div>
+</div>
 
+<div *ngIf="!showCurtain && !user" class="content-welcome">
+  <div class="content-row">
+    <div class="content-item">
+      <h2>
+        {{ i18nService.translate('app.component.welcome.header', 'Welcome to SimpleTodo!') }}
+      </h2>
+      <div>
+        {{ i18nService.translate('app.component.welcome.text', 'SimpleTodo is a collaborative list and todo management tool.') }}
+        <br />
+        {{ i18nService.translate('app.component.welcome.text2', 'Create a workspace, invite other users to join it and start working together.') }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showCurtain" class="content" role="main">
   <div class="content-row">
     <div class="content-item">
       <alert></alert>
@@ -80,18 +98,19 @@
 </div>
 
 <footer>
-  <div class="account-not-verified" *ngIf="loaded && user && !user.statusVerified">
+  <div class="account-not-verified" *ngIf="!showCurtain && loaded && user && !user.statusVerified">
     {{ i18nService.translate('app.component.account_verification_str', 'Your email address is not verified, yet. Please check your emails and visit:') }}
-    <a routerLink="/users/{{user.id}}/verify" class="error-link">{{ i18nService.translate('app.component.account_verification', 'Account verification') }}</a>.
+    <a routerLink="/users/{{user.id}}/verify"
+      class="error-link">{{ i18nService.translate('app.component.account_verification', 'Account verification') }}</a>.
   </div>
   <div class="break" *ngIf="loaded && user && !user.statusVerified"></div>
   <div routerLink="/about" class="black-link">
     SimpleTodo {{ version }}
   </div>
 
-  <div *ngIf="languagesLoading">&nbsp;</div>
-  <div *ngIf="languagesLoading" class="spinner-border spinner-border-sm"></div>
-  <div class="nav-item nav-link" ngbDropdown *ngIf="!languagesLoading && languagesLoaded">
+  <div *ngIf="!showCurtain && languagesLoading">&nbsp;</div>
+  <div *ngIf="!showCurtain && languagesLoading" class="spinner-border spinner-border-sm"></div>
+  <div class="nav-item nav-link" ngbDropdown *ngIf="!showCurtain && !languagesLoading && languagesLoaded">
     <a ngbDropdownToggle>
       <fa-icon [icon]="faFlag"></fa-icon>
     </a>
