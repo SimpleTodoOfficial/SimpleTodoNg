@@ -7,12 +7,12 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="message">{{ i18nService.translate('todos.addedit.component.message', 'Task') }}</label>
-                    <input type="text" formControlName="msg" class="form-control" placeholder="{{ i18nService.translate('todos.addedit.component.placeholder.message', 'Enter task') }}"
+                    <label for="msg">{{ i18nService.translate('todos.addedit.component.message', 'Text') }}</label>
+                    <input type="text" formControlName="msg" class="form-control" placeholder="{{ i18nService.translate('todos.addedit.component.placeholder.message', 'Enter text') }}"
                         [ngClass]="{ 'is-invalid': submitted && f.msg.errors }" [attr.disabled]="loading || null" />
                     <div *ngIf="submitted && f.msg.errors" class="invalid-feedback">
-                        <div *ngIf="f.message.errors.required">{{ i18nService.translate('todos.addedit.component.validation.required.message', 'Task is required') }}</div>
-                        <div *ngIf="f.message.errors.maxlength">{{ i18nService.translate('todos.addedit.component.validation.max.message', 'Task can be at most 1024 characters') }}</div>
+                        <div *ngIf="f.msg.errors.required">{{ i18nService.translate('todos.addedit.component.validation.required.message', 'Text is required') }}</div>
+                        <div *ngIf="f.msg.errors.maxlength">{{ i18nService.translate('todos.addedit.component.validation.max.message', 'Text can be at most 1024 characters') }}</div>
                     </div>
                 </div>
             </div>
