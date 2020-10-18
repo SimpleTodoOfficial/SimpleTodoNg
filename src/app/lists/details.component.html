@@ -44,6 +44,10 @@
                         </span>
                     </div>
                     <div *ngIf="!loading">
+                        &nbsp;
+                        &nbsp;
+                    </div>
+                    <div *ngIf="!loading">
                         <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
                         <span *ngIf="!isDeleting">
                             <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteList(list.id)">

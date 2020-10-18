@@ -150,7 +150,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
         const activeModal = this.modalService.open(ModalConfirm);
         activeModal.componentInstance.header = this.i18nService.translate('users.details.component.modal.delete.header', 'Confirm user deletion');
-        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.delete.text', 'Are you sure that you want to delete the user "%username%"?', {'username': this.user.username});
+        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.delete.text', 'Are you sure that you want to delete the user "%username%"?', { 'username': this.user.username });
         activeModal.componentInstance.text2 = this.i18nService.translate('users.details.component.modal.delete.text2', '');
         activeModal.componentInstance.textDanger = this.i18nService.translate('users.details.component.modal.delete.textDanger', 'Everything associated to this user will be permanently deleted.');
         activeModal.result.then(() => {
@@ -169,7 +169,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 },
                     error => {
                         this.logger.error(error);
-                        this.alertService.error(this.i18nService.translate('users.details.component.error.user_delete', 'User could not be deleted.'));
+                        this.alertService.error(this.i18nService.translate('users.details.component.error.user_delete', 'User could not be deleted. Possible reasons: For example, there has to be at least one user with role "Administrator".'));
+                        this.isDeleting = false;
                     });
         },
             () => {
@@ -208,7 +209,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         const activeModal = this.modalService.open(ModalConfirm);
         activeModal.componentInstance.header = this.i18nService.translate('users.details.component.modal.remove_role.header', 'Confirm user role removal');
         let rolename = this.i18nService.translate('app.roles.' + role, role);
-        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.remove_role.text', 'Are you sure that you want to remove the user role "%rolename%" from this user?', {'rolename': rolename});
+        activeModal.componentInstance.text = this.i18nService.translate('users.details.component.modal.remove_role.text', 'Are you sure that you want to remove the user role "%rolename%" from this user?', { 'rolename': rolename });
         activeModal.componentInstance.text2 = this.i18nService.translate('users.details.component.modal.remove_role.text2', '');
         activeModal.componentInstance.textDanger = this.i18nService.translate('users.details.component.modal.remove_role.textDanger', '');
         activeModal.result.then(() => {

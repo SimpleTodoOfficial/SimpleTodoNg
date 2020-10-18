@@ -22,7 +22,7 @@
                     <div *ngIf="f.username.errors.minlength">{{ i18nService.translate('signup.component.validation.min.email', 'Invalid email address') }}</div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group form-group-no-bottom">
                 <label for="password">{{ i18nService.translate('signup.component.password', 'Password') }}</label>
                 <input type="password" formControlName="password" class="form-control" placeholder="{{ i18nService.translate('signup.component.placeholder.enter_password', 'Enter password') }}"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" [attr.disabled]="loading || null" />
@@ -30,6 +30,11 @@
                     <div *ngIf="f.password.errors.required">{{ i18nService.translate('signup.component.validation.required.password', 'Password is required') }}</div>
                     <div *ngIf="f.password.errors.minlength">{{ i18nService.translate('signup.component.validation.min.password', 'Password must be at least 6 characters') }}</div>
                 </div>
+            </div>
+            <div class="signup-information">
+                <a routerLink="/about" class="btn btn-link">
+                    {{ i18nService.translate('signup.component.information', 'Information regarding privacy and security of your data (deletes your current inputs on click)') }}
+                </a>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary btn-std-1">

@@ -1,5 +1,12 @@
 # SimpleTodoServer - Changelog
 
+## v1.4.2
+
+- Making sure on user update that one user with role ROLE_ADMIN exists at any time: User cannot be updated in case there is not at least one other user with role ROLE_ADMIN.
+- Making sure on user delete that one user with role ROLE_ADMIN exists at any time: User cannot be deleted in case there is not at least one other user with role ROLE_ADMIN.
+- Removed all "deleteAll" (workspaces, lists, totos, uders) methods
+- Added more space between actions "move" and "delete" (lists, todos)
+
 ## v1.4.1
 
 - Translation fixes

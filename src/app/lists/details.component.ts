@@ -109,35 +109,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     observerScreenSize(): void {
         this.obSub = this.observer.observe([
-            '(min-width: 340px)',
-            '(min-width: 410px)',
-            '(min-width: 510px)',
-            '(min-width: 610px)',
-            '(min-width: 710px)',
-            '(min-width: 810px)'
+            '(min-width: 355px)',
+            '(min-width: 435px)',
+            '(min-width: 540px)',
+            '(min-width: 635px)',
+            '(min-width: 735px)',
+            '(min-width: 800px)'
         ]).subscribe(result => {
             if (result.matches) {
-                if (result.breakpoints['(min-width: 810px)']) {
+                if (result.breakpoints['(min-width: 800px)']) {
                     this.shortenLsName = 95;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 710px)']) {
-                    this.shortenLsName = 70;
+                } else if (result.breakpoints['(min-width: 735px)']) {
+                    this.shortenLsName = 60;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 610px)']) {
-                    this.shortenLsName = 65;
+                } else if (result.breakpoints['(min-width: 635px)']) {
+                    this.shortenLsName = 60;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 510px)']) {
+                } else if (result.breakpoints['(min-width: 540px)']) {
                     this.shortenLsName = 55;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 410px)']) {
+                } else if (result.breakpoints['(min-width: 435px)']) {
                     this.shortenLsName = 40;
                     this.shortenLsNameBreadcrumb = this.shortenLsName - 20;
                     this.shortenWsName = 15;
-                } else if (result.breakpoints['(min-width: 340px)']) {
+                } else if (result.breakpoints['(min-width: 355px)']) {
                     this.shortenLsName = 30;
                     this.shortenLsNameBreadcrumb = 15;
                     this.shortenWsName = 10;
