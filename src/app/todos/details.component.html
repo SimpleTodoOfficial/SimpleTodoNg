@@ -85,7 +85,7 @@
                     -
                 </div>
                 <div *ngIf="!loading && todo.dueDate" class="item-content">
-                    {{ todo.dueDate | date:i18nService.translate('todos.details.component.date_format', 'EEEE, MMMM d, y, h:mm:ss a zzzz') }}
+                    {{ todo.dueDate | date:i18nService.translate('todos.details.component.date_format', 'EEEE, MMMM d, y, hh:mm:ss a') }}
                 </div>
                 <div class="item-content" *ngIf="loading">
                     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>

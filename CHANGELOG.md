@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.1
+
+- Corrected date and time formats
+
 ## v1.5.0
 
 - Added endpoint to get due Todos for a specific user
