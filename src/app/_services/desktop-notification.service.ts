@@ -6,16 +6,27 @@ import { LoggerService } from './logger.service';
     providedIn: 'root'
 })
 export class DesktopNotificationService {
+    private notificationsAvailable: boolean;
     private permissionGranted: boolean;
 
     constructor(
         private logger: LoggerService
     ) {
-        this.permissionGranted = Notification !== undefined
-            && Notification.permission === 'granted';
+        try {
+            this.permissionGranted = Notification !== undefined
+                && Notification.permission === 'granted';
+            this.notificationsAvailable = true;
+        } catch (err) {
+            this.notificationsAvailable = false;
+            this.permissionGranted = false;
+        }
     }
 
     askForPermissions() {
+        if (!this.notificationsAvailable) {
+            return false;
+        }
+
         return Notification !== undefined
             && Notification.permission !== undefined
             && Notification.permission !== 'granted'
@@ -23,17 +34,24 @@ export class DesktopNotificationService {
     }
 
     isPermissionGranted() {
-        return this.permissionGranted;
+        return this.notificationsAvailable && this.permissionGranted;
     }
 
     askPermission() {
-        this.permissionGranted = Notification.permission === 'granted';
+        if (!this.notificationsAvailable) {
+            return new Promise((resolve, reject) => {
+                resolve(false);
+            });
+        }
+
+        this.permissionGranted = Notification !== undefined
+            && Notification.permission === 'granted';
         if (this.permissionGranted) {
             this.logger.log('Desktop notification permissions granted');
             return new Promise((resolve, reject) => {
                 resolve(true);
             });
-        } else if (Notification.permission !== 'denied') {
+        } else if (Notification !== undefined && Notification.permission !== 'denied') {
             return Notification.requestPermission().then(permission => {
                 this.logger.log('Desktop notification permissions status updated: ' + permission);
                 this.permissionGranted = Notification.permission === 'granted';
@@ -47,7 +65,7 @@ export class DesktopNotificationService {
     }
 
     sendNotification(header: string, body: string, href: string) {
-        if (this.permissionGranted) {
+        if (this.notificationsAvailable && this.permissionGranted && Notification !== undefined) {
             const notification = new Notification(header, {
                 body: body
             });
