@@ -76,6 +76,10 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.user) {
         this.isAdmin = this.userService.isAdmin();
         this.loaded = true;
+
+        if (this.languagesLoaded && this.desktopNotificationService.isPermissionGranted()) {
+          this.enableDueTodoRefresh();
+        }
       } else {
         clearTimeout(this.dueTodoRefreshInterval);
         if (this.dueTodosSub) {
@@ -252,7 +256,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.languagesLoading = false;
         this.showCurtain = false;
 
-        if (this.desktopNotificationService.isPermissionGranted()) {
+        if (this.user && this.desktopNotificationService.isPermissionGranted()) {
           this.enableDueTodoRefresh();
         }
       },
