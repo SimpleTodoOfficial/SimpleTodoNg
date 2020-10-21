@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 
 import { LoggerService } from './logger.service';
+import { AlertService } from './alert.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ export class DesktopNotificationService {
     private permissionGranted: boolean;
 
     constructor(
-        private logger: LoggerService
+        private logger: LoggerService,
+        private alertService: AlertService
     ) {
         try {
             this.permissionGranted = Notification !== undefined
@@ -64,7 +66,7 @@ export class DesktopNotificationService {
         });
     }
 
-    sendNotification(header: string, body: string, href: string) {
+    sendNotification(header: string, body: string, shortBody: string, href: string) {
         if (this.notificationsAvailable && this.permissionGranted && Notification !== undefined) {
             const notification = new Notification(header, {
                 body: body
@@ -73,8 +75,7 @@ export class DesktopNotificationService {
                 window.location.href = href;
             };
         } else {
-            this.logger.log('Header: ' + header);
-            this.logger.log('Body: ' + body);
+            this.alertService.info(shortBody);
         }
     }
 

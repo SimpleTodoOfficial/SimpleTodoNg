@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.2
+
+- Fallback to alerts for due todos if desktop notifications are not available
+- Option to remove the activate desktop notifications information
+
 ## v1.5.1
 
 - Corrected date and time formats
