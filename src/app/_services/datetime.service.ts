@@ -19,7 +19,11 @@ export class DateTimeService {
         return val < 10 ? '0' + val : '' + val;
     }
 
-    dateFromString(str: string): Date {
+    dateFromString(str): Date {
+        return new Date(str);
+    }
+
+    dateFromFormatString(str: string): Date {
         var m = str.match(/(\d+)-(\d+)-(\d+)\s+(\d+):(\d+):(\d+)/);
         return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]);
     }
@@ -40,7 +44,7 @@ export class DateTimeService {
     }
 
     getDateTimeAsStr(dateValue: NgbDateStruct, timeValue: Time): string {
-        // Datetime format in backend validation is "yyyy-mm-dd HH:mm:ss"
+        // Datetime in backend is timestamp
         if (dateValue == null && timeValue == null) {
             return null;
         }
@@ -78,7 +82,7 @@ export class DateTimeService {
 
         this.logger.log('Returning date and time result "' + retStr + '"');
 
-        return retStr;
+        return this.dateFromFormatString(retStr).getTime() + '';
     }
 
 }

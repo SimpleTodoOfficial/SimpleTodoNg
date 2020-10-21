@@ -4,10 +4,10 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
-import { faAddressCard, faHome, faAddressBook, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faHome, faAddressBook, faClock, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from './environments/environment';
-import { LoggerService, AlertService, UserService, I18nService, LanguageService, EmojiService } from './_services';
+import { LoggerService, AlertService, UserService, I18nService, LanguageService, EmojiService, DesktopNotificationService } from './_services';
 import { User } from './_models';
 
 @Component({
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public loaded: boolean;
   public languagesLoading: boolean;
   public languagesLoaded: boolean;
+  public askDesktopNotificationPermissions: boolean;
   public user: User;
   public isAdmin: boolean;
   public isMin: boolean;
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private langsSub: Subscription;
   private langSub: Subscription;
   private rtSub: Subscription;
+  private dueTodosSub: Subscription;
+  private dueTodoRefreshInterval;
 
   public faAddressCard = faAddressCard;
   public faHome = faHome;
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public faSignOutAlt = faSignOutAlt;
   public faUser = faUser;
   public faFlag = faFlag;
+  public faClock = faClock;
 
   constructor(
     public emojiService: EmojiService,
@@ -49,7 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private observer: BreakpointObserver,
     private logger: LoggerService,
     private alertService: AlertService,
-    private userService: UserService
+    private userService: UserService,
+    private desktopNotificationService: DesktopNotificationService
   ) {
     this.loaded = false;
     this.languagesLoaded = false;
@@ -71,6 +76,15 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.user) {
         this.isAdmin = this.userService.isAdmin();
         this.loaded = true;
+
+        if (this.desktopNotificationService.isPermissionGranted()) {
+          this.enableDueTodoRefresh();
+        }
+      } else {
+        clearTimeout(this.dueTodoRefreshInterval);
+        if (this.dueTodosSub) {
+          this.dueTodosSub.unsubscribe();
+        }
       }
     },
       error => {
@@ -94,6 +108,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.logger.log('Initializing AppComponent');
 
+    this.askDesktopNotificationPermissions = this.desktopNotificationService.askForPermissions();
+
     // To prevent cyclic dependencies, we have to set up langauge and i18n services here
     this.prepareLanguages();
   }
@@ -101,6 +117,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.logger.log('Destroying AppComponent');
 
+    clearTimeout(this.dueTodoRefreshInterval);
     if (this.langsSub) {
       this.langsSub.unsubscribe();
     }
@@ -113,6 +130,65 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.obSub) {
       this.obSub.unsubscribe();
     }
+    if (this.dueTodosSub) {
+      this.dueTodosSub.unsubscribe();
+    }
+  }
+
+  refreshDueTodos(logger, userService, desktopNotificationService, i18nService) {
+    logger.log('Requesting due Todos');
+    if (this.dueTodosSub) {
+      this.dueTodosSub.unsubscribe();
+    }
+    this.dueTodosSub = userService.getDueTodos()
+      .pipe(first())
+      .subscribe(dueTodos => {
+        logger.log('There are currently ' + dueTodos.length + ' due Todos.');
+        let url = `/${environment.usersPath.todos.due}`;
+        if (dueTodos.length > 0) {
+          this.logger.log('Loading last desktop notification time from localStorage');
+          let lastTimeStr = JSON.parse(localStorage.getItem('lastdesktopnotification'));
+          let display = false;
+          if (lastTimeStr) {
+            let lastTime = parseInt(JSON.parse(localStorage.getItem('lastdesktopnotification')));
+            if ((new Date().getTime() - lastTime) > (60 * 1000)) {
+              display = true;
+            }
+          } else {
+            display = true;
+          }
+          if (display) {
+            desktopNotificationService.sendNotification(
+              i18nService.translate('duetodos.notification.newduetodos.header', 'Due Todos'),
+              i18nService.translate('duetodos.notification.newduetodos.body', 'There are due todos. Click here to get to the overview.'),
+              url
+            );
+            localStorage.setItem('lastdesktopnotification', '' + new Date().getTime());
+          }
+        }
+      },
+        error => {
+          logger.error(error);
+        });
+  }
+
+  setUpDesktopNotifications() {
+    this.desktopNotificationService.askPermission().then(result => {
+      this.askDesktopNotificationPermissions = false;
+      if (result) {
+        this.logger.log('Setting up due Todo refresh, desktop notifications are enabled');
+        this.enableDueTodoRefresh();
+      } else {
+        this.logger.log('Not setting up due Todo refresh, desktop notifications are not enabled');
+      }
+    });
+  }
+
+  enableDueTodoRefresh() {
+    this.refreshDueTodos(this.logger, this.userService, this.desktopNotificationService, this.i18nService);
+    clearTimeout(this.dueTodoRefreshInterval);
+    this.dueTodoRefreshInterval = setInterval(this.refreshDueTodos, 10 * 60 * 1000,
+      this.askDesktopNotificationPermissions, this.logger, this.userService, this.desktopNotificationService, this.i18nService);
   }
 
   refreshRandomEmoji() {
@@ -187,6 +263,11 @@ export class AppComponent implements OnInit, OnDestroy {
   signout() {
     this.isAdmin = false;
     this.userService.signout();
+
+    clearTimeout(this.dueTodoRefreshInterval);
+    if (this.dueTodosSub) {
+      this.dueTodosSub.unsubscribe();
+    }
     this.alertService.info(this.i18nService.translate('app.component.info.sign_out', 'Signed out successfully'), { autoClose: true });
   }
 

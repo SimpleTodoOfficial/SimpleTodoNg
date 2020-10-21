@@ -6,6 +6,7 @@ import { AuthHelper } from './_helpers/auth.helper';
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
 const workspacesModule = () => import('./workspaces/workspaces.module').then(x => x.WorkspacesModule);
+const dueTodosModule = () => import('./duetodos/duetodos.module').then(x => x.DueTodosModule);
 const aboutModule = () => import('./about/about.module').then(x => x.AboutModule);
 
 const routes: Routes = [
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: 'workspaces',
     loadChildren: workspacesModule,
+    canActivate: [AuthHelper]
+  },
+  {
+    path: 'duetodos',
+    loadChildren: dueTodosModule,
     canActivate: [AuthHelper]
   },
   {

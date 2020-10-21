@@ -9,3 +9,4 @@ export * from './connection.service';
 export * from './i18n.service';
 export * from './language.service';
 export * from './emoji.service';
+export * from './desktop-notification.service';

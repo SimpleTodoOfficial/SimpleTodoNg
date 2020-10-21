@@ -1,0 +1,41 @@
+﻿<div class="list-component">
+    <div class="todos">
+        <div class="table-header">
+            <fa-icon [icon]="faList" class="fa-lg"></fa-icon>
+            <span>&nbsp;</span>
+            <span>{{ i18nService.translate('duetodos.list.component.duetodos', 'Due Todos') }}</span>
+            <span>&nbsp;</span>
+            <div class="spacer"></div>
+            <div *ngIf="refreshing" class="spinner-border spinner-border-sm"></div>
+            <fa-icon *ngIf="!refreshing" [icon]="faSync" class="normal-link fa-lg" (click)="refresh()">
+            </fa-icon>
+        </div>
+        <div *ngIf="duetodos.length <= 0" class="duetodos-none">
+            <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+            <div *ngIf="!loading && !error">
+                {{ i18nService.translate('duetodos.list.component.duetodos_none', 'Currently no due Todos.') }}
+            </div>
+            <div *ngIf="error">
+                {{ i18nService.translate('duetodos.list.component.error.duetodos_load', 'Due Todos could not be loaded.') }}
+            </div>
+        </div>
+        <div *ngIf="duetodos.length > 0">
+            <div *ngFor="let duetodo of duetodos; let i = index">
+                <div class="list-item"
+                    routerLink="/workspaces/{{duetodo.workspaceId}}/lists/{{duetodo.listId}}/todos/{{duetodo.id}}"
+                    [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
+                    <div class="list-item-description">{{ duetodo.msg }}
+                    </div>
+                    <div class="spacer"></div>
+                    <div *ngIf="duetodo.dueDate" class="due-date">
+                        <span>&nbsp;</span>
+                        <fa-icon [icon]="faClock"></fa-icon>
+                        <span>&nbsp;</span>
+                        <span>{{ duetodo.dueDate | date:i18nService.translate('duetodos.list.component.date_format', 'M/d/y, h:mm:ss') }}</span>
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

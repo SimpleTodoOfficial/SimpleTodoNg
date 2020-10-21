@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { LoggerService } from './logger.service';
 import { environment } from '../environments/environment';
-import { User, ForgotPassword } from '../_models';
+import { User, Todo, ForgotPassword } from '../_models';
 import { AlertService } from './alert.service';
 import { I18nService } from './i18n.service';
 
@@ -48,6 +48,7 @@ export class UserService {
         this.logger.log('Signing out user');
         localStorage.removeItem('user');
         localStorage.removeItem('language');
+        localStorage.removeItem('lastdesktopnotification');
         localStorage.clear();
         this.userSubject.next(null);
         this.router.navigate(['/account/signin']);
@@ -105,6 +106,13 @@ export class UserService {
         this.logger.log('Getting user, URL: ' + url);
 
         return this.http.get<User>(url);
+    }
+
+    getDueTodos() {
+        let url = `${environment.apiUrl}/${environment.usersPath.main}/${this.userValue.id}/${environment.usersPath.todos.due}`;
+        this.logger.log('Getting due Todos for user, URL: ' + url);
+
+        return this.http.get<Todo[]>(url);
     }
 
     update(id, params) {

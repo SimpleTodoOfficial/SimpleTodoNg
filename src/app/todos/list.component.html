@@ -73,7 +73,7 @@
                     <fa-icon [icon]="faClock"></fa-icon>
                     <span>&nbsp;</span>
                 </div>
-                <div class="list-item-description" routerLink="{{todo.id}}">{{ todo.msg | shorten:shortenTodoMsg }}
+                <div class="list-item-description" routerLink="{{todo.id}}">{{ todo.msg }} <!-- | shorten:shortenTodoMsg -->
                 </div>
                 <div class="spacer" routerLink="{{todo.id}}"></div>
                 <div class="list-item-actions">

@@ -1,5 +1,11 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.0
+
+- Added endpoint to get due Todos for a specific user
+- Added desktop notifications
+- Added due Todos overview
+
 ## v1.4.2
 
 - Making sure on user update that one user with role ROLE_ADMIN exists at any time: User cannot be updated in case there is not at least one other user with role ROLE_ADMIN.

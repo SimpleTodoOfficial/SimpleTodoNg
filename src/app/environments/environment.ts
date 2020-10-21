@@ -29,6 +29,9 @@ export const environment = {
         verify: {
             main: 'verify',
             resend: 'resend'
+        },
+        todos: {
+            due: 'duetodos'
         }
     },
     workspacesPath: {

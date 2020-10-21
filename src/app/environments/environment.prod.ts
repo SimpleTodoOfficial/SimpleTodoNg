@@ -15,6 +15,10 @@ export const environment = {
         signup: 'signup',
         signin: 'signin'
     },
+    i18nPath: {
+        main: 'i18n',
+        languages: 'languages'
+    },
     usersPath: {
         main: 'users',
         password: {
@@ -25,6 +29,9 @@ export const environment = {
         verify: {
             main: 'verify',
             resend: 'resend'
+        },
+        todos: {
+            due: 'duetodos'
         }
     },
     workspacesPath: {

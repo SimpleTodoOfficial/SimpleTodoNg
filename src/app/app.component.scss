@@ -45,6 +45,18 @@
   }
 }
 
+.setup-desktop-notifications {
+  a,
+  a:visited {
+    color: $mainColor;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $tertiaryColor;
+  }
+}
+
 .navbar-nav {
   flex-direction: inherit;
 }
@@ -57,6 +69,7 @@
   width: 100%;
 }
 
+.setup-desktop-notifications,
 .content-welcome {
   margin: 8px 8px 8px 8px;
 
@@ -65,6 +78,7 @@
   }
 }
 
+.setup-desktop-notifications,
 .content-welcome,
 .content {
   height: 100%;

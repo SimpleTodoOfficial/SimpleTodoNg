@@ -2,7 +2,6 @@ export class Workspace {
 
     constructor(
         public id: string,
-        public createdDate: string,
         public name: string,
         public users: string[],
         public lists: string[],
