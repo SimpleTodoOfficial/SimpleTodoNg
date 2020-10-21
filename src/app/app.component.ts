@@ -76,10 +76,6 @@ export class AppComponent implements OnInit, OnDestroy {
       if (this.user) {
         this.isAdmin = this.userService.isAdmin();
         this.loaded = true;
-
-        if (this.desktopNotificationService.isPermissionGranted()) {
-          this.enableDueTodoRefresh();
-        }
       } else {
         clearTimeout(this.dueTodoRefreshInterval);
         if (this.dueTodosSub) {
@@ -135,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  refreshDueTodos(logger, userService, sendNotificationFunc) {
+  refreshDueTodos(logger, userService, sendNotificationFunc, desktopNotificationService, i18nService) {
     logger.log('Requesting due Todos');
     if (this.dueTodosSub) {
       this.dueTodosSub.unsubscribe();
@@ -146,7 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
         logger.log('There are currently ' + dueTodos.length + ' due Todos.');
         if (dueTodos.length > 0) {
           if (sendNotificationFunc) {
-            sendNotificationFunc();
+            sendNotificationFunc(logger, desktopNotificationService, i18nService);
           }
         }
       },
@@ -155,8 +151,8 @@ export class AppComponent implements OnInit, OnDestroy {
         });
   }
 
-  sendNotification() {
-    this.logger.log('Loading last desktop notification time from localStorage');
+  sendNotification(logger, desktopNotificationService, i18nService) {
+    logger.log('Loading last desktop notification time from localStorage');
     let lastTimeStr = JSON.parse(localStorage.getItem('lastdesktopnotification'));
     let display = false;
     if (lastTimeStr) {
@@ -169,9 +165,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if (display) {
       let url = `/${environment.usersPath.todos.due}`;
-      this.desktopNotificationService.sendNotification(
-        this.i18nService.translate('duetodos.notification.newduetodos.header', 'Due Todos'),
-        this.i18nService.translate('duetodos.notification.newduetodos.body', 'There are due Todos. Click here to get to the overview.'),
+      desktopNotificationService.sendNotification(
+        i18nService.translate('duetodos.notification.newduetodos.header', 'Due Todos'),
+        i18nService.translate('duetodos.notification.newduetodos.body', 'There are due Todos. Click here to get to the overview.'),
         url
       );
       localStorage.setItem('lastdesktopnotification', '' + new Date().getTime());
@@ -191,10 +187,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   enableDueTodoRefresh() {
-    this.refreshDueTodos(this.logger, this.userService, this.sendNotification);
     clearTimeout(this.dueTodoRefreshInterval);
     this.dueTodoRefreshInterval = setInterval(this.refreshDueTodos, 10 * 60 * 1000,
-      this.logger, this.userService, this.sendNotification);
+      this.logger, this.userService, this.sendNotification, this.desktopNotificationService, this.i18nService);
+    this.refreshDueTodos(this.logger, this.userService, this.sendNotification, this.desktopNotificationService, this.i18nService);
   }
 
   refreshRandomEmoji() {
@@ -255,6 +251,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.languagesLoaded = true;
         this.languagesLoading = false;
         this.showCurtain = false;
+
+        if (this.desktopNotificationService.isPermissionGranted()) {
+          this.enableDueTodoRefresh();
+        }
       },
         error => {
           this.logger.error(error);
@@ -270,6 +270,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isAdmin = false;
     this.userService.signout();
 
+    localStorage.removeItem('lastdesktopnotification');
     clearTimeout(this.dueTodoRefreshInterval);
     if (this.dueTodosSub) {
       this.dueTodosSub.unsubscribe();
