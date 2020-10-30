@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.3
+
+- New backend parameter for due todos to be displayed in the future, in minutes: "simpletodo.duetodos-minutes-plus"
+
 ## v1.5.2
 
 - Fallback to alerts for due todos if desktop notifications are not available
