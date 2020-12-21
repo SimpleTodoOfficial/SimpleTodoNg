@@ -3,9 +3,11 @@
 ## v1.5.4
 
 - File content cache
+- New backend parameter for the max file string cache size: "simpletodo.cache.file.string.max"
 - Fixed signup process where sometimes a user could not be created
 - Non-admin users cannot see the edit button in user lists for other users then themselves any more
 - Fixed windows line endings in the bootstrap script
+- Hint if user cannot be updated
 
 ## v1.5.3
 

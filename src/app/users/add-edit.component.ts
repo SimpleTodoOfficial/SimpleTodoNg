@@ -149,7 +149,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     this.logger.error(error);
-                    this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_update', 'User could not be updated.'));
+                    this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_update', 'User could not be updated. Maybe the email address is already in use?'));
                     this.loading = false;
                 });
     }

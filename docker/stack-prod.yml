@@ -47,6 +47,7 @@ services:
       - SIMPLETODO_URL_PASSWORD_RESET_SUCCESS=https://<yourUrl>/account/signin
       - SIMPLETODO_URL_USER_VERIFICATION=https://<yourUrl>/users/%s/verify
       - SIMPLETODO_DUETODOS_MINUTES_PLUS=300
+      - SIMPLETODO_CACHE_FILE_STRING_MAX=10
       - SPRING_MAIL_HOST=<smtp.yourEmailProvider>
       - SPRING_MAIL_PORT=587
       - SPRING_MAIL_USERNAME=<username>
