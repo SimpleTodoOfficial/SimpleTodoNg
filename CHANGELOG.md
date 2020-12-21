@@ -1,5 +1,12 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.4
+
+- File content cache
+- Fixed signup process where sometimes a user could not be created
+- Non-admin users cannot see the edit button in user lists for other users then themselves any more
+- Fixed windows line endings in the bootstrap script
+
 ## v1.5.3
 
 - New backend parameter for due todos to be displayed in the future, in minutes: "simpletodo.duetodos-minutes-plus"

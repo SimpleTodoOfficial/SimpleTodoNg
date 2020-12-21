@@ -4,6 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { LoggerService, UserService, AlertService, I18nService } from '../_services';
 import { faSync, faUserCircle, faPlusCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
+import { User } from '../_models';
 
 @Component({
     templateUrl: 'list.component.html',
@@ -15,8 +16,11 @@ export class ListComponent implements OnInit, OnDestroy {
     public error = false;
     public users = [];
     public shortenUName: number = 25;
+    public isAdmin: boolean;
+    public currUser: User;
     private usSub: Subscription;
     private obSub: Subscription;
+    private ussSub: Subscription;
 
     public faUserCircle = faUserCircle;
     public faPlusCircle = faPlusCircle;
@@ -31,6 +35,19 @@ export class ListComponent implements OnInit, OnDestroy {
         private logger: LoggerService
     ) {
         this.observerScreenSize();
+
+        if (this.ussSub) {
+            this.ussSub.unsubscribe();
+        }
+        this.ussSub = this.userService.user.subscribe(x => {
+            this.currUser = x;
+            if (this.currUser) {
+                this.isAdmin = this.userService.isAdmin();
+            }
+        },
+            error => {
+                this.logger.error(error);
+            });
     }
 
     ngOnInit() {
@@ -48,6 +65,9 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         if (this.obSub) {
             this.obSub.unsubscribe();
+        }
+        if (this.ussSub) {
+            this.ussSub.unsubscribe();
         }
     }
 
@@ -67,13 +87,13 @@ export class ListComponent implements OnInit, OnDestroy {
                 this.refreshing = false;
                 this.error = false;
             },
-            error => {
-                this.logger.error(error);
-                this.alertService.error(this.i18nService.translate('users.list.component.error.users_load', 'Users could not be loaded.'));
-                this.loading = false;
-                this.refreshing = false;
-                this.error = true;
-            });
+                error => {
+                    this.logger.error(error);
+                    this.alertService.error(this.i18nService.translate('users.list.component.error.users_load', 'Users could not be loaded.'));
+                    this.loading = false;
+                    this.refreshing = false;
+                    this.error = true;
+                });
     }
 
     observerScreenSize(): void {
