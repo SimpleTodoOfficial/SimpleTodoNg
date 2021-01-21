@@ -61,6 +61,16 @@
                 <div *ngIf="!loading" class="item-content">
                     {{ todo.msg }}
                 </div>
+                <div class="item-header">
+                    {{ i18nService.translate('todos.details.component.url', 'URL') }}
+                </div>
+                <div *ngIf="!loading && todo.url" class="item-content">
+                    
+                    <a href="{{ todo.url }}" target="_blank" class="normal-link">{{ todo.url }}</a>
+                </div>
+                <div *ngIf="!loading && !todo.url" class="item-content">
+                    -
+                </div>
                 <div class="item-content" *ngIf="loading">
                     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
                 </div>

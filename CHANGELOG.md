@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.5
+
+- Added a URL option to Todos
+
 ## v1.5.4
 
 - File content cache

@@ -3,6 +3,7 @@ export class Todo {
     constructor(
         public id: string,
         public msg: string,
+        public url: string,
         public done: boolean,
         public workspaceId: string,
         public workspaceName: string,

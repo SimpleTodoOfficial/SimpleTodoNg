@@ -75,6 +75,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
         this.form = this.formBuilder.group({
             msg: ['', [Validators.required, Validators.maxLength(1024)]],
+            url: ['', [Validators.maxLength(1024)]],
             done: [false],
             dueDate: [null],
             dueTime: [null]
@@ -99,6 +100,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                         .pipe(first())
                         .subscribe(x => {
                             this.f.msg.setValue(x.msg);
+                            this.f.url.setValue(x.url);
                             this.f.done.setValue(x.done);
                             this.parseDateTimeFromStr(x.dueDate);
                             this.loading = false;
@@ -165,7 +167,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        let todo = new Todo(null, this.form.controls.msg.value, this.form.controls.done.value, null, null, null, null, this.getDateTimeAsStr(), null);
+        let todo = new Todo(null, this.form.controls.msg.value, this.form.controls.url.value, this.form.controls.done.value, null, null, null, null, this.getDateTimeAsStr(), null);
         if (this.tdsSub) {
             this.tdsSub.unsubscribe();
         }
@@ -188,7 +190,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
         this.loading = true;
 
-        let todo = new Todo(this.id, this.form.controls.msg.value, this.form.controls.done.value, null, null, null, null, this.getDateTimeAsStr(), null);
+        let todo = new Todo(this.id, this.form.controls.msg.value, this.form.controls.url.value, this.form.controls.done.value, null, null, null, null, this.getDateTimeAsStr(), null);
         if (this.tdsSub) {
             this.tdsSub.unsubscribe();
         }
