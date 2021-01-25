@@ -24,6 +24,7 @@ Backend server: SimpleTodoServer: https://github.com/CallToPower/SimpleTodoServe
 - "docker login"
 - "docker tag simpletodo-ng <dockerName>/simpletodo-ng:<version>"
 - "docker push <dockerName>/simpletodo-ng:<version>"
+- Change "production: true" in "src/environments/environments.ts" (--prod currently not working...)
 
 ## Run the software
 
