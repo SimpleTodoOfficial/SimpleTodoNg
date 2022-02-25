@@ -1,5 +1,11 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.6
+
+- Upgrade to Java 11
+- Update dependencies
+- Upgrade to Angular 13
+
 ## v1.5.5
 
 - Added a URL option to Todos

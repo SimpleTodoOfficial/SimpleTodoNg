@@ -4,7 +4,12 @@ An angular client for simple Todo tracking with the SimpleTodoServer.
 
 ## Copyright
 
-2020 Denis Meyer, https://github.com/CallToPower
+2020-2022 Denis Meyer, https://github.com/CallToPower
+
+# Information
+
+- https://tecadmin.net/how-to-install-nvm-on-ubuntu-20-04/
+- https://nodejs.org/en/
 
 ## Concept
 
@@ -44,10 +49,10 @@ This software is provided via docker. More information in the producation and de
 
 Available docker images:
 
-- calltopower/simpletodo-flyway:1.5.5
-- calltopower/simpletodo-db:1.5.5
-- calltopower/simpletodo-server:1.5.5
-- calltopower/simpletodo-ng:1.5.5
+- calltopower/simpletodo-flyway:1.5.6
+- calltopower/simpletodo-db:1.5.6
+- calltopower/simpletodo-server:1.5.6
+- calltopower/simpletodo-ng:1.5.6
 
 ## Production and development documentation
 

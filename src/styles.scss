@@ -63,6 +63,10 @@ a:hover {
   text-decoration: none;
 }
 
+.normal-link {
+  white-space: nowrap;
+}
+
 .list-item,
 .normal-link {
   cursor: pointer;
@@ -151,7 +155,7 @@ input[type="password"] {
   margin: 10px 0px 10px 0px;
 
   .item-header {
-    background-color: #e9ecef;
+    background-color: $itemHeaderBGColor;
     padding: 10px 10px 10px 5px;
   }
 

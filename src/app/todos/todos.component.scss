@@ -18,6 +18,8 @@
 .breadcrumb {
   border-radius: 0;
   margin-bottom: 0;
+  background-color: $breadcrumbBGColor;
+  padding: 10px 10px 10px 5px;
 }
 
 .table-header {
