@@ -26,14 +26,14 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row form-row-space">
                 <div class="form-group col">
-                    <label for="done-check">{{ i18nService.translate('todos.addedit.component.mark_done', 'Check to mark as done') }}</label>
-                    <input type="checkbox" id="done-check" formControlName="done" class="form-control"
+                    <label for="done-check">{{ i18nService.translate('todos.addedit.component.mark_done', 'Check to mark as done') }}</label><br />
+                    <input type="checkbox" id="done-check" formControlName="done"
                         [ngClass]="{ 'is-invalid': submitted && f.done.errors }" [attr.disabled]="loading || null" />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row form-row-space">
                 <div class="form-group col">
                     <button type="button" class="btn btn-outline-primary" (click)="dueDateCollapsed = !dueDateCollapsed"
                         [attr.aria-expanded]="!dueDateCollapsed" aria-controls="collapseExample"
