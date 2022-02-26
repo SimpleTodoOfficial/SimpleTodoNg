@@ -49,10 +49,10 @@ This software is provided via docker. More information in the producation and de
 
 Available docker images:
 
-- calltopower/simpletodo-flyway:1.5.8
-- calltopower/simpletodo-db:1.5.8
-- calltopower/simpletodo-server:1.5.8
-- calltopower/simpletodo-ng:1.5.8
+- calltopower/simpletodo-flyway:1.6.0
+- calltopower/simpletodo-db:1.6.0
+- calltopower/simpletodo-server:1.6.0
+- calltopower/simpletodo-ng:1.6.0
 
 ## Production and development documentation
 

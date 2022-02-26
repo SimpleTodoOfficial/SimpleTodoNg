@@ -1,5 +1,14 @@
 # SimpleTodoServer - Changelog
 
+## v1.6.0
+
+- Version Upgrades (done)
+	- Database
+	- Database Migrations
+	- Gradle
+	- Java
+	- Angular
+
 ## v1.5.8
 
 - Fixed styling issues
