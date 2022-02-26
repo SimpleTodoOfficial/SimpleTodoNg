@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.5.8
+
+- Fixed styling issues
+
 ## v1.5.7
 
 - Fixed styling issues
