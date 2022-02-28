@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.6.1
+
+- Fixed styling issues
+
 ## v1.6.0
 
 - Version Upgrades (done)
