@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -11,14 +11,17 @@ import { Subscription } from 'rxjs';
     templateUrl: 'resetpassword.component.html',
     styleUrls: ['./resetpassword.component.scss']
 })
-export class ResetPasswordComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit, OnDestroy, AfterViewInit {
     public form: FormGroup;
     public loading = false;
     public submitted = false;
     private forgotSub: Subscription;
 
+    private AUTOFOCUS_DELAY_MS = 100;
+
     constructor(
         public i18nService: I18nService,
+        private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
@@ -42,6 +45,17 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
         if (this.forgotSub) {
             this.forgotSub.unsubscribe();
+        }
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => this.autofocus(), this.AUTOFOCUS_DELAY_MS);
+    }
+
+    autofocus() {
+        var el = this.elementRef.nativeElement.querySelector('#autofocus');
+        if (el != null) {
+            el.focus();
         }
     }
 

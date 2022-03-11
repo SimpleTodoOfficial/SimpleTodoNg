@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label for="username">{{ i18nService.translate('signin.component.username', 'Username') }}</label>
                 <input type="text" formControlName="username" class="form-control" placeholder="{{ i18nService.translate('signin.component.placeholder.enter_username', 'Enter username') }}"
-                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [attr.disabled]="loading || null" />
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [attr.disabled]="loading || null" id="autofocus" />
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                     <div *ngIf="f.username.errors.required">{{ i18nService.translate('signin.component.validation.required.username', 'Username is required') }}</div>
                 </div>

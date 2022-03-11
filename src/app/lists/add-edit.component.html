@@ -9,7 +9,7 @@
                 <div class="form-group col">
                     <label for="name">{{ i18nService.translate('lists.addedit.component.name', 'Name') }}</label>
                     <input type="text" formControlName="name" class="form-control" placeholder="{{ i18nService.translate('lists.addedit.component.placeholder.name', 'Enter name') }}"
-                        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" [attr.disabled]="loading || null" />
+                        [ngClass]="{ 'is-invalid': submitted && f.name.errors }" [attr.disabled]="loading || null" id="autofocus" />
                     <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                         <div *ngIf="f.name.errors.required">{{ i18nService.translate('lists.addedit.component.validation.required.name', 'Name is required') }}</div>
                         <div *ngIf="f.name.errors.maxlength">{{ i18nService.translate('lists.addedit.component.validation.max.name', 'Name can be at most 100 characters') }}</div>

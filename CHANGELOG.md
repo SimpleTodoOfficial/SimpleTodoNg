@@ -1,5 +1,10 @@
 # SimpleTodoServer - Changelog
 
+## v1.6.2
+
+- Set autofocus
+- Moved desktop notification set-up into "Menu"
+
 ## v1.6.1
 
 - Fixed styling issues

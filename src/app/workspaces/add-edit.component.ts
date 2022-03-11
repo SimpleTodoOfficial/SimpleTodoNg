@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { LoggerService, WorkspaceService, AlertService, I18nService } from '../_
     templateUrl: 'add-edit.component.html',
     styleUrls: ['./workspaces.component.scss']
 })
-export class AddEditComponent implements OnInit, OnDestroy {
+export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public form: FormGroup;
     public isAddMode: boolean;
     public loading = false;
@@ -19,14 +19,17 @@ export class AddEditComponent implements OnInit, OnDestroy {
     private rtSub: Subscription;
     private wssSub: Subscription;
 
+    private AUTOFOCUS_DELAY_MS = 100;
+
     constructor(
         public i18nService: I18nService,
+        private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private workspaceService: WorkspaceService,
         private alertService: AlertService,
-        private logger: LoggerService
+        private logger: LoggerService,
     ) {
         // Nothing to see here...
     }
@@ -40,6 +43,17 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
         if (this.rtSub) {
             this.rtSub.unsubscribe();
+        }
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => this.autofocus(), this.AUTOFOCUS_DELAY_MS);
+    }
+
+    autofocus() {
+        var el = this.elementRef.nativeElement.querySelector('#autofocus');
+        if (el != null) {
+            el.focus();
         }
     }
 

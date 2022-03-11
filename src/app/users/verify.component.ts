@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
     templateUrl: 'verify.component.html',
     styleUrls: ['./users.component.scss']
 })
-export class VerifyComponent implements OnInit, OnDestroy {
+export class VerifyComponent implements OnInit, OnDestroy, AfterViewInit {
     public form: FormGroup;
     public loading = false;
     public submitted = false;
@@ -21,8 +21,11 @@ export class VerifyComponent implements OnInit, OnDestroy {
     private verifySub: Subscription;
     private resendSub: Subscription;
 
+    private AUTOFOCUS_DELAY_MS = 100;
+
     constructor(
         public i18nService: I18nService,
+        private elementRef: ElementRef,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -49,6 +52,17 @@ export class VerifyComponent implements OnInit, OnDestroy {
         }
         if (this.resendSub) {
             this.resendSub.unsubscribe();
+        }
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => this.autofocus(), this.AUTOFOCUS_DELAY_MS);
+    }
+
+    autofocus() {
+        var el = this.elementRef.nativeElement.querySelector('#autofocus');
+        if (el != null) {
+            el.focus();
         }
     }
 

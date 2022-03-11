@@ -46,8 +46,7 @@ export class DesktopNotificationService {
             });
         }
 
-        this.permissionGranted = Notification !== undefined
-            && Notification.permission === 'granted';
+        this.permissionGranted = Notification !== undefined && Notification.permission === 'granted';
         if (this.permissionGranted) {
             this.logger.log('Desktop notification permissions granted');
             return new Promise((resolve, reject) => {

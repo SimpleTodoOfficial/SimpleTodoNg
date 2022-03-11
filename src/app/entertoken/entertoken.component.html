@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label for="token">{{ i18nService.translate('entertoken.component.token', 'Token') }}</label>
                 <input type="text" formControlName="token" class="form-control" placeholder="{{ i18nService.translate('entertoken.component.placeholder.enter_token', 'Enter token') }}"
-                    [ngClass]="{ 'is-invalid': submitted && f.token.errors }" [attr.disabled]="loading || null" />
+                    [ngClass]="{ 'is-invalid': submitted && f.token.errors }" [attr.disabled]="loading || null" id="autofocus" />
                 <div *ngIf="submitted && f.token.errors" class="invalid-feedback">
                     <div *ngIf="f.token.errors.required">{{ i18nService.translate('entertoken.component.validation.required.token', 'Token is required') }}</div>
                 </div>

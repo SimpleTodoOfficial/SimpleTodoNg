@@ -4,7 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
-import { faAddressCard, faTimes, faHome, faAddressBook, faClock, faTh, faSignOutAlt, faUserCircle, faUser, faFlag } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTimes, faHome, faAddressBook, faClock, faTh, faSignOutAlt, faUserCircle, faUser, faFlag, faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { environment } from './environments/environment';
 import { LoggerService, AlertService, UserService, I18nService, LanguageService, EmojiService, DesktopNotificationService } from './_services';
@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public faFlag = faFlag;
   public faClock = faClock;
   public faTimes = faTimes;
+  public faBell = faBell;
 
   constructor(
     public emojiService: EmojiService,

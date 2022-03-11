@@ -68,6 +68,14 @@
               <span>{{ i18nService.translate('app.component.about', 'About') }}</span>
             </a>
           </div>
+          <div class="dropdown-divider" *ngIf="!showCurtain && user && askDesktopNotificationPermissions"></div>
+          <div ngbDropdownItem *ngIf="!showCurtain && user && askDesktopNotificationPermissions">
+            <a class="nav-item nav-link nav-link-dropdown" (click)="setUpDesktopNotifications()">
+              <fa-icon [icon]="faBell" class="fa-lg"></fa-icon>
+              <span>&nbsp;</span>
+              <span>{{ i18nService.translate('app.component.setup.desktopnotifications', 'Set up desktop notifications.') }}</span>
+            </a>
+          </div>
           <div class="dropdown-divider"></div>
           <div ngbDropdownItem>
             <a class="nav-item nav-link nav-link-dropdown" (click)="signout()">
@@ -105,6 +113,7 @@
   </div>
 </div>
 
+<!--
 <div *ngIf="!showCurtain && user && askDesktopNotificationPermissions" class="setup-desktop-notifications">
   <div class="content-row">
     <div class="content-item">
@@ -120,6 +129,7 @@
     </div>
   </div>
 </div>
+-->
 
 <div *ngIf="!showCurtain" class="content" role="main">
   <div class="content-row">
