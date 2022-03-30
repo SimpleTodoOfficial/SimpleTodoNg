@@ -2,7 +2,7 @@
 
 - Java 17
 - Gradle 7.4.1
-- Spring 2.6.5
+- Spring 2.5.11
 - Flyway 8.5.5
 - More dependency updates
 
