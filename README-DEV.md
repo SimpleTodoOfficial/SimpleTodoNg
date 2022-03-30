@@ -5,9 +5,9 @@ Based on Angular, SCSS, FontAwesome, Bootstrap and more.
 ## Development server
 
 npm install
-npm install -g @angular/cli@latest
+npm run ng serve
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Add `--open` to automatically open in browser.
+Run `ng serve` (or `npm run ng serve`) for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files. Add `--open` to automatically open in browser.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
     - Configure npm to use the new directory path: npm config set prefix '~/.npm-global'
     - In your preferred text editor, open or create a ~/.profile file and add this line: export PATH=~/.npm-global/bin:$PATH
     - On the command line, update your system variables: source ~/.profile
-- npm install -g @angular/cli
+- npm install -g @angular/cli (npm install -g @angular/cli@latest)
 - Backend server: SimpleTodoServer: https://github.com/CallToPower/SimpleTodoServer
 
 ### Docker
