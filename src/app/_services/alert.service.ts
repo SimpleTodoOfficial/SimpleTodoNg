@@ -1,60 +1,61 @@
 ﻿import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
-import { Alert, AlertType } from '../_models';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AlertService {
-    private subject = new Subject<Alert>();
-    private defaultId = 'default-alert';
+    
+    private options = {
+        'positionClass': 'toast-top-right',
+        'timeOut': 3200,
+        'disableTimeOut': false
+    }
 
     constructor(
+        private toastr: ToastrService
     ) {
         // Nothing to see here...
     }
 
-    onAlert(id = this.defaultId): Observable<Alert> {
-        return this.subject.asObservable().pipe(filter(x => x && x.id === id));
+    getOptions(_options?: any) {
+        var optionsRet = {
+            'positionClass': this.options['positionClass'],
+            'timeOut': this.options['timeOut'],
+            'disableTimeOut': this.options['disableTimeOut']
+        }
+        if (_options != null && !_options['autoClose']) {
+            optionsRet['disableTimeOut'] = true;
+            optionsRet['timeOut'] = 0;
+            optionsRet['extendedTimeOut'] = 0;
+        }
+
+        return optionsRet;
     }
 
-    success(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Success, message }));
+    success(message: string, _options?: any) {
+        this.toastr.success(message, null, this.getOptions(_options));
     }
 
-    error(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Error, message }));
+    info(message: string, _options?: any) {
+        this.toastr.info(message, null, this.getOptions(_options));
     }
 
-    info(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Info, message }));
+    error(message: string, _options?: any) {
+        this.toastr.error(message, null, this.getOptions(_options));
     }
 
-    warn(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
+    warn(message: string, _options?: any) {
+        this.toastr.warning(message, null, this.getOptions(_options));
     }
 
-    primary(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Primary, message }));
+    clear(toastId: number) {
+        this.toastr.clear(toastId);
     }
 
-    secondary(message: string, options?: any) {
-        this.alert(new Alert({ ...options, type: AlertType.Secondary, message }));
-    }
-
-    alert(alert: Alert) {
-        alert.id = alert.id || this.defaultId;
-        this.subject.next(alert);
-    }
-
-    clear(id = this.defaultId) {
-        this.subject.next(new Alert({ id: id, clearAll: false }));
-    }
-
-    clearAll(id = this.defaultId) {
-        this.subject.next(new Alert({ id: id, clearAll: true }));
+    clearAll() {
+        this.toastr.clear();
     }
 
 }

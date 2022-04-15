@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = true;
         this.submitted = true;
 
-        this.alertService.clear();
+        this.alertService.clearAll();
 
         if (this.form.invalid) {
             this.loading = false;

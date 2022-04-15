@@ -174,7 +174,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .pipe(first())
                 .subscribe(() => {
                     this.router.navigate(['/workspaces', this.wsId, 'lists']);
-                    this.alertService.info(this.i18nService.translate('lists.details.component.success.list_delete', 'List "%lsName%" deleted.', { 'lsName': this.list.name }), { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('lists.details.component.success.list_delete', 'List "%lsName%" deleted.', { 'lsName': this.list.name }));
                 },
                     error => {
                         this.logger.error(error);
@@ -216,7 +216,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     .pipe(first())
                     .subscribe(() => {
                         this.router.navigate(['/workspaces', ws.id, 'lists']);
-                        this.alertService.success(this.i18nService.translate('lists.details.component.success.list_move', 'List successfully moved.'), { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('lists.details.component.success.list_move', 'List successfully moved.'));
                     },
                     error => {
                         this.logger.error(error);

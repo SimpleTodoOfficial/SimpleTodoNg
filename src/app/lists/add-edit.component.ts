@@ -113,7 +113,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = true;
         this.submitted = true;
 
-        this.alertService.clear();
+        this.alertService.clearAll();
 
         if (this.form.invalid) {
             this.loading = false;
@@ -140,7 +140,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 data => {
                     this.logger.log('List created successfully.');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', data['id'], 'todos']);
-                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_created', 'List successfully created.'), { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_created', 'List successfully created.'));
                     this.loading = false;
                 },
                 error => {
@@ -162,7 +162,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 data => {
                     this.logger.log('List updated successfully.');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', data['id']]);
-                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_updated', 'List successfully updated.'), { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('lists.addedit.component.success.list_updated', 'List successfully updated.'));
                     this.loading = false;
                 },
                 error => {

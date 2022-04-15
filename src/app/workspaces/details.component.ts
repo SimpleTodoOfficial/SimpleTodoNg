@@ -173,7 +173,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .subscribe(() => {
                     this.logger.log('Workspace deleted');
                     this.router.navigate(['/workspaces']);
-                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.workspace_delete', 'Workspace "%wsName%" deleted.', {'wsName': this.workspace.name}), { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.workspace_delete', 'Workspace "%wsName%" deleted.', {'wsName': this.workspace.name}));
                 },
                     error => {
                         this.logger.error(error);
@@ -202,7 +202,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     this.logger.log('Added user to workspace');
                     this.workspace = data;
                     this.updatedFilteredUsers(this.allUsers);
-                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_add', 'Added user to workspace.'), { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_add', 'Added user to workspace.'));
                 },
                 error => {
                     this.logger.error('The user could not be added to the workspace');
@@ -241,7 +241,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                             this.updatedFilteredUsers(this.allUsers);
                             this.userIdToBeDeleted = '';
                         }
-                        this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_remove', 'Removed user from workspace.'), { autoClose: true });
+                        this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_remove', 'Removed user from workspace.'));
                     },
                     error => {
                         this.logger.error(error);

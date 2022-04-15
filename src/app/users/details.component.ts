@@ -164,7 +164,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 .subscribe(x => {
                     if (x != null) {
                         this.router.navigate(['/users']);
-                        this.alertService.success(this.i18nService.translate('users.details.component.success.user_delete', 'User successfully deleted.'), { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('users.details.component.success.user_delete', 'User successfully deleted.'));
                     }
                 },
                     error => {
@@ -193,7 +193,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 data => {
                     this.logger.log('Adding role to user');
                     this.refreshStatus();
-                    this.alertService.info(this.i18nService.translate('users.details.component.success.role_add', 'Added role to user.'), { autoClose: true });
+                    this.alertService.info(this.i18nService.translate('users.details.component.success.role_add', 'Added role to user.'));
                 },
                 error => {
                     this.logger.error(error);
@@ -226,7 +226,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     data => {
                         this.logger.log('Removed role from user');
                         this.refreshStatus();
-                        this.alertService.info(this.i18nService.translate('users.details.component.success.role_remove', 'Removed role from user.'), { autoClose: true });
+                        this.alertService.info(this.i18nService.translate('users.details.component.success.role_remove', 'Removed role from user.'));
                         this.isDeletingRole = false;
                     },
                     error => {

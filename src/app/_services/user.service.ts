@@ -122,7 +122,7 @@ export class UserService {
             .pipe(map(x => {
                 if (id == this.userValue.id) {
                     this.signout();
-                    this.alertService.warn(this.i18nService.translate('user.service.signed_out', 'You have been signed out because your account has been updated. Please sign in again.'), { persistent: true });
+                    this.alertService.warn(this.i18nService.translate('user.service.signed_out', 'You have been signed out because your account has been updated. Please sign in again.'), { autoClose: false });
 
                     return {
                         signedOut: true,

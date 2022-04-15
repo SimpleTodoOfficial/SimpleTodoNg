@@ -45,7 +45,7 @@ export class ConnectionService {
                     if ((currentTimestamp - this.lastErrorTimestamp) >= 3000) {
                         this.logger.log('Connection not OK');
                         this.userService.signout();
-                        this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'), { persistent: true });
+                        this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'), { autoClose: false });
                     }
                     this.lastErrorTimestamp = currentTimestamp;
                 });

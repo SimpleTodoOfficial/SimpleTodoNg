@@ -197,7 +197,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
                     .pipe(first())
                     .subscribe(() => {
                         this.router.navigate(['/workspaces', this.wsId, 'lists', ls.id, 'todos']);
-                        this.alertService.success(this.i18nService.translate('todos.details.component.success.todo_move', 'Todo successfully moved.'), { autoClose: true });
+                        this.alertService.success(this.i18nService.translate('todos.details.component.success.todo_move', 'Todo successfully moved.'));
                     },
                         error => {
                             this.logger.error(error);

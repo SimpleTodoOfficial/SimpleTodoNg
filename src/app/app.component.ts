@@ -292,7 +292,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.dueTodosSub) {
       this.dueTodosSub.unsubscribe();
     }
-    this.alertService.info(this.i18nService.translate('app.component.info.sign_out', 'Signed out successfully'), { autoClose: true });
+    this.alertService.info(this.i18nService.translate('app.component.info.sign_out', 'Signed out successfully'));
   }
 
 }

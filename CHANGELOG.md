@@ -1,5 +1,11 @@
 # SimpleTodoServer - Changelog
 
+## v1.7.1
+
+- Replaced the notification service with a library
+
+## v1.7.0
+
 - Java 17
 - Gradle 7.4.1
 - Spring 2.5.11

@@ -97,7 +97,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = true;
         this.submitted = true;
 
-        this.alertService.clear();
+        this.alertService.clearAll();
 
         if (this.form.invalid) {
             this.loading = false;
@@ -125,7 +125,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 data => {
                     this.logger.log('Workspace successfully created');
                     this.router.navigate(['/workspaces', data['id'], 'lists']);
-                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_created', 'Workspace successfully created.'), { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_created', 'Workspace successfully created.'));
                 },
                 error => {
                     this.logger.error(error);
@@ -148,7 +148,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 data => {
                     this.logger.log('Workspace successfully updated');
                     this.router.navigate(['/workspaces', data['id']]);
-                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_updated', 'Workspace successfully updated.'), { autoClose: true });
+                    this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_updated', 'Workspace successfully updated.'));
                 },
                 error => {
                     this.logger.error(error);
