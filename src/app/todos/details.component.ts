@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faCheckSquare, faSquare, faTh, faClipboardList, faList, faPlusCircle, faEdit, faItalic, faTrashAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
+import { faTh, faClipboardList, faList, faPlusCircle, faEdit, faItalic, faTrashAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { ModalMoveTodo } from '../_modals/move-todo.modal';
@@ -37,8 +37,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     public faEdit = faEdit;
     public faItalic = faItalic;
     public faTrashAlt = faTrashAlt;
-    public faSquare = faSquare;
-    public faCheckSquare = faCheckSquare;
     public faRandom = faRandom;
 
     constructor(

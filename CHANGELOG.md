@@ -1,5 +1,9 @@
 # SimpleTodoServer - Changelog
 
+## v1.7.2
+
+- Visual and handling optimizations
+
 ## v1.7.1
 
 - Replaced the notification service with a library

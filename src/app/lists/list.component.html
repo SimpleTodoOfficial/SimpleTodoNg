@@ -41,7 +41,7 @@
     </div>
     <div cdkDropListGroup *ngIf="lists.length > 0">
         <div cdkDropList [cdkDropListData]="listList" class="list-list" (cdkDropListDropped)="dropList($event)">
-            <div cdkDrag [cdkDragDisabled]="isUpdatingListList" class="list-box"
+            <div cdkDrag [cdkDragDisabled]="isUpdatingListList || refreshing" class="list-box"
                 *ngFor="let list of listList; let i = index" routerLink="{{list.id}}/todos"
                 [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
                 <div class="draggable" cdkDragHandle>

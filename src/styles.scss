@@ -63,6 +63,10 @@ a:hover {
   text-decoration: none;
 }
 
+.fa-lg {
+  line-height: 1.2em;
+}
+
 .normal-link {
   white-space: nowrap;
 }
@@ -164,5 +168,16 @@ input[type="password"] {
   }
 }
 
+input.checkbox {
+  width: 25px;
+  height: 25px;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+
+.spinner-border-sm {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: .2em;
+}

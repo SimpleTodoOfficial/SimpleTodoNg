@@ -12,7 +12,11 @@
 }
 
 .list-item-actions-action {
-  padding: 0px 5px 0px 5px;
+  padding: 0; // 0px 5px 0px 5px;
+
+  .todo-checkbox {
+    margin: 0 0px 0 5px;
+  }
 }
 
 .breadcrumb {
@@ -33,9 +37,21 @@
   word-wrap: anywhere;
 }
 
-.show-all-checkbox,
+.show-all-checkbox {
+  margin: 0px 5px 0px 5px;
+}
+
 .todo-checkbox {
-  margin: 0px 15px 0px 5px;
+  margin: 0px 5px 0px 5px;
+}
+
+.todo-checkbox-check {
+  width: 25px;
+  height: 25px;
+}
+
+.todo-checkbox-right {
+  margin: 0;
 }
 
 .todo-updating {
@@ -114,9 +130,4 @@
 
 .due-date {
   margin: 0px 0px 10px 0px;
-}
-
-input.checkbox {
-  width: 30px;
-  height: 30px;
 }

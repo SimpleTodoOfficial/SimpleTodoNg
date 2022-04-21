@@ -60,14 +60,10 @@
     <div cdkDropListGroup *ngIf="todoList.length > 0">
         <div cdkDropList [cdkDropListData]="todoList" class="todo-list" (cdkDropListDropped)="dropList($event)">
             <div class="todo-box" *ngFor="let todo of todoList; let i = index" cdkDrag
-                [cdkDragDisabled]="isUpdatingTodoList" [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
+                [cdkDragDisabled]="isUpdatingTodoList || refreshing" [class.stripe-non]="i % 2 != 0" [class.stripe]="i % 2 == 0">
                 <div class="draggable" cdkDragHandle>
                     <fa-icon [icon]="faGripLines" class="fa-lg">
                     </fa-icon>
-                </div>
-                <div *ngIf="todo.isUpdating" class="spinner-border spinner-border-sm todo-updating"></div>
-                <div *ngIf="!todo.isUpdating">
-                    <input class="todo-checkbox" type="checkbox" [checked]="todo.done" (change)="toggleDone(todo.id)" />
                 </div>
                 <div *ngIf="todo.dueDate" routerLink="{{todo.id}}">
                     <fa-icon [icon]="faClock"></fa-icon>
@@ -77,13 +73,19 @@
                 </div>
                 <div class="spacer" routerLink="{{todo.id}}"></div>
                 <div class="list-item-actions">
-                    <fa-icon *ngIf="!todo.isDeleting" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
+                    <div *ngIf="todo.isUpdating" class="spinner-border spinner-border-sm todo-updating"></div>
+                    <div *ngIf="!todo.isUpdating">
+                        <input class="todo-checkbox todo-checkbox-check todo-checkbox-right" type="checkbox" [disabled]="refreshing" [checked]="todo.done" (change)="toggleDone(todo.id)" />
+                    </div>
+                    <!--
+                    <fa-icon *ngIf="!todo.isDeleting && !refreshing" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
                         routerLink="{{todo.id}}/edit">
                     </fa-icon>
                     <span *ngIf="todo.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!todo.isDeleting" class="list-item-actions-action">
+                    <span *ngIf="!todo.isDeleting && !refreshing" class="list-item-actions-action">
                         <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteTodo(todo.id)"></fa-icon>
                     </span>
+                    -->
                 </div>
             </div>
         </div>
@@ -91,7 +93,7 @@
     <div cdkDropListGroup *ngIf="todoHiddenList.length > 0 && showAllTodos">
         <div cdkDropList [cdkDropListData]="todoHiddenList" class="todo-list" (cdkDropListDropped)="dropHiddenList($event)">
             <div class="todo-box" *ngFor="let todo of todoHiddenList; let i = index" cdkDrag
-                [cdkDragDisabled]="isUpdatingTodoList" [class.stripe-non-hidden]="i % 2 == 0"
+                [cdkDragDisabled]="isUpdatingTodoList || refreshing" [class.stripe-non-hidden]="i % 2 == 0"
                 [class.stripe-hidden]="i % 2 != 0">
                 <div class="draggable" cdkDragHandle>
                     <fa-icon [icon]="faGripLines" class="fa-lg">
@@ -99,7 +101,7 @@
                 </div>
                 <span *ngIf="todo.isUpdating" class="spinner-border spinner-border-sm todo-updating"></span>
                 <span *ngIf="!todo.isUpdating">
-                    <input class="todo-checkbox" type="checkbox" [checked]="todo.done" (change)="toggleDone(todo.id)" />
+                    <input class="todo-checkbox todo-checkbox-check" type="checkbox" [disabled]="refreshing" [checked]="todo.done" (change)="toggleDone(todo.id)" />
                 </span>
                 <div *ngIf="todo.dueDate" routerLink="{{todo.id}}">
                     <fa-icon [icon]="faClock"></fa-icon>
@@ -108,11 +110,13 @@
                 <div class="list-item-description" routerLink="{{todo.id}}">{{ todo.msg }}</div>
                 <div class="spacer" routerLink="{{todo.id}}"></div>
                 <div class="list-item-actions">
-                    <fa-icon *ngIf="!todo.isDeleting" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
+                    <!--
+                    <fa-icon *ngIf="!todo.isDeleting && !refreshing" [icon]="faEdit" class="list-item-actions-action normal-link fa-lg"
                         routerLink="{{todo.id}}/edit">
                     </fa-icon>
+                    -->
                     <span *ngIf="todo.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!todo.isDeleting" class="list-item-actions-action">
+                    <span *ngIf="!todo.isDeleting && !refreshing" class="list-item-actions-action">
                         <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteTodo(todo.id)">
                         </fa-icon>
                     </span>

@@ -66,7 +66,7 @@
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                 </div>
                 <div class="item-header">
-                    <fa-icon [icon]="faSquare"></fa-icon>
+                    <input type="checkbox" disabled />
                     <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.number_todos_to_be_done', 'Number of Todos to be done') }}</span>
                 </div>
                 <div class="item-content">
@@ -74,7 +74,7 @@
                     <span *ngIf="!loading">{{ nrTodosToBeDone }}</span>
                 </div>
                 <div class="item-header">
-                    <fa-icon [icon]="faCheckSquare"></fa-icon>
+                    <input type="checkbox" checked disabled />
                     <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.number_todos_done', 'Number of Todos done') }}</span>
                 </div>
                 <div class="item-content">
