@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
-import { faTrashAlt, faUserCircle, faUser, faPlusCircle, faEdit, faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { faTriangleExclamation, faTrashAlt, faUserCircle, faUser, faPlusCircle, faEdit, faUserTag } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { UserRole } from '../_models';
@@ -29,6 +29,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private usSub: Subscription;
     private obSub: Subscription;
 
+    public faTriangleExclamation = faTriangleExclamation;
     public faTrashAlt = faTrashAlt;
     public faUserCircle = faUserCircle;
     public faUser = faUser;

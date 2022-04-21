@@ -156,7 +156,7 @@ input[type="password"] {
 }
 
 .list-details {
-  margin: 10px 0px 10px 0px;
+  margin: 0;
 
   .item-header {
     background-color: $itemHeaderBGColor;
@@ -166,6 +166,10 @@ input[type="password"] {
   .item-content {
     padding: 10px 10px 10px 15px;
   }
+}
+
+.list-details-warn {
+  background: #f88cab5e;
 }
 
 input.checkbox {

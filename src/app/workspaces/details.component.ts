@@ -4,7 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { first } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { faTh, faDiceD6, faTrashAlt, faUserCircle, faPlusCircle, faUser, faEdit, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { faTriangleExclamation, faTh, faDiceD6, faTrashAlt, faUserCircle, faPlusCircle, faUser, faEdit, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalConfirm } from '../_modals/confirmation.modal';
 import { LoggerService, AlertService, WorkspaceService, UserService, I18nService } from '../_services';
@@ -30,6 +30,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private ussSub: Subscription;
     private obSub: Subscription;
 
+    public faTriangleExclamation = faTriangleExclamation;
     public faTh = faTh;
     public faDiceD6 = faDiceD6;
     public faTrashAlt = faTrashAlt;

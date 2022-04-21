@@ -43,17 +43,6 @@
                             <span>&nbsp;</span>
                         </span>
                     </div>
-                    <div *ngIf="!loading">
-                        &nbsp;
-                        &nbsp;
-                    </div>
-                    <div *ngIf="!loading">
-                        <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
-                        <span *ngIf="!isDeleting">
-                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteList(list.id)">
-                            </fa-icon>
-                        </span>
-                    </div>
                 </div>
             </div>
             <div class="list-details">
@@ -80,6 +69,19 @@
                 <div class="item-content">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                     <span *ngIf="!loading">{{ nrTodosDone }}</span>
+                </div>
+            </div>
+            <div class="list-details list-details-warn" *ngIf="!loading">
+                <div class="item-header">
+                    <fa-icon [icon]="faTriangleExclamation"></fa-icon>
+                    <span>&nbsp;</span><span>{{ i18nService.translate('lists.details.component.dangerArea', 'Danger Area') }}</span>
+                </div>
+                <div class="item-content">
+                    <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!isDeleting">
+                        <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteList(list.id)">
+                        </fa-icon>
+                    </span>
                 </div>
             </div>
         </div>

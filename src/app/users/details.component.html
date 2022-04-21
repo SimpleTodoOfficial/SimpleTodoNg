@@ -24,14 +24,6 @@
                         <fa-icon [icon]="faEdit" class="normal-link fa-lg" routerLink="edit" *ngIf="canEditOrDelete">
                         </fa-icon>
                     </div>
-                    <div class="spacer"></div>
-                    <div *ngIf="!loading && canEditOrDelete">
-                        <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
-                        <span *ngIf="!isDeleting">
-                            <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteUser(user.id)">
-                            </fa-icon>
-                        </span>
-                    </div>
                 </div>
             </div>
             <div class="list-details">
@@ -96,6 +88,18 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="list-details list-details-warn" *ngIf="!loading && canEditOrDelete">
+                <div class="item-header">
+                    {{ i18nService.translate('users.details.component.dangerArea', 'Danger Area') }}
+                </div>
+                <div class="item-content">
+                    <span *ngIf="isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!isDeleting">
+                        <fa-icon [icon]="faTrashAlt" class="delete-link fa-lg" (click)="deleteUser(user.id)">
+                        </fa-icon>
+                    </span>
                 </div>
             </div>
         </div>
