@@ -18,35 +18,35 @@ export class TodoService {
     }
 
     getAll(wsId: string, lsId: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}`;
         this.logger.log('Getting all todos, URL: ' + url);
 
         return this.http.get<Todo[]>(url);
     }
 
     getById(wsId: string, lsId: string, id: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}/${id}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}/${id}`;
         this.logger.log('Getting todo, URL: ' + url);
 
         return this.http.get<Todo>(url);
     }
 
     create(wsId: string, lsId: string, todo: Todo) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}`;
         this.logger.log('Creating todo, URL: ' + url);
 
         return this.http.post(url, todo);
     }
 
     update(wsId: string, lsId: string, id: string, params) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}/${id}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}/${id}`;
         this.logger.log('Updating todo, URL: ' + url);
 
         return this.http.put(url, params);
     }
 
     move(wsId: string, lsId: string, id: string, newLsId: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}/${id}/${environment.todosPath.move}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}/${id}`;
         this.logger.log('Moving todo, URL: ' + url);
 
         let params = {
@@ -56,7 +56,7 @@ export class TodoService {
     }
 
     delete(wsId: string, lsId: string, id: string) {
-        let url = `${environment.apiUrl}/${environment.workspacesPath.main}/${wsId}/${environment.listsPath.main}/${lsId}/${environment.todosPath.main}/${id}`;
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}/${id}`;
         this.logger.log('Deleting todo, URL: ' + url);
 
         return this.http.delete(url);
