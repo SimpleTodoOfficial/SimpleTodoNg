@@ -10,6 +10,7 @@
 	- Hibernate 5 -> Hibernate 6
 	- Angular 13 -> Angular 15
 	- Bootstrap 12 -> 14
+	- nginx 1.21 -> 1.23
 
 ## v1.7.2
 
