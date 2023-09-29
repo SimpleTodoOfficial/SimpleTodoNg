@@ -1,5 +1,17 @@
 # SimpleTodoServer - Changelog
 
+## v1.9.0
+
+- Dependency upgrades, most notable
+	- mariadb 10.10 patch
+	- flyway 9.16 -> 9.22
+	- eclipse-temurin 17 patch
+	- SpringBoot 3.0 -> SpringBoot 3.1
+	- Angular 15 -> Angular 16
+	- Bootstrap 14 -> 15
+	- Node 16 -> 20
+	- nginx 1.23 -> 1.25
+
 ## v1.8.0
 
 - Dependency upgrades, most notable
