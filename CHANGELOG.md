@@ -1,5 +1,11 @@
 # SimpleTodoServer - Changelog
 
+## v1.9.1
+
+- Delete All
+	- Delete all deleted todos at once
+- Added allowedOriginPatterns for localhost
+
 ## v1.9.0
 
 - Dependency upgrades, most notable

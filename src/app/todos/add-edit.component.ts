@@ -112,18 +112,20 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                     this.tdsSub = this.todoService.getById(this.wsId, this.lsId, this.id)
                         .pipe(first())
-                        .subscribe(x => {
-                            this.f.msg.setValue(x.msg);
-                            this.f.url.setValue(x.url);
-                            this.f.done.setValue(x.done);
-                            this.parseDateTimeFromStr(x.dueDate);
-                            this.loading = false;
-                        },
-                            error => {
+                        .subscribe({
+                            next: x => {
+                                this.f.msg.setValue(x.msg);
+                                this.f.url.setValue(x.url);
+                                this.f.done.setValue(x.done);
+                                this.parseDateTimeFromStr(x.dueDate);
+                                this.loading = false;
+                            },
+                            error: error => {
                                 this.logger.error(error);
                                 this.router.navigate(['/']);
                                 this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_load', 'Todo could not be loaded.'));
-                            });
+                            }
+                        });
                 } else {
                     this.loading = false;
                 }
@@ -187,16 +189,17 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.tdsSub = this.todoService.create(this.wsId, this.lsId, todo)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Todo created successfully');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', this.lsId, 'todos']);
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_create', 'Todo could not be created.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
     private updateTodo() {
@@ -210,16 +213,17 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.tdsSub = this.todoService.update(this.wsId, this.lsId, this.id, todo)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Todo updated successfully');
                     this.router.navigate(['/workspaces', this.wsId, 'lists', this.lsId, 'todos']);
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('todos.addedit.component.error.todo_update', 'Todo could not be updated.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

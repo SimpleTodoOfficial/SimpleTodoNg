@@ -17,6 +17,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public loading = false;
     public refreshing = false;
     public todos = [];
+    public deletingAll = false;
     public shortenWsName: number = 15;
     public shortenLsNameBreadcrumb: number = 15;
     public shortenTodoMsg: number = 85;
@@ -62,7 +63,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -121,45 +122,52 @@ export class ListComponent implements OnInit, OnDestroy {
                 }
                 this.tdsSub = this.todoService.getAll(this.wsId, this.lsId)
                     .pipe(first())
-                    .subscribe(todos => {
-                        this.todos = todos;
+                    .subscribe({
+                        next: todos => {
+                            this.todos = todos;
 
-                        if (this.wssSub) {
-                            this.wssSub.unsubscribe();
-                        }
-                        this.wssSub = this.workspaceService.getById(this.wsId)
-                            .pipe(first())
-                            .subscribe(workspace => {
-                                this.workspace = workspace;
+                            if (this.wssSub) {
+                                this.wssSub.unsubscribe();
+                            }
+                            this.wssSub = this.workspaceService.getById(this.wsId)
+                                .pipe(first())
+                                .subscribe({
+                                    next: workspace => {
+                                        this.workspace = workspace;
 
-                                if (this.lssSub) {
-                                    this.lssSub.unsubscribe();
-                                }
-                                this.lssSub = this.listService.getById(this.wsId, this.lsId)
-                                    .pipe(first())
-                                    .subscribe(list => {
-                                        this.list = list;
-                                        this.calculateLists();
-                                        this.loading = false;
-                                        this.refreshing = false;
+                                        if (this.lssSub) {
+                                            this.lssSub.unsubscribe();
+                                        }
+                                        this.lssSub = this.listService.getById(this.wsId, this.lsId)
+                                            .pipe(first())
+                                            .subscribe({
+                                                next: list => {
+                                                    this.list = list;
+                                                    this.calculateLists();
+                                                    this.loading = false;
+                                                    this.refreshing = false;
+                                                    this.deletingAll = false;
+                                                },
+                                                error: error => {
+                                                    this.logger.error(error);
+                                                    this.router.navigate(['/']);
+                                                    this.alertService.error(this.i18nService.translate('todos.list.component.error.list_load', 'List could not be loaded.'));
+                                                }
+                                            });
                                     },
-                                        error => {
+                                    error: error => {
                                             this.logger.error(error);
                                             this.router.navigate(['/']);
-                                            this.alertService.error(this.i18nService.translate('todos.list.component.error.list_load', 'List could not be loaded.'));
-                                        });
-                            },
-                                error => {
-                                    this.logger.error(error);
-                                    this.router.navigate(['/']);
-                                    this.alertService.error(this.i18nService.translate('todos.list.component.error.workspace_load', 'Workspace could not be loaded.'));
+                                            this.alertService.error(this.i18nService.translate('todos.list.component.error.workspace_load', 'Workspace could not be loaded.'));
+                                    }
                                 });
-                    },
-                        error => {
+                        },
+                        error: error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
                             this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_load', 'Todo could not be loaded.'));
-                        });
+                        }
+                    });
             });
         });
     }
@@ -308,6 +316,44 @@ export class ListComponent implements OnInit, OnDestroy {
         return this.showAllTodos || !todo.done;
     }
 
+    deleteAllTodos() {
+        if (!this.deletingAll) {
+            this.deletingAll = true;
+            let lst = this.todoHiddenList.map(t => t.id);
+            let promises = [];
+            for (let i in lst) {
+                let id = lst[i];
+                const todo = this.todos.find(t => t.id === id);
+                if (todo) {
+                    todo.isDeleting = true;
+                    if (this.tdsSub) {
+                        this.tdsSub.unsubscribe();
+                    }
+                    let prom = this.todoService.delete(this.wsId, this.lsId, id);
+                    promises.push(prom);
+                    prom.subscribe({
+                        next: () => {
+                            this.logger.log('Todo deleted');
+                            this.todos = this.todos.filter(x => x.id !== id);
+                            this.calculateLists();
+                            this.updateList();
+                        },
+                        error: error => {
+                            this.logger.error(error);
+                            this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_delete', 'Todo could not be deleted.'));
+                            this.loading = false;
+                        }
+                    });
+                }
+            }
+            Promise.all(promises).then(_ => {
+                this.refresh();
+                this.updateList();
+                this.deletingAll = false;
+            });
+        }
+    }
+
     deleteTodo(id: string) {
         const todo = this.todos.find(t => t.id === id);
         if (todo) {
@@ -316,18 +362,19 @@ export class ListComponent implements OnInit, OnDestroy {
                 this.tdsSub.unsubscribe();
             }
             this.tdsSub = this.todoService.delete(this.wsId, this.lsId, id)
-                .subscribe(
-                    () => {
+                .subscribe({
+                    next: () => {
                         this.logger.log('Todo deleted');
                         this.todos = this.todos.filter(x => x.id !== id);
                         this.calculateLists();
                         this.updateList();
                     },
-                    error => {
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_delete', 'Todo could not be deleted.'));
                         this.loading = false;
-                    });
+                    }
+                });
         }
     }
 
@@ -343,21 +390,22 @@ export class ListComponent implements OnInit, OnDestroy {
             this.tdsSub.unsubscribe();
         }
         this.tdsSub = this.todoService.update(this.wsId, this.lsId, todo.id, todo)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.logger.log('Todo updated');
                     this.calculateLists();
                     this.updateList();
                     todo.isUpdating = false;
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_update', 'Todo could not be updated.'));
                     this.loading = false;
                     this.calculateLists();
                     this.updateList();
                     todo.isUpdating = false;
-                });
+                }
+            });
     }
 
     private updateList() {
@@ -371,17 +419,18 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.lssSub = this.listService.update(this.list.workspaceId, this.list.id, this.list)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Saved todo order');
                     this.isUpdatingTodoList = false;
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('todos.list.component.error.list_update', 'Todo order could not be saved.'));
                     this.loading = false;
                     this.isUpdatingTodoList = false;
-                });
+                }
+            });
     }
 
 }

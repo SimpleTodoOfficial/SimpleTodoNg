@@ -38,7 +38,7 @@ export class VerifyComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -96,18 +96,19 @@ export class VerifyComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.verifySub = this.userService.verify(this.f.token.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Successfully verified user. Please sign in again.');
 
                     this.router.navigate(['/']);
                     this.alertService.success(this.i18nService.translate('users.verify.component.success.verify', 'Successfully verified user. Please sign in again.'), { autoClose: false });
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('users.verify.component.error.verify', 'User could not be verified. Please double-check your token.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
     resendVerification() {
@@ -128,18 +129,19 @@ export class VerifyComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.verifySub = this.userService.resendVerification()
                 .pipe(first())
-                .subscribe(
-                    data => {
+                .subscribe({
+                    next: _ => {
                         this.logger.log('Successfully resent verification. Please check your emails.');
 
                         this.alertService.success(this.i18nService.translate('users.verify.component.success.resend', 'Successfully resent verification. Please check your emails.'));
                         this.loading = false;
                     },
-                    error => {
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('users.verify.component.error.resend', 'Verification could not be resend.'));
                         this.loading = false;
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling resending verification.');

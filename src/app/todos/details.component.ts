@@ -54,7 +54,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -99,15 +99,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 }
                 this.tdsSub = this.todoService.getById(this.wsId, this.lsId, this.id)
                     .pipe(first())
-                    .subscribe(x => {
-                        this.todo = x;
-                        this.loading = false;
-                    },
-                        error => {
+                    .subscribe({
+                        next: x => {
+                            this.todo = x;
+                            this.loading = false;
+                        },
+                        error: error => {
                             this.logger.error(error);
                             this.router.navigate(['/']);
                             this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_load', 'Todo could not be loaded.'));
-                        });
+                        }
+                    });
             });
         });
     }
@@ -157,15 +159,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
             this.tdsSub.unsubscribe();
         }
         this.tdsSub = this.todoService.delete(this.wsId, this.lsId, id)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.router.navigate(['/workspaces', this.wsId, 'lists', this.lsId, 'todos']);
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_delete', 'Todo could not be deleted.'));
                     this.isDeleting = false;
-                });
+                }
+            });
     }
 
     moveTodo(id: string) {
@@ -194,15 +197,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 }
                 this.tdsSub = this.todoService.move(this.wsId, this.lsId, id, ls.id)
                     .pipe(first())
-                    .subscribe(() => {
+                    .subscribe({
+                        next: () => {
                         this.router.navigate(['/workspaces', this.wsId, 'lists', ls.id, 'todos']);
                         this.alertService.success(this.i18nService.translate('todos.details.component.success.todo_move', 'Todo successfully moved.'));
-                    },
-                        error => {
+                        },
+                        error: error => {
                             this.logger.error(error);
                             this.alertService.error(this.i18nService.translate('todos.details.component.error.todo_move', 'Todo could not be moved.'));
                             this.isMoving = false;
-                        });
+                        }
+                    });
             },
                 () => {
                     this.logger.log('Canceling moving todo.');

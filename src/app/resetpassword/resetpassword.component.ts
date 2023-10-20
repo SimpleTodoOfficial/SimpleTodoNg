@@ -77,18 +77,19 @@ export class ResetPasswordComponent implements OnInit, OnDestroy, AfterViewInit 
         let forgotPassword = new ForgotPassword(this.f.username.value, this.f.email.value);
         this.forgotSub = this.userService.forgotPassword(forgotPassword)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Successfully requested password reset. Please check your emails.');
 
                     this.router.navigate(['/account/entertoken']);
                     this.alertService.success(this.i18nService.translate('resetpassword.component.resetpassword_success', 'Successfully requested password reset. Please check your emails.'), { autoClose: false });
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('resetpassword.component.resetpassword_fail', 'Password could not be reset. Did you enter the correct username and the corresponding email address?'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

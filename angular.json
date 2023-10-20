@@ -96,7 +96,6 @@
         }
       }
     }},
-  "defaultProject": "SimpleTodoNg",
   "cli": {
     "analytics": false
   }

@@ -56,19 +56,21 @@ export class ModalMoveTodo implements OnInit, OnDestroy {
         }
         this.lssSub = this.listService.getAll(this.wsId)
             .pipe(first())
-            .subscribe(lists => {
-                this.lists = lists.filter(ws => ws.id !== this.excludeLsId);
-                lists.sort(function (a: List, b: List) {
-                    return a.name.localeCompare(b.name);
-                });
-                this.loading = false;
-            },
-                error => {
+            .subscribe({
+                next: lists => {
+                    this.lists = lists.filter(ws => ws.id !== this.excludeLsId);
+                    lists.sort(function (a: List, b: List) {
+                        return a.name.localeCompare(b.name);
+                    });
+                    this.loading = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('move-todo.modal.lists_load', 'Lists could not be loaded.'));
                     this.loading = false;
                     this.modal.dismiss('error');
-                });
+                }
+            });
     }
 
 }

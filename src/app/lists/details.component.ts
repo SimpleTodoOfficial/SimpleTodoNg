@@ -55,7 +55,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtpSub = this.route.params.subscribe(params => this.init());
+        this.rtpSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -92,17 +92,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
             this.lssSub = this.listService.getById(this.wsId, this.id)
                 .pipe(first())
-                .subscribe(x => {
-                    this.list = x;
-                    this.nrTodosToBeDone = this.list.todos ? this.list.todos.filter(t => !t.done).length : 0;
-                    this.nrTodosDone = this.list.todos ? this.list.todos.filter(t => t.done).length : 0;
-                    this.loading = false;
-                },
-                    error => {
+                .subscribe({
+                    next: x => {
+                        this.list = x;
+                        this.nrTodosToBeDone = this.list.todos ? this.list.todos.filter(t => !t.done).length : 0;
+                        this.nrTodosDone = this.list.todos ? this.list.todos.filter(t => t.done).length : 0;
+                        this.loading = false;
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
                         this.alertService.error(this.i18nService.translate('lists.details.component.error.list_load', 'List could not be loaded.'));
-                    });
+                    }
+                });
         });
     }
 
@@ -171,15 +173,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
             this.lssSub = this.listService.delete(this.wsId, id)
                 .pipe(first())
-                .subscribe(() => {
-                    this.router.navigate(['/workspaces', this.wsId, 'lists']);
-                    this.alertService.info(this.i18nService.translate('lists.details.component.success.list_delete', 'List "%lsName%" deleted.', { 'lsName': this.list.name }));
-                },
-                    error => {
+                .subscribe({
+                    next: () => {
+                        this.router.navigate(['/workspaces', this.wsId, 'lists']);
+                        this.alertService.info(this.i18nService.translate('lists.details.component.success.list_delete', 'List "%lsName%" deleted.', { 'lsName': this.list.name }));
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('lists.details.component.error.list_delete', 'List "%lsName%" could not be deleted.', { 'lsName': this.list.name }));
                         this.isDeleting = false;
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling list deletion.');
@@ -213,14 +217,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
                 }
                 this.lssSub = this.listService.move(this.wsId, id, ws.id)
                     .pipe(first())
-                    .subscribe(() => {
-                        this.router.navigate(['/workspaces', ws.id, 'lists']);
-                        this.alertService.success(this.i18nService.translate('lists.details.component.success.list_move', 'List successfully moved.'));
-                    },
-                    error => {
-                        this.logger.error(error);
-                        this.alertService.error(this.i18nService.translate('lists.details.component.error.list_move', 'The list could not be moved.'));
-                        this.isMoving = false;
+                    .subscribe({
+                        next: () => {
+                            this.router.navigate(['/workspaces', ws.id, 'lists']);
+                            this.alertService.success(this.i18nService.translate('lists.details.component.success.list_move', 'List successfully moved.'));
+                        },
+                        error: error => {
+                            this.logger.error(error);
+                            this.alertService.error(this.i18nService.translate('lists.details.component.error.list_move', 'The list could not be moved.'));
+                            this.isMoving = false;
+                        }
                     });
             },
                 () => {

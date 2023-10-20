@@ -74,18 +74,19 @@ export class EnterTokenComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.forgotSub = this.userService.resetPassword(this.f.token.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Successfully reset password. Please check your emails.');
 
                     this.router.navigate(['/account/signin']);
                     this.alertService.success(this.i18nService.translate('entertoken.component.resetpassword_success', 'Successfully reset password. Please check your emails.'), { autoClose: false });
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('entertoken.component.resetpassword_fail', 'Password could not be reset. Please check your token.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

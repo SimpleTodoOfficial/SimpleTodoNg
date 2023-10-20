@@ -55,25 +55,27 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.dueTodosSub = this.userService.getDueTodos()
             .pipe(first())
-            .subscribe(dueTodos => {
-                this.logger.log('Received ' + dueTodos.length + ' due Todos');
-                this.duetodos = dueTodos.sort(function (a: Todo, b: Todo) {
-                    if (a.dueDate && b.dueDate) {
-                        return parseInt(a.dueDate) - parseInt(b.dueDate);
-                    }
-                    return 0;
-                });
-                this.loading = false;
-                this.refreshing = false;
-                this.error = false;
-            },
-                error => {
+            .subscribe({
+                next: dueTodos => {
+                    this.logger.log('Received ' + dueTodos.length + ' due Todos');
+                    this.duetodos = dueTodos.sort(function (a: Todo, b: Todo) {
+                        if (a.dueDate && b.dueDate) {
+                            return parseInt(a.dueDate) - parseInt(b.dueDate);
+                        }
+                        return 0;
+                    });
+                    this.loading = false;
+                    this.refreshing = false;
+                    this.error = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('duetodos.list.component.error.duetodos_load', 'Due Todos could not be loaded.'));
                     this.loading = false;
                     this.refreshing = false;
                     this.error = true;
-                });
+                }
+            });
     }
 
 }

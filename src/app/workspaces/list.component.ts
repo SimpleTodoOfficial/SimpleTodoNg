@@ -62,22 +62,24 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.wssSub = this.workspaceService.getAll()
             .pipe(first())
-            .subscribe(workspaces => {
-                this.workspaces = workspaces;
-                workspaces.sort(function(a: Workspace, b: Workspace){
-                    return a.name.localeCompare(b.name);
-                  });
-                this.loading = false;
-                this.refreshing = false;
-                this.error = false;
-            },
-                error => {
+            .subscribe({
+                next: workspaces => {
+                    this.workspaces = workspaces;
+                    workspaces.sort(function(a: Workspace, b: Workspace){
+                        return a.name.localeCompare(b.name);
+                    });
+                    this.loading = false;
+                    this.refreshing = false;
+                    this.error = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('workspaces.list.component.error.workspaces_load', 'Workspaces could not be loaded.'));
                     this.loading = false;
                     this.refreshing = false;
                     this.error = true;
-                });
+                }
+            });
     }
 
     observerScreenSize(): void {

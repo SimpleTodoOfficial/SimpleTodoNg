@@ -39,15 +39,17 @@ export class ListComponent implements OnInit, OnDestroy {
         if (this.ussSub) {
             this.ussSub.unsubscribe();
         }
-        this.ussSub = this.userService.user.subscribe(x => {
-            this.currUser = x;
-            if (this.currUser) {
-                this.isAdmin = this.userService.isAdmin();
-            }
-        },
-            error => {
+        this.ussSub = this.userService.user.subscribe({
+            next: x => {
+                this.currUser = x;
+                if (this.currUser) {
+                    this.isAdmin = this.userService.isAdmin();
+                }
+            },
+            error: error => {
                 this.logger.error(error);
-            });
+            }
+        });
     }
 
     ngOnInit() {
@@ -81,19 +83,21 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.usSub = this.userService.getAll()
             .pipe(first())
-            .subscribe(users => {
-                this.users = users;
-                this.loading = false;
-                this.refreshing = false;
-                this.error = false;
-            },
-                error => {
+            .subscribe({
+                next: users => {
+                    this.users = users;
+                    this.loading = false;
+                    this.refreshing = false;
+                    this.error = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('users.list.component.error.users_load', 'Users could not be loaded.'));
                     this.loading = false;
                     this.refreshing = false;
                     this.error = true;
-                });
+                }
+            });
     }
 
     observerScreenSize(): void {

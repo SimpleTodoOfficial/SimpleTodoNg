@@ -51,7 +51,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -98,31 +98,33 @@ export class ListComponent implements OnInit, OnDestroy {
             }
             this.lssSub = this.listService.getAll(this.wsId)
                 .pipe(first())
-                .subscribe(lists => {
-                    this.lists = lists;
+                .subscribe({
+                    next: lists => {
+                        this.lists = lists;
 
-                    if (this.wssSub) {
-                        this.wssSub.unsubscribe();
-                    }
-                    this.wssSub = this.workspaceService.getById(this.wsId)
-                        .pipe(first())
-                        .subscribe(workspace => {
-                            this.workspace = workspace;
-                            this.calculateLists();
-                            this.loading = false;
-                            this.refreshing = false;
-                        },
-                            error => {
-                                this.logger.error(error);
-                                this.router.navigate(['/']);
-                                this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_load', 'Workspace could not be loaded.'));
-                            });
-                },
-                    error => {
+                        if (this.wssSub) {
+                            this.wssSub.unsubscribe();
+                        }
+                        this.wssSub = this.workspaceService.getById(this.wsId)
+                            .pipe(first())
+                            .subscribe(workspace => {
+                                this.workspace = workspace;
+                                this.calculateLists();
+                                this.loading = false;
+                                this.refreshing = false;
+                            },
+                                error => {
+                                    this.logger.error(error);
+                                    this.router.navigate(['/']);
+                                    this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_load', 'Workspace could not be loaded.'));
+                                });
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
                         this.alertService.error(this.i18nService.translate('lists.list.component.error.list_load', 'List could not be loaded.'));
-                    });
+                    }
+                });
         });
     }
 
@@ -198,17 +200,18 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.wssSub = this.workspaceService.update(this.workspace.id, ws)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Saved list order');
                     this.isUpdatingListList = false;
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('lists.list.component.error.workspace_update', 'List order could not be saved.'));
                     this.loading = false;
                     this.isUpdatingListList = false;
-                });
+                }
+            });
     }
 
     observerScreenSize(): void {

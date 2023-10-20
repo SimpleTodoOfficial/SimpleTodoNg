@@ -82,19 +82,20 @@ export class SigninComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.sgSub = this.userService.signin(this.f.username.value, this.f.password.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Signed in successfully');
 
                     this.router.navigate([this.returnUrl]);
                     this.alertService.clearAll();
                     this.alertService.success(this.i18nService.translate('signin.component.sign_in_success', 'Signed in successfully.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('signin.component.sign_in_fail', 'User could not be signed in.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

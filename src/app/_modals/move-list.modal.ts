@@ -55,19 +55,21 @@ export class ModalMoveList implements OnInit, OnDestroy {
         }
         this.wssSub = this.workspaceService.getAll()
             .pipe(first())
-            .subscribe(workspaces => {
-                this.workspaces = workspaces.filter(ws => ws.id !== this.excludeWsId);
-                workspaces.sort(function (a: Workspace, b: Workspace) {
-                    return a.name.localeCompare(b.name);
-                });
-                this.loading = false;
-            },
-                error => {
+            .subscribe({
+                next: workspaces => {
+                    this.workspaces = workspaces.filter(ws => ws.id !== this.excludeWsId);
+                    workspaces.sort(function (a: Workspace, b: Workspace) {
+                        return a.name.localeCompare(b.name);
+                    });
+                    this.loading = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('move-list.modal.workspaces_load', 'Workspaces could not be loaded.'));
                     this.loading = false;
                     this.modal.dismiss('error');
-                });
+                }
+            });
     }
 
 }

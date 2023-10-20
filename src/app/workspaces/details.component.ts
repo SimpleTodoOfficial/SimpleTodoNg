@@ -55,7 +55,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
 
         this.observerScreenSize();
     }
@@ -90,31 +90,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
         this.wssSub = this.workspaceService.getById(this.id)
             .pipe(first())
-            .subscribe(x => {
-                this.workspace = x;
-                this.loading = false;
+            .subscribe({
+                next: x => {
+                    this.workspace = x;
+                    this.loading = false;
 
-                if (this.ussSub) {
-                    this.ussSub.unsubscribe();
-                }
-                this.ussSub = this.userService.getAll()
-                    .pipe(first())
-                    .subscribe(users => {
-                        this.allUsers = users;
-                        this.updatedFilteredUsers(this.allUsers);
-                        this.usersLoading = false;
-                    },
-                        error => {
-                            this.logger.error(error);
-                            this.router.navigate(['/']);
-                            this.alertService.error(this.i18nService.translate('workspaces.details.component.error.users_load', 'Users could not be loaded.'));
+                    if (this.ussSub) {
+                        this.ussSub.unsubscribe();
+                    }
+                    this.ussSub = this.userService.getAll()
+                        .pipe(first())
+                        .subscribe({
+                            next: users => {
+                                this.allUsers = users;
+                                this.updatedFilteredUsers(this.allUsers);
+                                this.usersLoading = false;
+                            },
+                            error: error => {
+                                this.logger.error(error);
+                                this.router.navigate(['/']);
+                                this.alertService.error(this.i18nService.translate('workspaces.details.component.error.users_load', 'Users could not be loaded.'));
+                            }
                         });
-            },
-                error => {
+                },
+                error: error => {
                     this.logger.error(error);
                     this.router.navigate(['/']);
                     this.alertService.error(this.i18nService.translate('workspaces.details.component.error.workspace_load', 'Workspace could not be loaded.'));
-                });
+                }
+            });
     }
 
     updatedFilteredUsers(users: User[]): void {
@@ -165,22 +169,23 @@ export class DetailsComponent implements OnInit, OnDestroy {
         activeModal.result.then(() => {
             this.logger.log('Deleting workspace.');
 
-            let wsName = this.workspace.name;
             if (this.wssSub) {
                 this.wssSub.unsubscribe();
             }
             this.wssSub = this.workspaceService.delete(id)
                 .pipe(first())
-                .subscribe(() => {
-                    this.logger.log('Workspace deleted');
-                    this.router.navigate(['/workspaces']);
-                    this.alertService.info(this.i18nService.translate('workspaces.details.component.success.workspace_delete', 'Workspace "%wsName%" deleted.', {'wsName': this.workspace.name}));
-                },
-                    error => {
+                .subscribe({
+                    next: () => {
+                        this.logger.log('Workspace deleted');
+                        this.router.navigate(['/workspaces']);
+                        this.alertService.info(this.i18nService.translate('workspaces.details.component.success.workspace_delete', 'Workspace "%wsName%" deleted.', {'wsName': this.workspace.name}));
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('workspaces.details.component.error.workspace_delete', 'Workspace "%wsName%" could not be deleted.', {'wsName': this.workspace.name}));
                         this.deletingWorkspace = false;
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling workspace deletion.');
@@ -198,18 +203,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
         this.wssSub = this.workspaceService.update(this.id, this.workspace)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: data => {
                     this.logger.log('Added user to workspace');
                     this.workspace = data;
                     this.updatedFilteredUsers(this.allUsers);
                     this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_add', 'Added user to workspace.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error('The user could not be added to the workspace');
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('workspaces.details.component.error.user_add', 'The user could not be added to the workspace.'));
-                });
+                }
+            });
     }
 
     removeUser(event, userId: string, userName: string) {
@@ -232,8 +238,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
             this.wssSub = this.workspaceService.update(this.id, this.workspace)
                 .pipe(first())
-                .subscribe(
-                    data => {
+                .subscribe({
+                    next: data => {
                         this.logger.log('Removed user from workspace');
                         this.workspace = data;
                         if (this.userService.userValue.id === userId) {
@@ -244,11 +250,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
                         }
                         this.alertService.info(this.i18nService.translate('workspaces.details.component.success.user_remove', 'Removed user from workspace.'));
                     },
-                    error => {
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('workspaces.details.component.error.user_remove', 'The user could not be removed from the workspace.'));
                         this.userIdToBeDeleted = '';
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling workspace deletion.');

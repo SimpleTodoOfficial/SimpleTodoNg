@@ -35,7 +35,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -85,17 +85,19 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.usSub = this.userService.getById(this.id)
                 .pipe(first())
-                .subscribe(x => {
-                    this.logger.log('Successfully loaded the user');
-                    this.f.username.setValue(x.username);
-                    this.f.email.setValue(x.email);
-                    this.loading = false;
-                },
-                    error => {
+                .subscribe({
+                    next: x => {
+                        this.logger.log('Successfully loaded the user');
+                        this.f.username.setValue(x.username);
+                        this.f.email.setValue(x.email);
+                        this.loading = false;
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
                         this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_load', 'User could not be loaded.'));
-                    });
+                    }
+                });
         } else {
             this.loading = false;
         }
@@ -132,18 +134,19 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         user.jsonData = '{}';
         this.usSub = this.userService.signup(user)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('User successfully added.');
                     this.router.navigate(['.', { relativeTo: this.route }]);
                     this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_add', 'User successfully added.'));
                     this.loading = false;
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_add', 'User could not be added.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
     private updateUser() {
@@ -152,8 +155,8 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.usSub = this.userService.update(this.id, this.form.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: data => {
                     this.logger.log('User successfully updated');
                     if (!data.signedOut) {
                         this.router.navigate(['..', { relativeTo: this.route }]);
@@ -161,11 +164,12 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.alertService.success(this.i18nService.translate('users.addedit.component.success.user_update', 'User successfully updated.'));
                     this.loading = false;
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('users.addedit.component.error.user_update', 'User could not be updated. Maybe the email address is already in use?'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

@@ -71,6 +71,14 @@
   padding-top: 15px;
 }
 
+.todo-delete-all {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10px 10px 10px 0;
+  cursor: pointer;
+}
+
 .todo-box {
   padding: 20px 10px;
   border-bottom: solid 1px $listItemBorderColor;

@@ -88,18 +88,19 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
         user.jsonData = '{}';
         this.usSub = this.userService.signup(user)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.router.navigate(['../signin'], {
                         relativeTo: this.route
                     });
                     this.alertService.success(this.i18nService.translate('signin.component.registration_success', 'Registration successful.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('signin.component.registration_fail', 'User could not be registered.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

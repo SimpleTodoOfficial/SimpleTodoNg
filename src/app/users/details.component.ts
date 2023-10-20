@@ -51,7 +51,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -85,16 +85,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
         this.usSub = this.userService.getById(this.id)
             .pipe(first())
-            .subscribe(x => {
-                this.user = x;
-                this.refreshStatus();
-                this.loading = false;
-            },
-                error => {
+            .subscribe({
+                next: x => {
+                    this.user = x;
+                    this.refreshStatus();
+                    this.loading = false;
+                },
+                error: error => {
                     this.logger.error(error);
                     this.router.navigate(['/users']);
                     this.alertService.error(this.i18nService.translate('users.details.component.error.user_load', 'User could not be loaded.'));
-                });
+                }
+            });
     }
 
     observerScreenSize(): void {
@@ -162,17 +164,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
             this.usSub = this.userService.delete(id)
                 .pipe(first())
-                .subscribe(x => {
-                    if (x != null) {
-                        this.router.navigate(['/users']);
-                        this.alertService.success(this.i18nService.translate('users.details.component.success.user_delete', 'User successfully deleted.'));
-                    }
-                },
-                    error => {
+                .subscribe({
+                    next: x => {
+                        if (x != null) {
+                            this.router.navigate(['/users']);
+                            this.alertService.success(this.i18nService.translate('users.details.component.success.user_delete', 'User successfully deleted.'));
+                        }
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('users.details.component.error.user_delete', 'User could not be deleted. Possible reasons: For example, there has to be at least one user with role "Administrator".'));
                         this.isDeleting = false;
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling user deletion.');
@@ -190,16 +194,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
         this.usSub = this.userService.update(this.id, this.user)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: _ => {
                     this.logger.log('Adding role to user');
                     this.refreshStatus();
                     this.alertService.info(this.i18nService.translate('users.details.component.success.role_add', 'Added role to user.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('users.details.component.error.role_add', 'Could not add role to user.'));
-                });
+                }
+            });
     }
 
     removeRole(role: UserRole): void {
@@ -223,18 +228,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
             }
             this.usSub = this.userService.update(this.id, this.user)
                 .pipe(first())
-                .subscribe(
-                    data => {
+                .subscribe({
+                    next: _ => {
                         this.logger.log('Removed role from user');
                         this.refreshStatus();
                         this.alertService.info(this.i18nService.translate('users.details.component.success.role_remove', 'Removed role from user.'));
                         this.isDeletingRole = false;
                     },
-                    error => {
+                    error: error => {
                         this.logger.error(error);
                         this.alertService.error(this.i18nService.translate('users.details.component.error.role_remove', 'Could not remove role from user.'));
                         this.isDeletingRole = false;
-                    });
+                    }
+                });
         },
             () => {
                 this.logger.log('Canceling user role removal.');

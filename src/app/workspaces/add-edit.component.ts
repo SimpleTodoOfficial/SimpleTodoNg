@@ -35,7 +35,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
-        this.rtSub = this.route.params.subscribe(params => this.init());
+        this.rtSub = this.route.params.subscribe(_ => this.init());
     }
 
     ngOnDestroy() {
@@ -75,15 +75,17 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.wssSub = this.workspaceService.getById(this.id)
                 .pipe(first())
-                .subscribe(x => {
-                    this.f.name.setValue(x.name);
-                    this.loading = false;
-                },
-                    error => {
+                .subscribe({
+                    next: x => {
+                        this.f.name.setValue(x.name);
+                        this.loading = false;
+                    },
+                    error: error => {
                         this.logger.error(error);
                         this.router.navigate(['/']);
                         this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_load', 'Workspace could not be loaded.'));
-                    });
+                    }
+                });
         } else {
             this.loading = false;
         }
@@ -121,17 +123,18 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.wssSub = this.workspaceService.create(this.form.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: data => {
                     this.logger.log('Workspace successfully created');
                     this.router.navigate(['/workspaces', data['id'], 'lists']);
                     this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_created', 'Workspace successfully created.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_created', 'Workspace could not be created.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
     private updateWorkspace() {
@@ -144,17 +147,18 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.wssSub = this.workspaceService.update(this.id, this.form.value)
             .pipe(first())
-            .subscribe(
-                data => {
+            .subscribe({
+                next: data => {
                     this.logger.log('Workspace successfully updated');
                     this.router.navigate(['/workspaces', data['id']]);
                     this.alertService.success(this.i18nService.translate('workspaces.addedit.component.success.workspace_updated', 'Workspace successfully updated.'));
                 },
-                error => {
+                error: error => {
                     this.logger.error(error);
                     this.alertService.error(this.i18nService.translate('workspaces.addedit.component.error.workspace_updated', 'Workspace could not be updated.'));
                     this.loading = false;
-                });
+                }
+            });
     }
 
 }

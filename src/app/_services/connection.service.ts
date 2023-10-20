@@ -37,10 +37,11 @@ export class ConnectionService {
 
         this.sub = this.http.get<any>(url)
             .pipe(first())
-            .subscribe(result => {
-                this.logger.log('Connection OK');
-            },
-                error => {
+            .subscribe({
+                next: result => {
+                    this.logger.log('Connection OK');
+                },
+                error: error => {
                     let currentTimestamp = new Date().getTime();
                     if ((currentTimestamp - this.lastErrorTimestamp) >= 3000) {
                         this.logger.log('Connection not OK');
@@ -48,7 +49,8 @@ export class ConnectionService {
                         this.alertService.warn(this.i18nService.translate('connection.service.signed_out', 'You have been signed out because your session has expired. Please sign in again.'), { autoClose: false });
                     }
                     this.lastErrorTimestamp = currentTimestamp;
-                });
+                }
+            });
     }
 
 }
