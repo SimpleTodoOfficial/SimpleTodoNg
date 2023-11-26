@@ -329,7 +329,7 @@ export class ListComponent implements OnInit, OnDestroy {
                         this.loading = true;
                         this.refresh();
                         this.deletingAll = false;
-                        this.alertService.error(this.i18nService.translate('todos.list.component.todos.deleted_all', 'All completed todos of this list have been deleted.'));
+                        this.alertService.info(this.i18nService.translate('todos.list.component.todos.deleted_all', 'All completed todos of this list have been deleted.'));
                     },
                     error: error => {
                         this.logger.error(error);
