@@ -319,38 +319,24 @@ export class ListComponent implements OnInit, OnDestroy {
     deleteAllTodos() {
         if (!this.deletingAll) {
             this.deletingAll = true;
-            let lst = this.todoHiddenList.map(t => t.id);
-            let promises = [];
-            for (let i in lst) {
-                let id = lst[i];
-                const todo = this.todos.find(t => t.id === id);
-                if (todo) {
-                    todo.isDeleting = true;
-                    if (this.tdsSub) {
-                        this.tdsSub.unsubscribe();
-                    }
-                    let prom = this.todoService.delete(this.wsId, this.lsId, id);
-                    promises.push(prom);
-                    prom.subscribe({
-                        next: () => {
-                            this.logger.log('Todo deleted');
-                            this.todos = this.todos.filter(x => x.id !== id);
-                            this.calculateLists();
-                            this.updateList();
-                        },
-                        error: error => {
-                            this.logger.error(error);
-                            this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_delete', 'Todo could not be deleted.'));
-                            this.loading = false;
-                        }
-                    });
-                }
+            if (this.tdsSub) {
+                this.tdsSub.unsubscribe();
             }
-            Promise.all(promises).then(_ => {
-                this.refresh();
-                this.updateList();
-                this.deletingAll = false;
-            });
+            this.tdsSub = this.todoService.deleteAllCompleted(this.wsId, this.lsId)
+                .subscribe({
+                    next: () => {
+                        this.logger.log('All completed Todos deleted');
+                        this.loading = true;
+                        this.refresh();
+                        this.deletingAll = false;
+                        this.alertService.error(this.i18nService.translate('todos.list.component.todos.deleted_all', 'All completed todos of this list have been deleted.'));
+                    },
+                    error: error => {
+                        this.logger.error(error);
+                        this.alertService.error(this.i18nService.translate('todos.list.component.error.todo_delete', 'Todo could not be deleted.'));
+                        this.deletingAll = false;
+                    }
+                });
         }
     }
 

@@ -62,4 +62,11 @@ export class TodoService {
         return this.http.delete(url);
     }
 
+    deleteAllCompleted(wsId: string, lsId: string) {
+        let url = `${environment.apiUrl}/${environment.todosPath.main}/${wsId}/${lsId}`;
+        this.logger.log('Deleting all completed todos, URL: ' + url);
+
+        return this.http.delete(url);
+    }
+
 }
